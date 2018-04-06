@@ -13,7 +13,7 @@ canvas.height = SIZE;
 canvas.id = 'texture';
 const stage = new Stage(canvas);
 const bg = new Shape();
-bg.graphics.beginFill('white').drawRect(0, 0, SIZE, SIZE).endFill();
+bg.graphics.beginFill('rgba(255,255,255,0.5)').drawRect(0, 0, SIZE, SIZE).endFill();
 stage.addChild(bg);
 stage.update();
 
@@ -23,7 +23,7 @@ Ticker.addEventListener("tick",
     let y = _.random(SIZE/4, SIZE * 3/4);
 
     let shape = new Shape();
-    shape.graphics.beginFill(Math.random() > 0.5 ? 'red' : 'white').drawCircle(x, y, _.random(0, SIZE/40));
+    shape.graphics.beginFill(Math.random() > 0.5 ?'rgba(255,0,0,0.5)' : 'rgba(255,255,255,0.5)').drawCircle(x, y, _.random(0, SIZE/40));
     stage.addChild(shape);
     stage.update();
   }

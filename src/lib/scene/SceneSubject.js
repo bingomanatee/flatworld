@@ -19,9 +19,8 @@ export default scene => {
   );
 
   group.add(subjectMesh);
- // group.add(subjectWireframe);
+  group.add(subjectWireframe);
   scene.add(group);
-
   group.rotation.z = Math.PI / 4;
 
   const speed = 0.1;
@@ -30,11 +29,30 @@ export default scene => {
     const angle = time * speed;
     texture.needsUpdate = true;
     group.rotation.y = angle;
+    scene.remove(cursorMesh);
+  }
+
+
+  const cursorMat = new THREE.MeshBasicMaterial({color: new THREE.Color('rgb(0, 0, 255)')});
+  const cursorGeometry = new THREE.SphereGeometry(
+    2,
+    8,
+    8);
+  const cursorMesh = new THREE.Mesh(cursorGeometry, cursorMat);
+
+  function intersect(list) {
+      if (list.length) {
+      //  console.log('subject intersecting', list);
+        let p  = list[0].point;
+        cursorMesh.position.set(p.x, p.y, p.z);
+        scene.add(cursorMesh);
+      }
   }
 
   return {
     texture,
     update,
-    subjectMesh
+    subjectMesh,
+    intersect
   }
 }

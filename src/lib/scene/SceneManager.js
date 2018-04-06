@@ -57,13 +57,13 @@ export default canvas => {
   }
 
   function createSceneSubjects(scene) {
-    let subjects =        SceneSubject(scene);
-    const {update, subjectMesh} = subjects;
+    let subjects = SceneSubject(scene);
+    const {update, intersect, subjectMesh} = subjects;
     mesh = subjectMesh;
 
     const sceneSubjects = [
        GeneralLights(scene),
-      {update}
+      {update, intersect}
     ];
 
     return sceneSubjects;
@@ -77,11 +77,15 @@ export default canvas => {
       sceneSubjects[i].update(elapsedTime);
 
     updateCameraPositionRelativeToMouse();
-
+   // console.log('relativeMouse: ',Math.round(relativeMouse.x * 100), Math.round(relativeMouse.y * 100));
     raycaster.setFromCamera( relativeMouse, camera );
-    // calculate objects intersecting the picking ray var intersects =
     let inter = raycaster.intersectObjects( [mesh] );
-    if (inter.length) console.log('intersects: ', inter);
+    if (inter.length)
+    for(let i=0; i<sceneSubjects.length; i++)
+      if(sceneSubjects[i].intersect)
+          sceneSubjects[i].intersect(inter);
+
+    // calculate objects intersecting the picking ray var intersects =
     renderer.render(scene, camera);
   }
 
@@ -105,6 +109,7 @@ export default canvas => {
   }
 
   function onMouseMove(x, y) {
+    console.log('mouse move: ', x, y);
     mousePosition.x = x;
     mousePosition.y = y;
     relativeMouse.x = x / cWidth;
