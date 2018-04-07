@@ -111,7 +111,6 @@ export default canvas => {
 
   function onMouseMove(x, y) {
     const {scrollWidth, scrollHeight} = canvas;
-    if (Math.random() > 0.9) console.log(x, y);
     mousePosition.x = x;
     mousePosition.y = y;
     relativeMouse.x = x / scrollWidth;

@@ -41,8 +41,6 @@ export default container => {
   }
 
   function mouseMove({clientX, clientY}) {
-
-   if (Math.random() > 0.9) console.log('clientX/Y', clientX, clientY, window.innerWidth)
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
 
