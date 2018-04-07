@@ -4,14 +4,15 @@ export default container => {
   const canvas = createCanvas(document, container);
   const manager = SceneManager(canvas);
 
-  let canvasHalfWidth;
-  let canvasHalfHeight;
+  const canvasHalfWidth = () => Math.round(canvas.scrollWidth/2);
+  const canvasHalfHeight = () => Math.round(canvas.scrollHeight/2);
 
   bindEventListeners();
   render();
 
   function createCanvas(document, container) {
     const canvas = document.createElement('canvas');
+    setCanvasSize(canvas);
     container.appendChild(canvas);
     return canvas;
   }
@@ -22,22 +23,33 @@ export default container => {
     resizeCanvas();
   }
 
+  function setCanvasSize(canvas) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    console.log('setting width of canvas to ', width, height);
+    canvas.width  = width;
+    canvas.height = height;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+  }
+
   function resizeCanvas() {
-    canvas.style.width = '100%';
-    canvas.style.height= '100%';
-    canvas.style.background='blue';
 
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
-    canvasHalfWidth = Math.round(canvas.offsetWidth/2);
-    canvasHalfHeight = Math.round(canvas.offsetHeight/2);
+    setCanvasSize(canvas);
 
     manager.onWindowResize()
   }
 
-  function mouseMove({screenX, screenY}) {
-    manager.onMouseMove(screenX-canvasHalfWidth, screenY-canvasHalfHeight);
+  function mouseMove({clientX, clientY}) {
+
+   if (Math.random() > 0.9) console.log('clientX/Y', clientX, clientY, window.innerWidth)
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+
+    let x =  ( clientX / window.innerWidth ) * 2 - 1;
+    let y = - ( clientY / window.innerHeight ) * 2 + 1;
+
+    manager.onMouseMove(x, y);
   }
 
   function render(time) {

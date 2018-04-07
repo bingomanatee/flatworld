@@ -16,4 +16,10 @@ html {
   bottom: 0;
   display: none; }
 
+canvas {
+  border: 1px solid red;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
 /*# sourceMappingURL=main.css.map */

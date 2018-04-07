@@ -23,7 +23,7 @@ export default scene => {
   scene.add(group);
   group.rotation.z = Math.PI / 4;
 
-  const speed = 0.1;
+  const speed = 1;
 
   function update (time) {
     const angle = time * speed;

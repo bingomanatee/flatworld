@@ -35,7 +35,7 @@ export default canvas => {
   function buildRender({ width, height }) {
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
-    renderer.setPixelRatio(DPR);
+    renderer.setPixelRatio(1);
     renderer.setSize(width, height);
 
     renderer.gammaInput = true;
@@ -78,7 +78,7 @@ export default canvas => {
 
     updateCameraPositionRelativeToMouse();
    // console.log('relativeMouse: ',Math.round(relativeMouse.x * 100), Math.round(relativeMouse.y * 100));
-    raycaster.setFromCamera( relativeMouse, camera );
+    raycaster.setFromCamera( mousePosition, camera );
     let inter = raycaster.intersectObjects( [mesh] );
     if (inter.length)
     for(let i=0; i<sceneSubjects.length; i++)
@@ -99,6 +99,7 @@ export default canvas => {
     const { width, height } = canvas;
     cWidth = width;
     cHeight = height;
+
     screenDimensions.width = width;
     screenDimensions.height = height;
 
@@ -109,11 +110,12 @@ export default canvas => {
   }
 
   function onMouseMove(x, y) {
-    console.log('mouse move: ', x, y);
+    const {scrollWidth, scrollHeight} = canvas;
+    if (Math.random() > 0.9) console.log(x, y);
     mousePosition.x = x;
     mousePosition.y = y;
-    relativeMouse.x = x / cWidth;
-    relativeMouse.y = y / cHeight;
+    relativeMouse.x = x / scrollWidth;
+    relativeMouse.y = y / -scrollHeight;
   }
 
   return {
