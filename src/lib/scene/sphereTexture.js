@@ -1,25 +1,24 @@
 import {createjs} from "@createjs/easeljs";
 import Ticker from './Ticker';
 
-console.log('createjs: ', createjs, 'ticker', Ticker);
-const {Stage, Shape, Text} = createjs;
+const {Stage, Shape, Text, Container} = createjs;
 //eval('debugger ');
 import _ from 'lodash';
 
 const canvas = document.createElement('canvas');
 document.getElementById("root").parentNode.appendChild(canvas);
 
-const SIZE = 1024;
+const SIZE = 1024 * 2;
 canvas.width = SIZE;
 canvas.height = SIZE;
 canvas.id = 'texture';
 const stage = new Stage(canvas);
 let bg = new Shape();
-bg.graphics.f('black').drawRect(0, 0, SIZE, SIZE);
+bg.graphics.f('rgba(0,0,0,0.5)').drawRect(0, 0, SIZE, SIZE);
 stage.addChild(bg);
 stage.update();
 
-const shiftX = (x) => (x + SIZE / 2) % SIZE;
+const uvXtoGraphicsX = (x) => Math.round(x/2 * SIZE + SIZE / 2) % SIZE;
 
 const tooWide = (points) => {
   let xWidth = _.max(_.map(points, 'x')) - _.min(_.map(points, 'x'));
@@ -30,44 +29,100 @@ const blendAlphas = (a1, a2) => {
   return 1 - ((1 - a1) * (1 - a2));
 }
 
-function addFace (points, alpha) {
-  let name = `face_${points.index}`;
-  points.uvs.forEach((p) => p.x = shiftX(p.x));
-  if (tooWide(points.uvs)) {
-    return;
-  }
+function addCell(cell,alpha, name) {
+  if (!cell.halfedges.length) return;
+
+  let vertices = _.reduce(cell.halfedges, (list, edge) => {
+    let others = [edge.edge.va, edge.edge.vb];
+    return _(list.concat(others))
+      .uniq()
+      .value();
+  }, []);
+
+  let cellShape = new Shape();
+  //cellShape.alpha = alpha;
+  cellShape.name = name;
+  cellShape.graphics.f('white');
+  drawPolyRing(cellShape, vertices);
+  stage.addChild(cellShape);
+  debounceFHC();
+}
+
+function addFace (point, alpha) {
+  let name = `vertex_${point.__index}`;
+
   let existing = stage.getChildByName(name);
   if (existing) {
     existing.alpha = _.clamp(blendAlphas(existing.alpha, alpha), 0, 1);
+    console.log('found existing');
   } else {
-    let face = new Shape();
-    face.name = name;
-    face.alpha = alpha;
-    let last = _.last(points.uvs);
-    face.graphics.f('white').mt(last.x, last.y);
-    points.uvs.forEach((pt) => face.graphics.lt(pt.x, pt.y));
-    stage.addChild(face);
+    let cell = _.find(savedVoronoi.cells, (vCell)=>{
+      return vCell.site.__faceVertexIndex === point.__index;
+    });
+
+    if (cell) {
+      addCell(cell, alpha, name);
+    }
   }
 }
 
-function addSpot (centerUVs, borderUVs) {
-  borderUVs.forEach((points) => addFace(points, 0.2));
-  centerUVs.forEach((points) => addFace(points, 0.4));
+function addSpot (vertex) {
+  addFace(vertex, 0.2);
   stage.update();
 }
 
-const scaleList = (uvSet) => uvSet.forEach((face) => face.uvs.forEach((point) => point.multiplyScalar(SIZE)))
+let hexGridShape = new Shape();
+stage.addChild(hexGridShape);
 
-export const paintAt = ({centerUVs, borderUVs}) => {
-  if (!centerUVs.length) {
-    return;
-  }
-  scaleList(centerUVs);
-  scaleList(borderUVs);
+const drawPolyRing = (shape, uvs) => {
+  console.log('drawPolyRing: ', uvs.map((p) => [uvXtoGraphicsX(p.x) , p.y * SIZE]));
+  let last = _.last(uvs);
+  shape.graphics.mt(uvXtoGraphicsX(last.x), last.y * SIZE);
+  uvs.forEach((pt) => shape.graphics.lt(uvXtoGraphicsX(pt.x), pt.y * SIZE));
+}
+
+const tooWideCell = (cell) => {
+  let xs = _(cell.halfedges).map((e) => [
+    uvXtoGraphicsX(e.edge.va.x ),
+    uvXtoGraphicsX(e.edge.vb.x)]).flattenDeep().value();
+
+  let range = _.max(xs) - _.min(xs);
+  return range > SIZE / 8;
+}
+
+const jiggle = (n) => n //+ (Math.random() - 0.5) / 1000;
+let savedVoronoi;
+
+export const hexGrid = (voronoi) => {
+  hexGridShape.graphics.clear();
+  voronoi.cells.forEach((cell) => {
+    if (tooWideCell(cell)) {
+      return;
+    }
+    hexGridShape.graphics.ss(1);
+    let color = 'blue';// _.shuffle('red,blue,green,magenta,white,orange,darkblue,darkgreen,darkred,darkorange'.split(',')).pop();
+    cell.halfedges.forEach((edge) => {
+      hexGridShape.graphics.s(color).mt((uvXtoGraphicsX(edge.edge.va.x)), (edge.edge.va.y * SIZE)).lt((uvXtoGraphicsX(edge.edge.vb.x)), (edge.edge.vb.y * SIZE)).es();
+    });
+  });
+  savedVoronoi = voronoi;
+  floatHexContainer();
+}
+
+const floatHexContainer = () => {
+  stage.removeChild(hexGridShape);
+  stage.addChild(hexGridShape);
+  stage.update();
+}
+
+const debounceFHC = _.debounce(floatHexContainer, 500);
+
+export const paintAt = (vertex) => {
 
   if (mouseDown) {
-    addSpot(centerUVs, borderUVs);
+    addSpot(vertex);
   }
+  floatHexContainer();
 }
 
 let mouseDown = false;
