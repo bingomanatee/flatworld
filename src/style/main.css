@@ -14,12 +14,8 @@ html {
   position: absolute;
   right: 0;
   bottom: 0;
-  display: none; }
-
-canvas {
-  border: 1px solid red;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box; }
+  width: 200px;
+  height: 200px;
+  z-index: 2000; }
 
 /*# sourceMappingURL=main.css.map */

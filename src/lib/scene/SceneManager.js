@@ -77,7 +77,7 @@ export default canvas => {
       sceneSubjects[i].update(elapsedTime);
 
     updateCameraPositionRelativeToMouse();
-   // console.log('relativeMouse: ',Math.round(relativeMouse.x * 100), Math.round(relativeMouse.y * 100));
+   //
     raycaster.setFromCamera( mousePosition, camera );
     let inter = raycaster.intersectObjects( [mesh] );
     if (inter.length)
