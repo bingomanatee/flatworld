@@ -11,11 +11,11 @@ describe('lib', () => {
           const bottle = WorldTiler();
           const world = new bottle.container.World(sphere);
 
-          return {world, bottle}
+          return {world, bottle, sphere}
         };
 
         it('should be created', () => {
-          const {world} = beforeEach();
+          const {world, sphere} = beforeEach();
           expect(world.geometry).toEqual(sphere);
         });
 

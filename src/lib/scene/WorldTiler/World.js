@@ -26,10 +26,10 @@ export default (bottle) => bottle.factory('World', (container) =>  class World {
   }
 
   init() {
-    for (let isoFace of this.isoFaces) {
-      isoFace.init();
-    }
     this.vertsToPoints();
     this.facesToIsoFace();
+    for (let isoFace of this.isoFaces.values()) {
+      isoFace.init();
+    }
   }
 });

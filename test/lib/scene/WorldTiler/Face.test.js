@@ -60,7 +60,7 @@ describe('lib', () => {
 
           const mfeInputs = [];
           const MockFaceEdge = {
-            findOrMakeEdge: (input) => mfeInputs.push(input)
+            findOrMakeEdge: (a1, a2) => mfeInputs.push([a1, a2])
           };
 
           bottle.factory('FaceEdge', () => MockFaceEdge);
@@ -103,8 +103,6 @@ describe('lib', () => {
             } = init();
 
             isoFace.init();
-
-            console.log('mfeInputs:', mfeInputs);
 
             const eFinder = (i1, i2) => (value) => {
               return value.length === 2 && value.includes(i1) && value.includes(i2)

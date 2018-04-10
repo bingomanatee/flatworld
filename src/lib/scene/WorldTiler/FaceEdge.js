@@ -3,8 +3,8 @@
  */
 
 export default (bottle) => bottle.factory('FaceEdge', (container) => class FaceEdge extends container.WorldElement {
-  constructor(indexA, indexB, tiler) {
-    super(tiler);
+  constructor(indexA, indexB, world) {
+    super(world);
     this.orderedIndexes = FaceEdge.order(indexA, indexB);
     this.edgePoints = new Set(this.orderedIndexes.map(index => this.points.get(index)));
     this.id = FaceEdge.faceEdgeKey(this.orderedIndexes);
@@ -22,13 +22,13 @@ export default (bottle) => bottle.factory('FaceEdge', (container) => class FaceE
     return FaceEdge.order(indexA, indexB).join(' to ')
   }
 
-  static findOrMakeEdge(indexA, indexB) {
+  static findOrMakeEdge(indexA, indexB, world) {
     const id = FaceEdge.faceEdgeKey(indexA, indexB);
-    if (this.edges.has(id)) {
-      return this.edges.get(id);
+    if (world.edges.has(id)) {
+      return world.edges.get(id);
     }
-    const edge = new FaceEdge(indexA, indexB);
-    this.edges.set(id, edge);
+    const edge = new FaceEdge(indexA, indexB, world);
+    world.edges.set(id, edge);
     return edge;
   }
 });

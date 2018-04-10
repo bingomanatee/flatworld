@@ -44,6 +44,6 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
       return [this.faceVertexIndexes[indexOfVertexInFace], this.faceVertexIndexes[nextIndex]];
     });
 
-    this.faceEdges = new Set(edgeVertexIndexes.map((viArray) => container.FaceEdge.findOrMakeEdge(viArray)))
+    this.faceEdges = new Set(edgeVertexIndexes.map((a) => container.FaceEdge.findOrMakeEdge(a[0], a[1], this.world)))
   }
 });
