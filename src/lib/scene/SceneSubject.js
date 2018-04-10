@@ -9,13 +9,13 @@ const ISO_SIZE = 15;
 
 class Node {
   constructor (index, nodeMap) {
-    this.index = index;
+    this.faceIndex = index;
     this.nodeList = nodeMap;
     this.linkedNodes = new Set();
   }
 
   link (segments) {
-    let linkedPoints = _(segments).filter((seg) => _.includes(seg, this.index)).flattenDeep().difference([this.index]).value();
+    let linkedPoints = _(segments).filter((seg) => _.includes(seg, this.faceIndex)).flattenDeep().difference([this.faceIndex]).value();
 
     linkedPoints.forEach((index) => this.linkTo(index));
   }
@@ -29,7 +29,7 @@ class Node {
   }
 
   ring () {
-    let ring = [this.index];
+    let ring = [this.faceIndex];
     let lastNode = this;
     do {
       let li = lastNode.linkedIndexes;
@@ -40,7 +40,7 @@ class Node {
       } else {
         break;
       }
-    } while (lastNode && lastNode.index !== this.index);
+    } while (lastNode && lastNode.faceIndex !== this.faceIndex);
     return ring.reverse();
   }
 }
@@ -197,12 +197,12 @@ export default scene => {
 
   const getUVs = (index) => ({
     uvs: subjectMesh.geometry.faceVertexUvs[0][index],
-    index: index
+    faceIndex: index
   });
 
   function findNearestFaceUVs (mousePoint) {
     let pointIndexes = _(subjectMesh.geometry.vertices).map((point, index) => ({
-      point, index
+      point, faceIndex: index
     })).orderBy((data) => -data.point.distanceToSquared(mousePoint)).slice(0, 3).map('index').value();
 
     let faces = _(subjectMesh.geometry.faces).reduce((memo, face, index) => {
