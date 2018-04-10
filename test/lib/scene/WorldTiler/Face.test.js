@@ -57,9 +57,18 @@ describe('lib', () => {
           const bottle = WorldTiler();
           const IsoFace = bottle.container.IsoFace;
           const isoFace = new IsoFace(face, FACE_INDEX, mockWorld);
+
+          const mfeInputs = [];
+          const MockFaceEdge = {
+            findOrMakeEdge: (input) => mfeInputs.push(input)
+          };
+
+          bottle.factory('FaceEdge', () => MockFaceEdge);
+
           return {
             mockWorld, bottle, v1, v2, v3, face, isoFace,
-            FACE_INDEX, V1_INDEX, V2_INDEX, V3_INDEX
+            FACE_INDEX, V1_INDEX, V2_INDEX, V3_INDEX,
+            mockIsoPoint1, mockIsoPoint2, mockIsoPoint3, mfeInputs
           };
         };
 
@@ -71,6 +80,44 @@ describe('lib', () => {
 
           expect(isoFace.faceIndex).toBe(FACE_INDEX);
           expect(isoFace.world).toBe(mockWorld);
+        });
+
+        describe('.init', () => {
+
+          it('should have the expected vertex indexes', () => {
+            const {
+              mockWorld, bottle, v1, v2, v3, face, isoFace,
+              mockIsoPoint1, mockIsoPoint2, mockIsoPoint3
+            } = init();
+
+            isoFace.init();
+
+            expect(setsEqual(new Set(isoFace.facePoints),
+              new Set([mockIsoPoint1, mockIsoPoint2, mockIsoPoint3]))).toBe(true);
+
+          });
+          it('should call findOrMakeFaceEdges', () => {
+            const {
+              mockWorld, bottle, v1, v2, v3, face, isoFace,
+              mockIsoPoint1, mockIsoPoint2, mockIsoPoint3, mfeInputs
+            } = init();
+
+            isoFace.init();
+
+            console.log('mfeInputs:', mfeInputs);
+
+            const eFinder = (i1, i2) => (value) => {
+              return value.length === 2 && value.includes(i1) && value.includes(i2)
+            };
+
+            expect(mfeInputs.length).toBe(3);
+            expect(mfeInputs.find(eFinder(11, 12))).toEqual([11, 12]);
+            expect(mfeInputs.find(eFinder(12, 10))).toEqual([12, 10]);
+            expect(mfeInputs.find(eFinder(10, 11))).toEqual([10, 11]);
+
+            // expect(setsEqual(new Set(isoFace.facePoints),
+            //   new Set([mockIsoPoint1, mockIsoPoint2, mockIsoPoint3]))).toBe(true);
+          });
         });
 
         it('should have the expected vertex indexes', () => {

@@ -11,11 +11,11 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     this.face = face;
     this.faceIndex = index;
     this.faceVertexIndexes = [this.face.a, this.face.b, this.face.c];
-    this.facePoints = this.faceVertexIndexes.map((vertexIndex) => this.points.get(vertexIndex));
     this.isoFaces.set(index, this);
   }
 
   init() {
+    this.facePoints = this.faceVertexIndexes.map((vertexIndex) => this.points.get(vertexIndex));
     this.copyUvs();
     this.linkEdges();
   }
@@ -41,7 +41,7 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
   linkEdges() {
     let edgeVertexIndexes = this.eachPoint((point, indexOfVertexInFace, isoFace) => {
       let nextIndex = (indexOfVertexInFace + 1) % 3;
-      return [indexOfVertexInFace, nextIndex];
+      return [this.faceVertexIndexes[indexOfVertexInFace], this.faceVertexIndexes[nextIndex]];
     });
 
     this.faceEdges = new Set(edgeVertexIndexes.map((viArray) => container.FaceEdge.findOrMakeEdge(viArray)))

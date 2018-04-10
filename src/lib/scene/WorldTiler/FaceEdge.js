@@ -6,7 +6,6 @@ export default (bottle) => bottle.factory('FaceEdge', (container) => class FaceE
   constructor(indexA, indexB, tiler) {
     super(tiler);
     this.orderedIndexes = FaceEdge.order(indexA, indexB);
-    this.vectorIndexes = new Set(this.orderedIndexers);
     this.edgePoints = new Set(this.orderedIndexes.map(index => this.points.get(index)));
     this.id = FaceEdge.faceEdgeKey(this.orderedIndexes);
     this.world.edges.set(this.id, this);

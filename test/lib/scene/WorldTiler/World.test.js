@@ -5,12 +5,26 @@ describe('lib', () => {
   describe('scene', () => {
     describe('WorldTiler', () => {
       describe('World', () => {
-        it('should be created', () => {
+
+        const beforeEach = () => {
           const sphere = new IcosahedronGeometry(1, 0);
-          expect(sphere.vertices.length).toBe(12);
           const bottle = WorldTiler();
           const world = new bottle.container.World(sphere);
+
+          return {world, bottle}
+        };
+
+        it('should be created', () => {
+          const {world} = beforeEach();
           expect(world.geometry).toEqual(sphere);
+        });
+
+        describe('.init', () => {
+          const {world} = beforeEach();
+
+          world.init();
+
+          let isoFace4 = world.isoFaces.get(4);
         });
       });
     });
