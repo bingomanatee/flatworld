@@ -1,5 +1,8 @@
 import {createjs} from "@createjs/easeljs";
 import Ticker from './Ticker';
+import WorldTiler from './WorldTiler';
+
+let bottle = WorldTiler();
 
 const {Stage, Shape, Text, Container} = createjs;
 //eval('debugger ');
@@ -91,21 +94,15 @@ const tooWideCell = (cell) => {
 }
 
 const jiggle = (n) => n //+ (Math.random() - 0.5) / 1000;
-let savedVoronoi;
+let world;
 
-export const hexGrid = (voronoi) => {
-  hexGridShape.graphics.clear();
-  voronoi.cells.forEach((cell) => {
-    if (tooWideCell(cell)) {
-      return;
-    }
-    hexGridShape.graphics.ss(1);
-    let color = 'blue';// _.shuffle('red,blue,green,magenta,white,orange,darkblue,darkgreen,darkred,darkorange'.split(',')).pop();
-    cell.halfedges.forEach((edge) => {
-      hexGridShape.graphics.s(color).mt((uvXtoGraphicsX(edge.edge.va.x)), (edge.edge.va.y * SIZE)).lt((uvXtoGraphicsX(edge.edge.vb.x)), (edge.edge.vb.y * SIZE)).es();
-    });
-  });
-  savedVoronoi = voronoi;
+export const initWorld = (geometry) => {
+  world = new bottle.container.World(geometry);
+  world.init();
+  console.log('initWorld: ');
+  for (let point of world.points.values()) {
+    point.drawHexFrame(hexGridShape, SIZE);
+  }
   floatHexContainer();
 }
 

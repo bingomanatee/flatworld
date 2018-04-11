@@ -18,7 +18,7 @@ describe('lib', () => {
   describe('scene', () => {
     describe('WorldTiler', () => {
       describe('Face', () => {
-        const init = () => {
+        const beforeEach = () => {
           const mockWorld = {
             points: new Map(),
             isoFaces: new Map(),
@@ -29,13 +29,13 @@ describe('lib', () => {
           const v3 = new Vector3(7, 8, 9);
 
           const mockIsoPoint1 = {
-            vertex: v1, uvs: new Set()
+            vertex: v1, uvs: new Set(), edgeIsoFaces: new Set(), pointIsoFaces: new Set()
           };
           const mockIsoPoint2 = {
-            vertex: v2, uvs: new Set()
+            vertex: v2, uvs: new Set(), edgeIsoFaces: new Set(), pointIsoFaces: new Set()
           };
           const mockIsoPoint3 = {
-            vertex: v3, uvs: new Set()
+            vertex: v3, uvs: new Set(), edgeIsoFaces: new Set(), pointIsoFaces: new Set()
           };
 
           const V1_INDEX = 11;
@@ -60,7 +60,10 @@ describe('lib', () => {
 
           const mfeInputs = [];
           const MockFaceEdge = {
-            findOrMakeEdge: (a1, a2) => mfeInputs.push([a1, a2])
+            findOrMakeEdge: (a1, a2) => {
+              mfeInputs.push([a1, a2]);
+              return {edgeIsoFaces: new Set()}
+            }
           };
 
           bottle.factory('FaceEdge', () => MockFaceEdge);
@@ -76,7 +79,7 @@ describe('lib', () => {
           const {
             mockWorld, bottle, v1, v2, v3, face, isoFace,
             FACE_INDEX, V1_INDEX, V2_INDEX, V3_INDEX
-          } = init();
+          } = beforeEach();
 
           expect(isoFace.faceIndex).toBe(FACE_INDEX);
           expect(isoFace.world).toBe(mockWorld);
@@ -88,7 +91,7 @@ describe('lib', () => {
             const {
               mockWorld, bottle, v1, v2, v3, face, isoFace,
               mockIsoPoint1, mockIsoPoint2, mockIsoPoint3
-            } = init();
+            } = beforeEach();
 
             isoFace.init();
 
@@ -100,7 +103,7 @@ describe('lib', () => {
             const {
               mockWorld, bottle, v1, v2, v3, face, isoFace,
               mockIsoPoint1, mockIsoPoint2, mockIsoPoint3, mfeInputs
-            } = init();
+            } = beforeEach();
 
             isoFace.init();
 
@@ -122,7 +125,7 @@ describe('lib', () => {
           const {
             mockWorld, bottle, v1, v2, v3, face, isoFace,
             FACE_INDEX, V1_INDEX, V2_INDEX, V3_INDEX
-          } = init();
+          } = beforeEach();
 
           expect(setsEqual(new Set([V1_INDEX, V2_INDEX, V3_INDEX]), new Set(isoFace.faceVertexIndexes))).toBe(true);
         });
@@ -131,7 +134,7 @@ describe('lib', () => {
           const {
             mockWorld, bottle, v1, v2, v3, face, isoFace,
             FACE_INDEX, V1_INDEX, V2_INDEX, V3_INDEX
-          } = init();
+          } = beforeEach();
 
           expect(mockWorld.isoFaces.get(FACE_INDEX)).toEqual(isoFace);
         });

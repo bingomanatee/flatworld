@@ -7,7 +7,8 @@
     "build": "neutrino build",
     "start": "neutrino start",
     "lint": "neutrino lint",
-    "test": "neutrino test"
+    "test": "neutrino test",
+    "test:verbose": "neutrino test --verbose"
   },
   "keywords": [],
   "author": "",

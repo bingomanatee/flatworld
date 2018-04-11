@@ -5,6 +5,9 @@ import IsoFace from './IsoFace';
 import FaceEdge from './FaceEdge';
 import World from './World';
 import Point from './Point';
+import FaceNode from './FaceNode';
+import PointNode from './PointNode';
+import utils from './utils';
 
 export default () => {
   let bottle = new Bottle();
@@ -13,6 +16,8 @@ export default () => {
   IsoFace(bottle);
   Point(bottle);
   FaceEdge(bottle);
-
+  FaceNode(bottle);
+  PointNode(bottle);
+  utils(bottle);
   return bottle;
 }

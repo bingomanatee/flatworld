@@ -31,5 +31,9 @@ export default (bottle) => bottle.factory('World', (container) =>  class World {
     for (let isoFace of this.isoFaces.values()) {
       isoFace.init();
     }
+
+    for (let point of this.points.values()) {
+      point.init();
+    }
   }
 });

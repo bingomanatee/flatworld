@@ -15,9 +15,10 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
   }
 
   init() {
-    this.facePoints = this.faceVertexIndexes.map((vertexIndex) => this.points.get(vertexIndex));
+    this.facePoints = this.eachPoint((p) => p);
     this.copyUvs();
     this.linkEdges();
+    this.linkPoints();
   }
 
   copyUvs() {
@@ -29,7 +30,6 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
   get myFaceUvs() {
     return this.faceUvs[this.faceIndex];
   }
-
 
   eachPoint(delta) {
     return this.faceVertexIndexes.map((vertexIndex, indexOfVertexInFace) => {
@@ -44,16 +44,19 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
       return [this.faceVertexIndexes[indexOfVertexInFace], this.faceVertexIndexes[nextIndex]];
     });
 
-    this.faceEdges = new Set(edgeVertexIndexes.map((a) => container.FaceEdge.findOrMakeEdge(a[0], a[1], this.world)))
+    this.faceEdges = new Set(edgeVertexIndexes.map((a) => container.FaceEdge.findOrMakeEdge(a[0], a[1], this.world)));
+    for (let edge of this.faceEdges) {
+      edge.edgeIsoFaces.add(this);
+    }
+  }
+
+  linkPoints() {
+    this.eachPoint((point) => point.pointIsoFaces.add(this));
   }
 
   toString() {
     let str = `<< face ${this.faceIndex}
-    points: [`;
-    for (let point of this.isoFaces) {
-      str += "\n" + point.toString();
-    }
-    str += '>>';
+    points: [${this.eachPoint((p) => "\n" + p.toString())}>>`;
     return str;
   }
 });
