@@ -17,6 +17,14 @@ export default (bottle) => bottle.factory('FaceEdge', (container) => class FaceE
     return _.difference(this.edgePoints, [point])[0]
   }
 
+  hasFace(face) {
+    return this.edgeIsoFaces.has(face);
+  }
+
+  otherFace(face) {
+    return _.difference(Array.from(this.edgeIsoFaces.values()), [face])[0];
+  }
+
   hasPoint(pt) {
     return this.edgePoints.includes(pt);
   }

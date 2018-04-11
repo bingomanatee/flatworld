@@ -19,7 +19,7 @@ export default (bottle) => bottle.factory('FaceNode', (container) => class Point
 
   toString () {
     let point = this.point;
-    return `<< node of point ${point.toString()}} 
+    return `<< node of point ${point.toString()} -- face ${this.faceIndex} 
       links: ${Array.from(this.linkedFaceNodes.values())
                     .map(node => node.faceIndex)
                     .join(",")}
@@ -31,16 +31,16 @@ export default (bottle) => bottle.factory('FaceNode', (container) => class Point
   }
 
   ring () {
-    let lastNodeLinks = Array.from(this.linkedFaceNodes.values());
-    let ring = [lastNodeLinks[0], this, lastNodeLinks[1]];
+    let lastFaceNodeLinks = Array.from(this.linkedFaceNodes.values());
+    let ring = [lastFaceNodeLinks[0], this, lastFaceNodeLinks[1]];
     let failsafe = 0;
     do {
       let lastNode = _.last(ring);
-      lastNodeLinks = Array.from(lastNode.linkedFaceNodes.values());
+      lastFaceNodeLinks = Array.from(lastNode.linkedFaceNodes.values());
 
-      let nextNode = _.difference(lastNodeLinks, ring)[0]
-      if (nextNode) {
-        ring.push(nextNode);
+      let nextFaceNode = _.difference(lastFaceNodeLinks, ring)[0]
+      if (nextFaceNode) {
+        ring.push(nextFaceNode);
       } else {
         break;
       }

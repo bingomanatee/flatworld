@@ -16,6 +16,6 @@ export default (bottle) => {
       return true;
     });
 
-  bottle.factory('pointToUvVertex', () => (point, size) => point.meanUV.clone()
+  bottle.factory('pointToUvVertex', () => (point, size) => point.meanUv.clone()
                                                                 .multiplyScalar(size))
 }

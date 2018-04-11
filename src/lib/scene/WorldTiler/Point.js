@@ -74,31 +74,109 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
     return nodeMap;
   }
 
+  neighborFaceNodes () {
+    let nodeMap = new Map();
+    let nodes = _(Array.from(this.pointIsoFaces.values()))
+      .map((face) => new container.FaceNode(this, face, nodeMap))
+      .value();
+
+    for (let edge of this.pointEdges.values()) {
+      for (let node of nodes) {
+        node.link(edge);
+      }
+    }
+    return nodeMap;
+  }
+
   get neighborRing () {
     if (!this._neighborRing) {
       let nnMap = this.neighborPointNodes();
-      this._neighborRing = Array.from(nnMap.values())[0].ring().map((node) => node.point);
+      this._neighborRing = Array.from(nnMap.values())[0].ring()
+                                                        .map((node) => node.point);
     }
     return this._neighborRing;
   }
 
-
+  get faceRing () {
+    if (!this._faceRing) {
+      let faceNodeMap = this.neighborFaceNodes();
+      this._faceRing = Array.from(faceNodeMap.values())[0].ring()
+                                                          .map((node) => node.face);
+    }
+    return this._faceRing;
+  }
 
   init () {
     this.initUV();
   }
 
   drawHexFrame (hex, size) {
-      let last = container.pointToUvVertex(_.last(this.neighborRing), size);
-      console.log('last UV point:', last.toArray().map(container.floatToString))
-      hex.graphics.s('black')
-        .mt(last.x, last.y);
-      for (let uv of this.neighborRing.map((point) => container.pointToUvVertex(point, size))) {
-        console.log('last UV point:', uv.toArray().map(container.floatToString))
-        hex.graphics.lt(uv.x, uv.y);
-      }
-      hex.graphics.es();
-      return hex;
+    let uvList = this.faceRing.map((face) => container.pointToUvVertex(face, size));
+    uvList = Point.unifyUVs(uvList, size);
+    let last = _.last(uvList);
+    hex.graphics.s('black')
+       .mt(last.x, last.y);
+    for (let uv of uvList) {
+      hex.graphics.lt(uv.x, uv.y);
+    }
+    hex.graphics.es();
+    return hex;
   }
 
+  static unifyUVs (uvList, size) {
+    let maxDistance = _(uvList)
+      .map((uvPoint) => {
+        return _.map(uvList, (p2) => p2.distanceTo(uvPoint));
+      })
+      .flattenDeep()
+      .max();
+
+
+    let mostPopPoint = _.reduce(uvList, (popList, uv) => {
+      let otherPoints = _(uvList)
+        .difference([uv])
+        .filter((otherUv) => {
+          return otherUv.distanceTo(uv) < size/4
+        })
+        .value();
+      if (otherPoints.length > popList.points.length) {
+        return {points: otherPoints, uv}
+      } else {
+        return popList
+      }
+    },{points: [], uv: null})
+
+    let popularSet = mostPopPoint.points;
+    popularSet.push(mostPopPoint.uv);
+    let otherPoints = _.difference(uvList, popularSet);
+
+    if (maxDistance > size/4) {
+      console.log('max distance: ', maxDistance, size/4);
+      console.log('popularSet:', popularSet);
+      console.log('otherPoints: ', otherPoints);
+    } else {
+      console.log('GOOD max distance: ', maxDistance, size/4);
+    }
+    return uvList;
+  }
 });
+
+class UvPointSet {
+
+  constructor (firstMember) {
+    this.points = [];
+    if (firstMember) {
+      this.points.push(firstMember);
+    }
+  }
+
+  greatestDistanceTo (pt) {
+    return _.max(this.points.map((pt2) => pt.distanceTo(pt)));
+  }
+
+  add (pt) {
+    this.points.push(pt);
+  }
+}
+
+

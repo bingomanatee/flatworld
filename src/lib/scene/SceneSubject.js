@@ -5,7 +5,7 @@ let kdt = require('kd-tree-javascript');
 import texCanvas, {paintAt, initWorld} from './sphereTexture';
 
 const ISO_SIZE = 15;
-const DEPTH = 1;
+const DEPTH = 3;
 export default scene => {
   const group = new THREE.Group();
 

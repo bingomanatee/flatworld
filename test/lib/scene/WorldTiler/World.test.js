@@ -55,7 +55,7 @@ describe('lib', () => {
             console.log('point:', point.toString());
 
             for (let face of point.pointIsoFaces) {
-             // console.log('point faces: ', face.toString());
+              // console.log('point faces: ', face.toString());
             }
 
             let faceList = Array.from(point.pointIsoFaces.values());
@@ -73,11 +73,22 @@ describe('lib', () => {
 
             let point = world.points.get(20);
 
-            console.log('point:', point.toString());
-
             let ringIndexes = _.map(point.neighborRing, 'vertexIndex');
 
-            expect(ringIndexes).toEqual([19, 16, 17, 21, 23, 22]);
+            expect(ringIndexes)
+              .toEqual([19, 16, 17, 21, 23, 22]);
+          });
+          it('should make neighbor faces ', () => {
+            const {world, bottle, sphere} = beforeEach(2);
+
+            world.init();
+
+            let point = world.points.get(20);
+
+            let ringIndexes = _.map(point.faceRing, 'faceIndex');
+
+            expect(ringIndexes)
+              .toEqual([25, 24, 28, 29, 30, 26]);
           });
         });
       });

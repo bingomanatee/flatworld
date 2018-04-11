@@ -1,3 +1,6 @@
+import _ from "lodash";
+import {Vector2} from "three";
+
 export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFace extends container.WorldElement {
 
   /**
@@ -19,8 +22,20 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     this.copyUvs();
     this.linkEdges();
     this.linkPoints();
+    this.initUvs();
   }
 
+  initUvs () {
+    let u = [];
+    let v = [];
+
+    for (let uv of this.myFaceUvs) {
+      u.push(uv.x % 1);
+      v.push(uv.y % 1);
+    }
+
+    this.meanUv = new Vector2(_.mean(u), _.mean(v));
+  }
   copyUvs() {
     this.eachPoint((point, indexOfVertexInFace) => {
       point.uvs.add(this.myFaceUvs[indexOfVertexInFace]);
