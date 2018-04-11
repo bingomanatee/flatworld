@@ -26,7 +26,7 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     });
   }
 
-  get myFaceUvs () {
+  get myFaceUvs() {
     return this.faceUvs[this.faceIndex];
   }
 
@@ -34,7 +34,7 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
   eachPoint(delta) {
     return this.faceVertexIndexes.map((vertexIndex, indexOfVertexInFace) => {
       let viPoint = this.points.get(vertexIndex);
-     return delta(viPoint, indexOfVertexInFace, this);
+      return delta(viPoint, indexOfVertexInFace, this);
     });
   }
 
@@ -45,5 +45,15 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     });
 
     this.faceEdges = new Set(edgeVertexIndexes.map((a) => container.FaceEdge.findOrMakeEdge(a[0], a[1], this.world)))
+  }
+
+  toString() {
+    let str = `<< face ${this.faceIndex}
+    points: [`;
+    for (let point of this.isoFaces) {
+      str += "\n" + point.toString();
+    }
+    str += '>>';
+    return str;
   }
 });

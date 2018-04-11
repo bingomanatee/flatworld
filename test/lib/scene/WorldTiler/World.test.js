@@ -20,11 +20,18 @@ describe('lib', () => {
         });
 
         describe('.init', () => {
-          const {world} = beforeEach();
+          it('should find all the edges of a face', () => {
+            const {world} = beforeEach();
 
-          world.init();
+            world.init();
 
-          let isoFace4 = world.isoFaces.get(4);
+            let isoFace4 = world.isoFaces.get(4);
+
+            console.log ('face: ', isoFace4.toString());
+            for (let edge of isoFace4.faceEdges) {
+              console.log('edge: ', edge.toString());
+            }
+          });
         });
       });
     });
