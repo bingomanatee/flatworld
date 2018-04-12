@@ -5,7 +5,9 @@ let kdt = require('kd-tree-javascript');
 import texCanvas, {paintAt, initWorld} from './sphereTexture';
 
 const ISO_SIZE = 15;
-const DEPTH = 3;
+const DEPTH = 5;
+const ROT_SPEED = 0.3;
+
 export default scene => {
   const group = new THREE.Group();
 
@@ -29,11 +31,11 @@ export default scene => {
   );
 
   group.add(subjectMesh);
-  group.add(subjectWireframe);
+  //group.add(subjectWireframe);
   scene.add(group);
   group.rotation.z = Math.PI / 8;
 
-  const speed = 0.05;
+  const speed = ROT_SPEED;
 
   function update (time) {
     const angle = time * speed;
@@ -74,7 +76,7 @@ export default scene => {
       indexPoints();
     }
     return _.flattenDeep(pointIndex.nearest(point, ISO_SIZE / 4)).shift();
-  }
+  };
 
   function intersect (list) {
 

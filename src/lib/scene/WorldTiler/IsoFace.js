@@ -30,12 +30,18 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     let v = [];
 
     for (let uv of this.myFaceUvs) {
-      u.push(uv.x % 1);
-      v.push(uv.y % 1);
+      u.push(uv.x);
+      v.push(uv.y);
     }
 
     this.meanUv = new Vector2(_.mean(u), _.mean(v));
   }
+
+  /**
+   * point UVs are face-centric;
+   * collect all the uv references to a single point
+   * into the points uvs set
+   */
   copyUvs() {
     this.eachPoint((point, indexOfVertexInFace) => {
       point.uvs.add(this.myFaceUvs[indexOfVertexInFace]);

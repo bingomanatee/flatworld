@@ -31,6 +31,7 @@ export default (bottle) => bottle.factory('FaceEdge', (container) => class FaceE
 
   init() {
     this.world.edges.set(this.id, this);
+    // note edgePoints is an array because it is ORDERED
     this.edgePoints = this.orderedIndexes.map(index => this.points.get(index));
 
     for (let point of this.edgePoints) {

@@ -6,6 +6,7 @@ import FaceEdge from './FaceEdge';
 import World from './World';
 import Point from './Point';
 import FaceNode from './FaceNode';
+import PathNode from './PathNode';
 import PointNode from './PointNode';
 import utils from './utils';
 
@@ -18,6 +19,7 @@ export default () => {
   FaceEdge(bottle);
   FaceNode(bottle);
   PointNode(bottle);
+  PathNode(bottle);
   utils(bottle);
   return bottle;
 }

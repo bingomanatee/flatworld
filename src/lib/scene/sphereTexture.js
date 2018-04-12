@@ -11,7 +11,7 @@ import _ from 'lodash';
 const canvas = document.createElement('canvas');
 document.getElementById("root").parentNode.appendChild(canvas);
 
-const SIZE = 1024 * 2;
+const SIZE = 1024 * 4;
 canvas.width = SIZE;
 canvas.height = SIZE;
 canvas.id = 'texture';
@@ -57,7 +57,6 @@ function addFace (point, alpha) {
   let existing = stage.getChildByName(name);
   if (existing) {
     existing.alpha = _.clamp(blendAlphas(existing.alpha, alpha), 0, 1);
-    console.log('found existing');
   } else {
     let cell = _.find(savedVoronoi.cells, (vCell)=>{
       return vCell.site.__faceVertexIndex === point.__index;
@@ -78,7 +77,6 @@ let hexGridShape = new Shape();
 stage.addChild(hexGridShape);
 
 const drawPolyRing = (shape, uvs) => {
-  console.log('drawPolyRing: ', uvs.map((p) => [uvXtoGraphicsX(p.x) , p.y * SIZE]));
   let last = _.last(uvs);
   shape.graphics.mt(uvXtoGraphicsX(last.x), last.y * SIZE);
   uvs.forEach((pt) => shape.graphics.lt(uvXtoGraphicsX(pt.x), pt.y * SIZE));
@@ -99,12 +97,24 @@ let world;
 export const initWorld = (geometry) => {
   world = new bottle.container.World(geometry);
   world.init();
-  console.log('initWorld: ');
   for (let point of world.points.values()) {
     point.drawHexFrame(hexGridShape, SIZE);
   }
+
+  let fvUVs = new Shape();
+  for (let uvSet of geometry.faceVertexUvs[0]) {
+    fvUVs.graphics.s('red');
+    let pts = uvSet.map((pt) => pt.clone().multiplyScalar(SIZE));
+
+    let last = _.last(pts);
+    fvUVs.graphics.mt(last.x, last.y);
+    for (let pt of pts) { fvUVs.graphics.lt(pt.x, pt.y); }
+    fvUVs.graphics.es();
+  }
+  stage.addChild(fvUVs);
+
   floatHexContainer();
-}
+};
 
 const floatHexContainer = () => {
   stage.removeChild(hexGridShape);
@@ -120,13 +130,13 @@ export const paintAt = (vertex) => {
     addSpot(vertex);
   }
   floatHexContainer();
-}
+};
 
 let mouseDown = false;
 let mouse2Down = false;
 export const setMouseDown = (isDown, is2Down) => {
   mouseDown = isDown;
   mouse2Down = is2Down;
-}
+};
 
 export default canvas;

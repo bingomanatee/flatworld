@@ -1,55 +1,54 @@
 import _ from "lodash";
 
-export default (bottle) => bottle.factory('FaceNode', (container) => class PointNode {
-  constructor (point, face, nodeMap) {
+export default (bottle) => bottle.factory('FaceNode', (container) => class PointNode extends container.PathNode {
+  constructor(point, face, nodeMap) {
+    super(face.faceIndex, face.meanUv, nodeMap);
     this.point = point;
     this.face = face;
-    this.linkedFaceNodes = new Set();
-    this.nodeMap = nodeMap;
-    nodeMap.set(face.faceIndex, this);
   }
 
-  link (edge) {
+  linkEdge(edge) {
     if (edge.hasFace(this.face)) {
       let otherFace = edge.otherFace(this.face);
-      let otherFaceNode = this.nodeMap.get(otherFace.faceIndex);
-      this.linkedFaceNodes.add(otherFaceNode);
+      let otherFaceNode = this.registry.get(otherFace.faceIndex);
+      if (!otherFaceNode) {
+      } else {
+        this.link(otherFaceNode);
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 
-  toString () {
+  /**
+   * Because the faces can be split on the seam, drawing a point
+   * from one faces' midpoint to the other is problematic. Instead we
+   * are drawing edges from the faces' midpoints to the faces edge midpoint.
+   *
+   * @param hex {Shape}
+   * @param size {int}
+   */
+  drawHexFramePart(hex, size) {
+    for (let edge of this.face.faceEdges) {
+      if (edge.hasPoint(this.point)) {
+        let faceVertexIndexes = edge.orderedIndexes.map((vi) => this.face.faceVertexIndexes.indexOf(vi));
+        let midpointUvs = faceVertexIndexes.map((index) => this.face.myFaceUvs[index]);
+        let midpointUv = midpointUvs[0].clone().lerp(midpointUvs[1], 0.5);
+        hex.graphics.s('black');
+        container.lineShape(hex, [this.face.meanUv, midpointUv], size);
+        hex.graphics.es();
+      }
+    }
+  }
+
+  toString() {
     let point = this.point;
-    return `<< node of point ${point.toString()} -- face ${this.faceIndex} 
-      links: ${Array.from(this.linkedFaceNodes.values())
-                    .map(node => node.faceIndex)
-                    .join(",")}
+    return `<< node of point ${point.toString()} -- face ${this.id} 
+      links: ${_(Array.from(this.edges.values()))
+      .compact()
+      .map('id')
+      .join(",")}
     >>`
-  }
-
-  get faceIndex () {
-    return this.face.faceIndex;
-  }
-
-  ring () {
-    let lastFaceNodeLinks = Array.from(this.linkedFaceNodes.values());
-    let ring = [lastFaceNodeLinks[0], this, lastFaceNodeLinks[1]];
-    let failsafe = 0;
-    do {
-      let lastNode = _.last(ring);
-      lastFaceNodeLinks = Array.from(lastNode.linkedFaceNodes.values());
-
-      let nextFaceNode = _.difference(lastFaceNodeLinks, ring)[0]
-      if (nextFaceNode) {
-        ring.push(nextFaceNode);
-      } else {
-        break;
-      }
-      ++failsafe;
-
-      if (failsafe > 8) {
-        break;
-      }
-    } while (true);
-    return ring;
   }
 });

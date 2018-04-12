@@ -52,32 +52,27 @@ describe('lib', () => {
 
             let point = world.points.get(20);
 
-            console.log('point:', point.toString());
-
-            for (let face of point.pointIsoFaces) {
-              // console.log('point faces: ', face.toString());
-            }
-
             let faceList = Array.from(point.pointIsoFaces.values());
             let faceIndexes = _.map(faceList, 'faceIndex');
-            expect(bottle.container.setsEqual(
+
+          expect(bottle.container.setsEqual(
               new Set([24, 25, 26, 28, 29, 30]),
               new Set(faceIndexes)))
               .toBeTruthy();
           });
 
-          it('should make neighbor rings from points ', () => {
-            const {world, bottle, sphere} = beforeEach(2);
-
-            world.init();
-
-            let point = world.points.get(20);
-
-            let ringIndexes = _.map(point.neighborRing, 'vertexIndex');
-
-            expect(ringIndexes)
-              .toEqual([19, 16, 17, 21, 23, 22]);
-          });
+          // it('should make neighbor rings from points ', () => {
+          //   const {world, bottle, sphere} = beforeEach(2);
+          //
+          //   world.init();
+          //
+          //   let point = world.points.get(20);
+          //
+          //   let ringIndexes = _.map(point.neighborRing, 'vertexIndex');
+          //
+          //   expect(ringIndexes)
+          //     .toEqual([19, 16, 17, 21, 23, 22]);
+          // });
           it('should make neighbor faces ', () => {
             const {world, bottle, sphere} = beforeEach(2);
 

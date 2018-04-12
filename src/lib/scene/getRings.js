@@ -18,7 +18,6 @@ function getRings(loresGeometry, hexGeometry) {
       node.link(outerSegments);
     }
     let ring = Array.from(m.values()).pop().ring();
-    console.log('ring: ', ring.join(','));
     let faceKeys = 'a,b,c'.split(',');
     const vertexUVs = _.reduce( hexGeometry.faceVertexUvs[0], (map, uvsForFace, faceIndex) => {
       let face = hexGeometry.faces[faceIndex];
