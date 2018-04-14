@@ -75,12 +75,9 @@ describe('lib', () => {
           // });
           it('should make neighbor faces ', () => {
             const {world, bottle, sphere} = beforeEach(2);
-
             world.init();
-
             let point = world.points.get(20);
-
-            let ringIndexes = _.map(point.faceRing, 'faceIndex');
+            let ringIndexes = _.map(point.faceRing, 'id');
 
             expect(ringIndexes)
               .toEqual([25, 24, 28, 29, 30, 26]);

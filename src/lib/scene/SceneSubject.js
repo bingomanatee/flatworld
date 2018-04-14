@@ -75,7 +75,7 @@ export default scene => {
     if (!pointIndex) {
       indexPoints();
     }
-    return _.flattenDeep(pointIndex.nearest(point, ISO_SIZE / 4)).shift();
+    return _.first(_.first(pointIndex.nearest(point, ISO_SIZE / 4)));
   };
 
   function intersect (list) {
