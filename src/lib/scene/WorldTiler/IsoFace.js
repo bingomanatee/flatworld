@@ -1,5 +1,4 @@
 import _ from "lodash";
-import {Vector2} from "three";
 
 export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFace extends container.WorldElement {
 
@@ -17,15 +16,21 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
     this.isoFaces.set(index, this);
   }
 
+  midPoint() {
+    this.midPoint = this.facePoints.reduce((mid, p) => mid.add(p), new container.Vector3());
+    this.midPoint.divideScalar(3);
+  }
+
   init() {
     this.facePoints = this.eachPoint((p) => p);
+    this.midPoint();
     this.copyUvs();
     this.linkEdges();
     this.linkPoints();
     this.initUvs();
   }
 
-  initUvs () {
+  initUvs() {
     let u = [];
     let v = [];
 
@@ -34,7 +39,7 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
       v.push(uv.y);
     }
 
-    this.meanUv = new Vector2(_.mean(u), _.mean(v));
+    this.meanUv = new container.Vector2(_.mean(u), _.mean(v));
   }
 
   /**
@@ -76,8 +81,7 @@ export default (bottle) => bottle.factory('IsoFace', (container) => class IsoFac
   }
 
   toString() {
-    let str = `<< face ${this.faceIndex}
+    return `<< face ${this.faceIndex}
     points: [${this.eachPoint((p) => "\n" + p.toString())}>>`;
-    return str;
   }
 });

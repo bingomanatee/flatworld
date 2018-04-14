@@ -51,26 +51,19 @@ function addCell(cell,alpha, name) {
   debounceFHC();
 }
 
-function addFace (point, alpha) {
-  let name = `vertex_${point.__index}`;
-
-  let existing = stage.getChildByName(name);
-  if (existing) {
-    existing.alpha = _.clamp(blendAlphas(existing.alpha, alpha), 0, 1);
-  } else {
-    let cell = _.find(savedVoronoi.cells, (vCell)=>{
-      return vCell.site.__faceVertexIndex === point.__index;
-    });
-
-    if (cell) {
-      addCell(cell, alpha, name);
+function paintHex (point, alpha) {
+  let nearest = world.nearestPoint(point);
+  if (nearest) {
+    if (nearest.paintHex(alpha)) {
+      debounceFHC();
+      stage.update();
     }
   }
 }
 
 function addSpot (vertex) {
-  addFace(vertex, 0.2);
-  stage.update();
+  paintHex(vertex, 0.2);
+ stage.update();
 }
 
 let hexGridShape = new Shape();
@@ -80,16 +73,7 @@ const drawPolyRing = (shape, uvs) => {
   let last = _.last(uvs);
   shape.graphics.mt(uvXtoGraphicsX(last.x), last.y * SIZE);
   uvs.forEach((pt) => shape.graphics.lt(uvXtoGraphicsX(pt.x), pt.y * SIZE));
-}
-
-const tooWideCell = (cell) => {
-  let xs = _(cell.halfedges).map((e) => [
-    uvXtoGraphicsX(e.edge.va.x ),
-    uvXtoGraphicsX(e.edge.vb.x)]).flattenDeep().value();
-
-  let range = _.max(xs) - _.min(xs);
-  return range > SIZE / 8;
-}
+};
 
 const jiggle = (n) => n //+ (Math.random() - 0.5) / 1000;
 let world;
@@ -100,8 +84,8 @@ export const initWorld = (geometry) => {
   for (let point of world.points.values()) {
     point.drawHexFrame(hexGridShape, SIZE);
   }
-
-  let fvUVs = new Shape();
+  hexGridShape.cache(0,0,SIZE, SIZE);
+ /*let fvUVs = new Shape();
   for (let uvSet of geometry.faceVertexUvs[0]) {
     fvUVs.graphics.s('red');
     let pts = uvSet.map((pt) => pt.clone().multiplyScalar(SIZE));
@@ -111,7 +95,7 @@ export const initWorld = (geometry) => {
     for (let pt of pts) { fvUVs.graphics.lt(pt.x, pt.y); }
     fvUVs.graphics.es();
   }
-  stage.addChild(fvUVs);
+  stage.addChild(fvUVs); */
 
   floatHexContainer();
 };
@@ -120,7 +104,7 @@ const floatHexContainer = () => {
   stage.removeChild(hexGridShape);
   stage.addChild(hexGridShape);
   stage.update();
-}
+};
 
 const debounceFHC = _.debounce(floatHexContainer, 500);
 
@@ -128,8 +112,8 @@ export const paintAt = (vertex) => {
 
   if (mouseDown) {
     addSpot(vertex);
+    floatHexContainer();
   }
-  floatHexContainer();
 };
 
 let mouseDown = false;

@@ -2,8 +2,9 @@
  * A utility class for an IsoSphere that converts points into hexagons.
  * @param bottle {Bottle}
  */
+let kdt = require('kd-tree-javascript');
 
-export default (bottle) => bottle.factory('World', (container) =>  class World {
+export default (bottle) => bottle.factory('World', (container) => class World {
 
   /**
    *
@@ -35,5 +36,18 @@ export default (bottle) => bottle.factory('World', (container) =>  class World {
     for (let point of this.points.values()) {
       point.init();
     }
+    this.indexNearFaces();
+  }
+
+  nearestPoint(pt) {
+    let nearest = this._nearPointIndex(pt);
+    if (!nearest) return false;
+    return nearest[0][0];
+  }
+
+  indexNearPoints() {
+    this._nearPointIndex = new kdt.kdTree(this.points, (a, b) => {
+      return a.distanceToSquared(b);
+    }, ['x', 'y', 'z']);
   }
 });
