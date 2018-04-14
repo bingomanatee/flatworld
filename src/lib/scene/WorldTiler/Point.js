@@ -1,5 +1,8 @@
 import _ from 'lodash'
 import {Vector2} from 'three';
+import {createjs} from "@createjs/easeljs";
+
+const {Stage, Shape, Text, Container} = createjs;
 
 /**
  * a wrapper around Vector3 with associated data and links
@@ -112,6 +115,58 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
     const ring = this.faceRing;
     for (let faceNode of ring) {
       faceNode.drawHexFramePart(hex, size);
+    }
+  }
+
+  distanceToSquared(p){
+    return this.vertex.distanceToSquared(p.vertex);
+  }
+
+  get x () {
+    return this.point.x;
+  }
+
+  get y () {
+    return this.point.y;
+  }
+
+  get z () {
+    return this.point.z;
+  }
+
+  initCanvasHex(alpha, stage, size){
+    this._canvasHex = new Shape();
+    this._canvasHex.alpha = alpha;
+    stage.addChild(this._canvasHex);
+
+    if (this.isSplit) {
+
+    } else {
+      this._canvasHex.f('white');
+      container.moveToShape(this._canvasHex, _.last(this.neighborRing).point.meanUv, size)
+      for (let node of this.neighborRing) {
+        container.lineToShape(this._canvasHex, node.point.meanUv, size)
+      }
+    }
+  }
+
+  /**
+   * paints or increases the hexagon with increased Alpha
+   *
+   * @param alpha
+   * @param stage
+   * @param size
+   * @returns {boolean}
+   */
+  paintHex(alpha, stage, size) {
+    if (!this.canvasHex) {
+      this.initCanvasHex(alpha, stage, size);
+      return true;
+    } else if (this.canvasHex.alpha < 1) {
+      this.canvasHex.alpha = _.clamp(this.canvasFace.alpha + alpha, 1);
+      return true;
+    } else {
+      return false;
     }
   }
 });

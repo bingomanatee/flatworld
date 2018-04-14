@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-let kdt = require('kd-tree-javascript');
 
 // import alphaTexture from './assets/textures/stripes_gradient.jpg';
 import texCanvas, {paintAt, initWorld} from './sphereTexture';
@@ -56,25 +55,8 @@ export default scene => {
 
   let pointIndex = null;
 
-  const indexPoints = () => {
-    let verts = subjectGeometry.vertices;
-    verts.forEach((v, i) => v.__index = i);
-    pointIndex = new kdt.kdTree(verts, (a, b) => {
-      if (b.distanceToSquared) {
-        return b.distanceToSquared(a);
-      }
-
-      if (a.distanceToSquared) {
-        return a.distanceToSquared(b);
-      }
-      return a.distanceToSquared(b);
-    }, ['x', 'y', 'z']);
-  }
 
   const findNearestVertex = (point) => {
-    if (!pointIndex) {
-      indexPoints();
-    }
     return _.flattenDeep(pointIndex.nearest(point, ISO_SIZE / 4)).shift();
   };
 
@@ -86,9 +68,8 @@ export default scene => {
       scene.add(cursorMesh);
 
       let localPoint = group.worldToLocal(p);
-      let vertexIndex = findNearestVertex(localPoint);
       if (vertexIndex) {
-        paintAt(vertexIndex);
+        paintAt(localPoint);
       }
     }
   }
