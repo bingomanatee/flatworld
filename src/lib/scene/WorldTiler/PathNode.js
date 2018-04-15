@@ -9,7 +9,7 @@ export default (bottle) => {
         this.id = identity;
         this.edges = new Set();
         this.registry = registry;
-        if (this.registry && identity) {
+        if (this.registry) {
           this.registry.set(this.id, this);
         }
       }

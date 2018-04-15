@@ -6,9 +6,9 @@ export default (bottle) => bottle.factory('PointNode', (container) => class Poin
   }
 
   linkEdge (edge) {
-    if (edge.hasPoint(this.point)) {
-      let otherPoint = edge.otherPoint(this.point);
-      let otherNode = this.nodeMap.get(otherPoint.vertexIndex);
+    if (edge.hasPoint(this.coordinate)) {
+      let otherPoint = edge.otherPoint(this.coordinate);
+      let otherNode = this.registry.get(otherPoint.vertexIndex);
       this.link(otherNode);
       return true;
     }
@@ -17,7 +17,7 @@ export default (bottle) => bottle.factory('PointNode', (container) => class Poin
   toString () {
     let point = this.point;
     return `<< node of point ${point.toString()}} 
-      links: ${Array.from(this.linkedFaceNodes.values())
+      links: ${Array.from(this.edges.values())
                     .map(node => node.id)
                     .join(",")}
     >>`

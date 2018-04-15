@@ -1,11 +1,10 @@
 import * as THREE from 'three'
 
-// import alphaTexture from './assets/textures/stripes_gradient.jpg';
-import texCanvas, {paintAt, initWorld} from './sphereTexture';
+import texCanvas, {paintAt, initWorld, nearestPoint} from './sphereTexture';
 
 const ISO_SIZE = 15;
-const DEPTH = 5;
-const ROT_SPEED = 0.3;
+const DEPTH = 4;
+const ROT_SPEED = 0.1;
 
 export default scene => {
   const group = new THREE.Group();
@@ -42,29 +41,26 @@ export default scene => {
     group.rotation.y = angle;
     group.updateMatrix();
     scene.remove(cursorMesh);
+    group.remove(nearMesh);
     if (!hexGridSet) {
+      let t = new Date().getTime();
       initWorld(subjectGeometry);
+      console.log('world initialized in ', (new Date().getTime() - t)/1000, 'secs');
       hexGridSet = true;
     }
   }
 
   const cursorMat = new THREE.MeshBasicMaterial({color: new THREE.Color('rgb(0, 0, 255)')});
   const cursorGeometry = new THREE.SphereGeometry(
-    0.5, 8, 8);
+    0.125, 8, 8);
   const cursorMesh = new THREE.Mesh(cursorGeometry, cursorMat);
-
-  let pointIndex = null;
-
-
-  const findNearestVertex = (point) => {
-    if (!pointIndex) {
-      indexPoints();
-    }
-    return _.first(_.first(pointIndex.nearest(point, ISO_SIZE / 4)));
-  };
+  
+  const nearMat = new THREE.MeshBasicMaterial({color: new THREE.Color('rgb(0, 255, 255)')});
+  const nearGeometry = new THREE.SphereGeometry(
+    0.6, 8, 8);
+  const nearMesh = new THREE.Mesh(nearGeometry, nearMat);
 
   function intersect (list) {
-
     if (list.length) {
       let p = list[0].point;
       cursorMesh.position.set(p.x, p.y, p.z);
@@ -73,7 +69,15 @@ export default scene => {
       let localPoint = group.worldToLocal(p);
       if (localPoint) {
         paintAt(localPoint);
+        // let p = nearestPoint(localPoint)
+        // if (p) {
+        //   nearMesh.position.copy(p);
+        //   group.add(nearMesh);
+        // }
+      } else {
+       // group.remove(nearMesh);
       }
+
     }
   }
 

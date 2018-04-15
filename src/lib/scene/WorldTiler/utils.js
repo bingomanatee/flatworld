@@ -146,23 +146,16 @@ export default (bottle) => {
   bottle.factory('pointToUvVertex', () => (point, size) => point.meanUv.clone()
     .multiplyScalar(size));
 
-  bottle.factory('moveToShape', () => (shape, pt, s) => {
-    if(s) pt = pt.clone().multiplyScalar(s);
-    shape.graphics.mt(pt.x, pt.y)
-  });
+  bottle.factory('uvToCanvas', () => (uv, size) => {
+    uv = uv.clone().multiplyScalar(size);
+    uv.y = size - uv.y;
+    return uv;
+    });
 
-  bottle.factory('lineToShape', () => (shape, pt, s) => {
-    if(s) pt = pt.clone().multiplyScalar(s);
-    shape.graphics.lt(pt.x, pt.y)
-  });
-
-  bottle.factory('lineShape', (container) => (shape, points, s) => {
-    points = points.slice(0);
-    container.moveToShape(shape, points.shift(), s);
-    for (let p of points) {
-      container.lineToShape(shape, p, s);
-    }
-  });
-
+  bottle.factory('time', () => (fn, msg) => {
+    let time = new Date().getTime();
+    fn();
+    console.log(msg, (new Date().getTime() - time)/1000);
+  })
   bottle.factory('pointToLatLon', () => (container) => (pt) => vector3toLonLat(pt, container.Vector2))
 }

@@ -9,9 +9,12 @@ import FaceNode from './FaceNode';
 import PathNode from './PathNode';
 import PointNode from './PointNode';
 import utils from './utils';
+import {fabric}  from 'fabric';
 
 export default () => {
   let bottle = new Bottle();
+  bottle.factory('fabric', () => fabric);
+
   WorldElement(bottle);
   World(bottle);
   IsoFace(bottle);
@@ -21,5 +24,7 @@ export default () => {
   PointNode(bottle);
   PathNode(bottle);
   utils(bottle);
+
+
   return bottle;
 }

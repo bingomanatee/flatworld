@@ -14,8 +14,7 @@ html {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 600px;
-  height: 600px;
+  display: none !important;
   z-index: 2000; }
 
 /*# sourceMappingURL=main.css.map */

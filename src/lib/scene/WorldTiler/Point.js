@@ -1,8 +1,6 @@
 import _ from 'lodash'
 import {Vector2} from 'three';
-import {createjs} from "@createjs/easeljs";
 
-const {Stage, Shape, Text, Container} = createjs;
 
 /**
  * a wrapper around Vector3 with associated data and links
@@ -61,17 +59,22 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
       .filter((edge) => !edge.orderedIndexes.includes(this.vertexIndex))
       .value();
 
-    let nodeMap = new Map();
-    let nodes = _(neighborEdges)
+    const nodeMap = new Map();
+    let edgePoints = _(neighborEdges)
       .map('edgePoints')
       .flattenDeep()
       .uniq()
+      .value();
+    const nodes = _(edgePoints)
       .map((point) => new container.PointNode(point, nodeMap))
       .value();
 
+    if (nodeMap.size !== edgePoints.length) {
+      eval('debugger');
+    }
     for (let edge of neighborEdges) {
       for (let node of nodes) {
-        node.link(edge);
+        node.linkEdge(edge);
       }
     }
     return nodeMap;
@@ -81,7 +84,7 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
     if (!this._neighborRing) {
       let nnMap = this.neighborPointNodes();
       this._neighborRing = Array.from(nnMap.values())[0].ring()
-        .map((node) => node.point);
+                                                        .map((node) => node.coordinate);
     }
     return this._neighborRing;
   }
@@ -89,7 +92,7 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
   neighborFaceNodes () {
     let nodeMap = new Map();
     let nodes = Array.from(this.pointIsoFaces.values())
-      .map((face) => new container.FaceNode(this, face, nodeMap));
+                     .map((face) => new container.FaceNode(this, face, nodeMap));
 
     for (let edge of this.pointEdges.values()) {
       for (let node of nodes) {
@@ -111,43 +114,36 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
     this.initUV();
   }
 
-  drawHexFrame (hex, size) {
-    const ring = this.faceRing;
-    for (let faceNode of ring) {
-      faceNode.drawHexFramePart(hex, size);
+  drawHexFrame (hexGridShape, size) {
+    for (let faceNode of this.faceRing) {
+      faceNode.drawHexFramePart(hexGridShape, size);
     }
   }
 
-  distanceToSquared(p){
-    return this.vertex.distanceToSquared(p.vertex);
+  distanceToSquared (p) {
+    return this.vertex.distanceToSquared(p);
   }
 
   get x () {
-    return this.point.x;
+    return this.vertex.x;
   }
 
   get y () {
-    return this.point.y;
+    return this.vertex.y;
   }
 
   get z () {
-    return this.point.z;
+    return this.vertex.z;
   }
 
-  initCanvasHex(alpha, stage, size){
-    this._canvasHex = new Shape();
-    this._canvasHex.alpha = alpha;
-    stage.addChild(this._canvasHex);
-
-    if (this.isSplit) {
-
-    } else {
-      this._canvasHex.f('white');
-      container.moveToShape(this._canvasHex, _.last(this.neighborRing).point.meanUv, size)
-      for (let node of this.neighborRing) {
-        container.lineToShape(this._canvasHex, node.point.meanUv, size)
-      }
+  initCanvasHex (alpha, stage, size) {
+    let points = [];
+    for (let faceNode of this.faceRing) {
+      faceNode.addHexWedge(points, this, size);
     }
+    this._canvasHex = new bottle.container.fabric.Path(points.join(''));
+    this._canvasHex.set({fill: 'white', opacity: 0, visible: false, stroke: false});
+    stage.add(this._canvasHex);
   }
 
   /**
@@ -158,15 +154,25 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
    * @param size
    * @returns {boolean}
    */
-  paintHex(alpha, stage, size) {
-    if (!this.canvasHex) {
+  paintHex (alpha, stage, size) {
+    if (!this._canvasHex) {
       this.initCanvasHex(alpha, stage, size);
       return true;
-    } else if (this.canvasHex.alpha < 1) {
-      this.canvasHex.alpha = _.clamp(this.canvasFace.alpha + alpha, 1);
-      return true;
     } else {
-      return false;
+      let opacity = this._canvasHex.get('opacity');
+      if (opacity < 1) {
+        opacity += alpha;
+        this._canvasHex.set('opacity', _.clamp(opacity, 0, 1));
+        this._canvasHex.visible = opacity > 0;
+        return true;
+      } else if (alpha < 1 && opacity > 0) {
+        opacity += alpha;
+        this._canvasHex.visible = opacity > 0;
+        this._canvasHex.set('opacity', _.clamp(opacity, 0, 1));
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 });

@@ -26,18 +26,37 @@ export default (bottle) => bottle.factory('FaceNode', (container) => class Point
    * from one faces' midpoint to the other is problematic. Instead we
    * are drawing edges from the faces' midpoints to the faces edge midpoint.
    *
-   * @param hex {Shape}
+   * @param hexGridShape {Shape}
    * @param size {int}
    */
-  drawHexFramePart(hex, size) {
+  drawHexFramePart(hexGridShape, size) {
+    let meanPointUv = this.face.meanUv.clone().multiplyScalar(size);
     for (let edge of this.face.faceEdges) {
       if (edge.hasPoint(this.point)) {
         let faceVertexIndexes = edge.orderedIndexes.map((vi) => this.face.faceVertexIndexes.indexOf(vi));
         let midpointUvs = faceVertexIndexes.map((index) => this.face.myFaceUvs[index]);
-        let midpointUv = midpointUvs[0].clone().lerp(midpointUvs[1], 0.5);
-        hex.graphics.s('black');
-        container.lineShape(hex, [this.face.meanUv, midpointUv], size);
-        hex.graphics.es();
+        let midPointUv = midpointUvs[0].clone().lerp(midpointUvs[1], 0.5).multiplyScalar(size);
+        let points = [meanPointUv.clone(), midPointUv.clone()];
+        const path = new container.fabric.Polyline (points, {stroke: 'rgba(255,255,255,0.25)', objectCaching: false});
+        hexGridShape.add(path);
+      }
+    }
+  }
+
+  addHexWedge(points, point, size) {
+    let meanPointUv = container.uvToCanvas(this.face.meanUv, size);
+    let pointIndex = this.face.faceVertexIndexes.indexOf(point.vertexIndex);
+    let cornerUv = container.uvToCanvas(this.face.myFaceUvs[pointIndex], size);
+
+    for (let edge of this.face.faceEdges) {
+      if (edge.hasPoint(this.point)) {
+        let faceVertexIndexes = edge.orderedIndexes.map((vi) => this.face.faceVertexIndexes.indexOf(vi));
+        let midpointUvs = faceVertexIndexes.map((index) => this.face.myFaceUvs[index]);
+        let midPointUv = container.uvToCanvas(midpointUvs[0].clone().lerp(midpointUvs[1], 0.5), size);
+        points.push('M', cornerUv.x, ',', cornerUv.y);
+        points.push('L', meanPointUv.x, ',', meanPointUv.y);
+        points.push('L', midPointUv.x, ',', midPointUv.y);
+        points.push('L', cornerUv.x, ',', cornerUv.y);
       }
     }
   }

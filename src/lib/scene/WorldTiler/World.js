@@ -10,7 +10,7 @@ export default (bottle) => bottle.factory('World', (container) => class World {
    *
    * @param geometry {IcosahedronGeometry }
    */
-  constructor(geometry) {
+  constructor (geometry) {
     this.geometry = geometry;
     this.edges = new Map();
     this.faceUvs = this.geometry.faceVertexUvs[0];
@@ -18,15 +18,15 @@ export default (bottle) => bottle.factory('World', (container) => class World {
     this.points = new Map();
   }
 
-  vertsToPoints() {
+  vertsToPoints () {
     this.geometry.vertices.forEach((vert, index) => new container.Point(vert, index, this));
   }
 
-  facesToIsoFace() {
+  facesToIsoFace () {
     this.geometry.faces.forEach((face, index) => new container.IsoFace(face, index, this));
   }
 
-  init() {
+  init () {
     this.vertsToPoints();
     this.facesToIsoFace();
     for (let isoFace of this.isoFaces.values()) {
@@ -36,18 +36,28 @@ export default (bottle) => bottle.factory('World', (container) => class World {
     for (let point of this.points.values()) {
       point.init();
     }
-    this.indexNearFaces();
+    this.indexNearPoints();
   }
 
-  nearestPoint(pt) {
-    let nearest = this._nearPointIndex(pt);
-    if (!nearest) return false;
-    return nearest[0][0];
+  nearestPoint (pt, range) {
+    let time = new Date().getTime();
+    let nearest = this._nearPointIndex.nearest(pt, range);
+    return nearest
+      .reduce((nearest, pair) => {
+        if (!nearest.length) {
+          return pair;
+        }
+        if (pair[1] < nearest[1]) {
+          return pair;
+        }
+        return nearest;
+      }, [])[0];
   }
 
-  indexNearPoints() {
-    this._nearPointIndex = new kdt.kdTree(this.points, (a, b) => {
-      return a.distanceToSquared(b);
+  indexNearPoints () {
+    console.log('indexed');
+    this._nearPointIndex = new kdt.kdTree(Array.from(this.points.values()), (a, b) => {
+      return b.distanceToSquared(a);
     }, ['x', 'y', 'z']);
   }
 });

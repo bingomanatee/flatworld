@@ -1,11 +1,9 @@
 import SceneManager from './SceneManager';
 import {setMouseDown} from './sphereTexture';
+
 export default container => {
   const canvas = createCanvas(document, container);
   const manager = SceneManager(canvas);
-
-  const canvasHalfWidth = () => Math.round(canvas.scrollWidth/2);
-  const canvasHalfHeight = () => Math.round(canvas.scrollHeight/2);
 
   bindEventListeners();
   render();
@@ -20,6 +18,11 @@ export default container => {
   function bindEventListeners() {
     window.onresize = resizeCanvas;
     window.onmousemove = mouseMove;
+    window.oncontextmenu = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
     resizeCanvas();
   }
 
@@ -40,8 +43,9 @@ export default container => {
     manager.onWindowResize()
   }
 
-  function mouseMove({clientX, clientY, buttons}) {
-    setMouseDown(buttons & 1);
+  function mouseMove(event) {
+    const {clientX, clientY, buttons} = event;
+    setMouseDown(buttons & 1, buttons &2);
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
 
