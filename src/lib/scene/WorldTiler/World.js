@@ -3,7 +3,6 @@
  * @param bottle {Bottle}
  */
 let kdt = require('kd-tree-javascript');
-
 export default (bottle) => bottle.factory('World', (container) => class World {
 
   /**

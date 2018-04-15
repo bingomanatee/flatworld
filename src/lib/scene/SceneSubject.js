@@ -3,8 +3,8 @@ import * as THREE from 'three'
 import texCanvas, {paintAt, initWorld, nearestPoint} from './sphereTexture';
 
 const ISO_SIZE = 15;
-const DEPTH = 4;
-const ROT_SPEED = 0.1;
+const DEPTH = 5;
+const ROT_SPEED = 0.025;
 
 export default scene => {
   const group = new THREE.Group();

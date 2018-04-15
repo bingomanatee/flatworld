@@ -142,7 +142,7 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
       faceNode.addHexWedge(points, this, size);
     }
     this._canvasHex = new bottle.container.fabric.Path(points.join(''));
-    this._canvasHex.set({fill: 'white', opacity: 0, visible: false, stroke: false});
+    this._canvasHex.set({fill: container.globeGradient.rgbAt(alpha).toString(), opacity: alpha, visible: alpha > 0, stroke: false});
     stage.add(this._canvasHex);
   }
 
@@ -160,19 +160,16 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
       return true;
     } else {
       let opacity = this._canvasHex.get('opacity');
-      if (opacity < 1) {
-        opacity += alpha;
-        this._canvasHex.set('opacity', _.clamp(opacity, 0, 1));
-        this._canvasHex.visible = opacity > 0;
-        return true;
-      } else if (alpha < 1 && opacity > 0) {
-        opacity += alpha;
-        this._canvasHex.visible = opacity > 0;
-        this._canvasHex.set('opacity', _.clamp(opacity, 0, 1));
-        return true;
-      } else {
-        return false;
-      }
+      if (opacity > 0.5) alpha /= 2;
+      let originalOpacity = opacity;
+      opacity += alpha;
+      opacity = _.clamp(opacity, 0, 1);
+      if (opacity === originalOpacity) return false;
+      let color = container.globeGradient.rgbAt(opacity).toString();
+      this._canvasHex.set('fill', color);
+      this._canvasHex.set('opacity', opacity);
+      this._canvasHex.visible = opacity > 0;
+      return true;
     }
   }
 });

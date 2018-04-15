@@ -1,5 +1,7 @@
 import {Vector2, Vector3} from 'three';
 
+import tinyGradient from 'tinygradient';
+import tinyColor from 'tinycolor2';
 /**
  * converts a XYZ vector3 to longitude latitude (Direct Polar)
  * @param lng longitude
@@ -7,7 +9,7 @@ import {Vector2, Vector3} from 'three';
  * @param vector3 optional output vector3
  * @returns a unit vector of the 3d position
  */
-function lonLatToVector3(lng, lat, Vector3) {
+function lonLatToVector3 (lng, lat, Vector3) {
   out = new THREE.Vector3();
 
   //flips the Y axis
@@ -30,14 +32,15 @@ function lonLatToVector3(lng, lat, Vector3) {
  * @param Vector2 {class} the CLASS DEFINITIION of the Vector2 class
  * @returns {Vector2}
  */
-function vector3toLonLat(point, Vector2) {
+function vector3toLonLat (point, Vector2) {
 
-  point = point.clone().normalize();
+  point = point.clone()
+               .normalize();
 
   //longitude = angle of the vector around the Y axis
   //-( ) : negate to flip the longitude (3d space specific )
   //- PI / 2 to face the Z axis
-  var lng = -( Math.atan2(-point.z, -point.x) ) - Math.PI / 2;
+  var lng = -(Math.atan2(-point.z, -point.x)) - Math.PI / 2;
 
   //to bind between -PI / PI
   if (lng < -Math.PI) {
@@ -70,20 +73,20 @@ function vector3toLonLat(point, Vector2) {
  * @param y point.y
  * @returns true if the path contains the point, false otherwise
  */
-function polygonContains(polygon, x, y) {
+function polygonContains (polygon, x, y) {
   var j = 0;
   var oddNodes = false;
   for (var i = 0; i < polygon.length; i += 2) {
 
-    j = ( j + 2 ) % polygon.length;
+    j = (j + 2) % polygon.length;
 
     var ix = polygon[i];
     var iy = polygon[i + 1];
     var jx = polygon[j];
     var jy = polygon[j + 1];
 
-    if (( iy < y && jy >= y ) || ( jy < y && iy >= y )) {
-      if (ix + ( y - iy ) / ( jx - ix ) * ( jx - ix ) < x) {
+    if ((iy < y && jy >= y) || (jy < y && iy >= y)) {
+      if (ix + (y - iy) / (jx - ix) * (jx - ix) < x) {
         oddNodes = !oddNodes
       }
     }
@@ -98,10 +101,11 @@ function polygonContains(polygon, x, y) {
  * @param camera_angle extra angle on the latitude
  * @param camera_distance distance between the target and the camera
  */
-function locateCamera(target, camera, camera_angle, camera_distance) {
+function locateCamera (target, camera, camera_angle, camera_distance) {
 
   var UP = new THREE.Vector3(0, 1, 0);
-  var NORMAL = target.clone().normalize();
+  var NORMAL = target.clone()
+                     .normalize();
 
   var angle = Math.acos(UP.dot(NORMAL));
   angle += camera_angle || 0;
@@ -117,7 +121,8 @@ function locateCamera(target, camera, camera_angle, camera_distance) {
 
   var tmp = new THREE.Vector3(0, 1, 0);
   tmp.applyAxisAngle(AX, angle);
-  tmp.multiplyScalar(camera_distance).add(target);
+  tmp.multiplyScalar(camera_distance)
+     .add(target);
 
   camera.position.copy(tmp);
   camera.lookAt(target);
@@ -127,10 +132,12 @@ function locateCamera(target, camera, camera_angle, camera_distance) {
 export default (bottle) => {
   bottle.factory('Vector2', () => Vector2);
   bottle.factory('Vector3', () => Vector3);
-  bottle.factory('floatToString', () => (n) => Number.parseFloat(n).toFixed(3));
+  bottle.factory('floatToString', () => (n) => Number.parseFloat(n)
+                                                     .toFixed(3));
   bottle.factory('numSort', () => (array) => array.sort((a, b) => a - b));
-  bottle.factory('percent', () => (n) => `${Number.parseFloat(n * 100).toFixed(1)}%`)
-  bottle.factory('setsEqual', () => function setsEqual(s1, s2) {
+  bottle.factory('percent', () => (n) => `${Number.parseFloat(n * 100)
+                                                  .toFixed(1)}%`)
+  bottle.factory('setsEqual', () => function setsEqual (s1, s2) {
     if (s1.size !== s2.size) {
       return false;
     }
@@ -144,18 +151,34 @@ export default (bottle) => {
   });
 
   bottle.factory('pointToUvVertex', () => (point, size) => point.meanUv.clone()
-    .multiplyScalar(size));
+                                                                .multiplyScalar(size));
 
   bottle.factory('uvToCanvas', () => (uv, size) => {
-    uv = uv.clone().multiplyScalar(size);
+    uv = uv.clone()
+           .multiplyScalar(size);
     uv.y = size - uv.y;
     return uv;
-    });
+  });
+
+  bottle.factory('globeGradient', () => {
+
+    return tinyGradient([
+
+      {color: tinyColor({r: 204, g: 125, b: 0, a: 0}), pos: 0},
+      {color: tinyColor({r: 204, g: 187, b: 0, a: 1}), pos: 0.1},
+        {color: tinyColor({r: 75, g: 150, b: 0}), pos: 0.25},
+        {color: tinyColor({r: 52, g: 166, b: 0}), pos: 0.66},
+        {color: tinyColor({r: 245, g: 173, b: 108}), pos: 0.9},
+        {color: tinyColor({r: 255, g: 235, b: 204}).toString(), pos: 1}
+
+    ]);
+
+  })
 
   bottle.factory('time', () => (fn, msg) => {
     let time = new Date().getTime();
     fn();
-    console.log(msg, (new Date().getTime() - time)/1000);
+    console.log(msg, (new Date().getTime() - time) / 1000);
   })
   bottle.factory('pointToLatLon', () => (container) => (pt) => vector3toLonLat(pt, container.Vector2))
 }

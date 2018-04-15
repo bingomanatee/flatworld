@@ -7,30 +7,33 @@ import _ from 'lodash';
 const canvas = document.createElement('canvas');
 canvas.renderOnAddRemove = false;
 
-const SIZE = 512;
-const ALPHA = 0.25;
+const SIZE = 512 * 4;
+const ALPHA = 0.15;
 canvas.width = SIZE;
 canvas.height = SIZE;
 canvas.id = 'texture';
 const stage = new bottle.container.fabric.Canvas(canvas, {
-  backgroundColor: 'rgb(51,51,51)'
+  backgroundColor: 'rgb(0,25,51)'
 });
 
-let hexCellShape = new bottle.container.fabric.Group();
-stage.add(hexCellShape);
+let hexGroup = new bottle.container.fabric.Group();
+stage.add(hexGroup);
 
 let hexGridShape = new bottle.container.fabric.Group();
 stage.add(hexGridShape);
 
 const throttledUpdateStage = _.throttle(() => {
   stage.requestRenderAll();
-}, 1000, {leading: true});
+}, 50, {leading: true});
 
 let world;
 
 function paintHex (point, alpha) {
   let nearest = nearestPoint(point);
   if (nearest && nearest.paintHex(alpha, hexGridShape, SIZE)) {
+    for (let neighbor of nearest.neighborRing) {
+      neighbor.paintHex(alpha /2, hexGridShape, SIZE);
+    }
     throttledUpdateStage();
   }
 }
@@ -43,6 +46,7 @@ export const initWorld = (geometry) => {
   drawHexLines();
   initHexShapes();
   hexGridShape.addWithUpdate(new bottle.container.fabric.Rect());
+  hexGroup.addWithUpdate(new bottle.container.fabric.Rect());
   throttledUpdateStage();
 };
 
@@ -53,7 +57,7 @@ const drawHexLines = () => {
 }
 
 const initHexShapes = () => {for (let point of world.points.values()) {
-  point.paintHex(0, hexGridShape, SIZE);
+  point.paintHex(0, hexGroup, SIZE);
 }};
 
 const drawFaces = () => {
@@ -73,21 +77,24 @@ const drawFaces = () => {
   }
 }
 
-function addSpot (vertex) {
-  paintHex(vertex, ALPHA);
+function addSpot (vertex, alpha) {
+  paintHex(vertex, alpha);
 }
 
 function removeSpot(vertex) {
-  paintHex(vertex, -ALPHA);
+  paintHex(vertex, -ALPHA/3);
 }
 
-export const paintAt = (vertex) => {
-
+let throttledPaintAt = _.throttle((vertex) => {
   if (mouseDown) {
-    addSpot(vertex);
+    addSpot(vertex, mouse2Down ? ALPHA/2 : ALPHA);
   } else if (mouse2Down) {
     removeSpot(vertex);
   }
+}, 25);
+
+export const paintAt = (vertex) => {
+  throttledPaintAt(vertex);
 };
 
 let mouseDown = false;
