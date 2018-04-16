@@ -42,3 +42,9 @@
     color: $darkHeadColor;
   }
 }
+
+.mainButton {
+  font-size: 3rem;
+  @include emphasis();
+  color: $linkColor;
+}

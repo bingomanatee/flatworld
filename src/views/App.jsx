@@ -1,17 +1,14 @@
 import style from './App.module.css';
 import PageFrame from './PageFrame/PageFrame.view';
-import Content from './Content/Content.view';
-import { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom'
-export default class App extends Component {
+import { BrowserRouter } from 'react-router-dom';
+import bottle from '../lib/state/state';
 
-  render () {
-    return (
+console.log('stateDef: ', bottle.container.stateDef.toHash());
+
+export default bottle.container.wrapComponentWithState(({state}) => (
       <BrowserRouter>
       <div className={style.App}>
         <PageFrame />
       </div>
       </BrowserRouter>
-    )
-  }
-}
+    ));

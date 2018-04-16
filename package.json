@@ -19,6 +19,7 @@
     "bottlejs": "^1.7.0",
     "browser-tap": "0.0.1",
     "fabric": "^2.2.3",
+    "freactal": "^2.0.3",
     "kd-tree-javascript": "^1.0.3",
     "konva": "^2.0.2",
     "lodash": "^4.17.5",
