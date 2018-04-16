@@ -5,16 +5,6 @@
   width: 100%;
 }
 
-.AppTitle {
-  font-family: Roboto, 'Helvetica Neue', Helvetica, sans-serif;
-  padding: 0;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-}
-
 .threeCanvas {
   width: 100%;
   height: 100%;
@@ -22,4 +12,8 @@
   margin:0;
   position: absolute;
   z-index: 1000;
+}
+
+div, h1, h2, h3, h4, p {
+  font-family: Roboto, 'Helvetica Neue', Helvetica, sans-serif
 }

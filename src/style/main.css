@@ -22,4 +22,17 @@ body {
   display: none !important;
   z-index: 2000; }
 
+button {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  text-transform: uppercase;
+  line-height: 90%; }
+
+*, button, p, div, a {
+  font-family: 'KapraNeue-Regular', Roboto, Helvetica, sans-serif; }
+
 /*# sourceMappingURL=main.css.map */

@@ -12,6 +12,7 @@ module.exports = {
           links: [
             'https://fonts.googleapis.com/icon?family=Material+Icons'
             , "https://fonts.googleapis.com/css?family=Roboto"
+            , '/webfonts/MyFontsWebfontsKit.css'
           ]
         },
         devServer: {

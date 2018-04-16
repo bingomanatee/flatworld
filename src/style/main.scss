@@ -1,3 +1,5 @@
+@import 'palette';
+
 body, html, AppContainer, #root {
   margin: 0;
   padding: 0;
@@ -23,4 +25,18 @@ body {
   bottom: 0;
   display: none !important;
   z-index: 2000;
+}
+
+button {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  @include emphasis();
+}
+
+* , button, p, div, a {
+  font-family: 'KapraNeue-Regular', Roboto, Helvetica, sans-serif;
 }

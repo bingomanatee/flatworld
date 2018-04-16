@@ -1,0 +1,12 @@
+@import './palette';
+
+.nav-frame {
+  background-color: $bgColor;
+  padding: $navPadding;
+}
+
+.nav-head {
+  color: $headColor;
+  padding: 0;
+  spacing: 0;
+}

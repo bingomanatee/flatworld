@@ -1,0 +1,24 @@
+$bgColor: rgb(19, 35, 60);
+$headColor: lighten($bgColor, 40%);
+$navDarkColor: transparentize(darken($bgColor, 5%), 0.025);
+$transNavColor: transparentize($bgColor, 0.05);
+$navPadding: 1rem;
+$linkColor: #eeff72;
+
+$headerFontSize: 1.8rem;
+$footerFontSize: 1.5rem;
+
+@mixin navGradient () {
+  background-image: -ms-linear-gradient(top, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
+  background-image: -moz-linear-gradient(top, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
+  background-image: -o-linear-gradient(top, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, $bgColor), color-stop(66, $transNavColor), color-stop(100, $navDarkColor));
+  background-image: -webkit-linear-gradient(top, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
+  background-image: linear-gradient(to bottom, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
+
+}
+
+@mixin emphasis() {
+  text-transform: uppercase;
+  line-height: 90%;
+}
