@@ -1,9 +1,12 @@
 $bgColor: rgb(19, 35, 60);
-$headColor: lighten($bgColor, 40%);
+$navHeadColor: lighten($bgColor, 40%);
 $navDarkColor: transparentize(darken($bgColor, 5%), 0.025);
 $transNavColor: transparentize($bgColor, 0.05);
 $navPadding: 1rem;
-$linkColor: #eeff72;
+$linkColor: rgb(238, 255, 114);
+
+$darkHeadColor: rgb(200,200,200);
+$darkTextColor: rgb(225,225,225);
 
 $headerFontSize: 1.8rem;
 $footerFontSize: 1.5rem;

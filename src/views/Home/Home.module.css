@@ -1,0 +1,21 @@
+.Home {
+  background-position: center top;
+  background-size: cover;
+  background-image: url("/static/images/sunrise-trans.png");
+  height: 100%;
+  padding: 4rem;
+  padding-top: 75px;
+  text-align: center; }
+
+.Head {
+  color: #c8c8c8;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 3rem; }
+
+.text {
+  color: #e1e1e1;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem; }
+
+/*# sourceMappingURL=Home.module.css.map */

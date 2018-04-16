@@ -1,0 +1,22 @@
+@import '../../style/palette';
+.Home {
+  background-position: center top;
+  background-size: cover;
+  background-image: url('/static/images/sunrise-trans.png');
+  height: 100%;
+  padding: 4rem;
+  padding-top: 75px;
+  text-align: center;
+}
+
+.Head {
+  color: $darkHeadColor;
+  @include emphasis();
+  font-size: 3rem;
+}
+
+.text {
+  color: $darkTextColor;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+}
