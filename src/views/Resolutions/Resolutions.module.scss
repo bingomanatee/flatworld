@@ -3,17 +3,24 @@
 .resolution-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 }
 
+.Resolutions {
+  margin: 1rem;
+}
 
-.Head {
+.ChooserHead {
   color: white;
   @include emphasis();
   font-size: 2rem;
   text-shadow: 4px 4px 16px rgba(0, 0, 0, 1);
+  @media screen and (max-height: 800px) {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+  }
 }
-.res-option {
+
+.ResolutionChoice {
   width: 250px;
   height: 250px;
   display: flex;
@@ -23,28 +30,28 @@
   background-size: cover;
   border-radius: 2rem;
   position: relative;
+  @media screen and (max-height: 800px) {
+    width: 120px;
+    height: 120px;
+    border-radius: 1rem;
+  }
+  margin-right: 2rem;
 }
 
-.res-option-darkener {
+.ResolutionChoice-darkener {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.res-option-unselected {
-  -webkit-box-shadow: inset 10px 10px 85px 19px rgba(0,0,0,1);
-  -moz-box-shadow: inset 10px 10px 85px 19px rgba(0,0,0,1);
-  box-shadow: inset 10px 10px 85px 19px rgba(0,0,0,1);
+.ResolutionChoice-unselected {
+  -webkit-box-shadow: inset 10px 10px 85px 19px rgba(0, 0, 0, 1);
+  -moz-box-shadow: inset 10px 10px 85px 19px rgba(0, 0, 0, 1);
+  box-shadow: inset 10px 10px 85px 19px rgba(0, 0, 0, 1);
   .Head {
     color: $darkHeadColor;
   }
-}
-
-.mainButton {
-  font-size: 3rem;
-  @include emphasis();
-  color: $linkColor;
 }

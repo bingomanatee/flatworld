@@ -28,12 +28,38 @@ button {
   box-sizing: content-box;
   background-color: transparent;
   border: none;
+  outline: none;
   font-size: 1rem;
   text-transform: uppercase;
   line-height: 90%;
-  outline: none; }
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */ }
 
 *, button, p, div, a {
   font-family: 'KapraNeue-Regular', Roboto, Helvetica, sans-serif; }
+
+.brace-box {
+  border: 10px solid transparent;
+  border-image: url("/static/images/border-box.png") 60 round; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  padding: 0; }
+
+.info {
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-size: 0.9375rem;
+  font-style: italic; }
 
 /*# sourceMappingURL=main.css.map */

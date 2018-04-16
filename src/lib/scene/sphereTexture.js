@@ -9,6 +9,8 @@ canvas.renderOnAddRemove = false;
 
 const SIZE = 512 * 2;
 const ALPHA = 0.15;
+const THROTTLE_PAINT = 100;
+
 canvas.width = SIZE;
 canvas.height = SIZE;
 canvas.id = 'texture';
@@ -91,7 +93,7 @@ let throttledPaintAt = _.throttle((vertex) => {
   } else if (mouse2Down) {
     removeSpot(vertex);
   }
-}, 25);
+}, THROTTLE_PAINT);
 
 export const paintAt = (vertex) => {
   throttledPaintAt(vertex);

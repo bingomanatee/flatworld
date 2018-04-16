@@ -8,14 +8,44 @@
   text-align: center; }
 
 .Head {
-  color: #c8c8c8;
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
   text-transform: uppercase;
   line-height: 90%;
-  font-size: 3rem; }
+  font-size: 2rem;
+  color: #70aaff;
+  color: #c8c8c8; }
 
 .text {
-  color: #e1e1e1;
+  color: #a3c8ff;
   font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
-  font-size: 1.25rem; }
+  font-size: 1.25rem;
+  color: #e1e1e1; }
+
+.Resolutions-Head {
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 2rem;
+  color: #70aaff;
+  color: #c8c8c8;
+  font-family: 'KapraNeue-Bold', Roboto, Helvetica, sans-serif;
+  font-size: 1.5rem; }
+
+.info {
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: #e1e1e1; }
+
+.MainButton {
+  border: 10px solid transparent;
+  border-image: url("/static/images/link-box.png") 55 round;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 1.5rem;
+  color: #eeff72;
+  vertical-align: middle; }
 
 /*# sourceMappingURL=Home.module.css.map */

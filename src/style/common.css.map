@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAEA,UAAW;EACT,gBAAgB,ECHR,OAAe;EDIvB,OAAO,ECAI,IAAI;;ADGjB,SAAU;EACR,KAAK,ECPK,OAAsB;EDQhC,OAAO,EAAE,CAAC;EACV,OAAO,EAAE,CAAC",
+"mappings": "AAEA,UAAW;EACT,gBAAgB,ECHR,OAAe;EDIvB,OAAO,ECAI,IAAI;;ADGjB,SAAU;EACR,KAAK,ECEK,OAAuB;EDDjC,OAAO,EAAE,CAAC;EACV,OAAO,EAAE,CAAC",
 "sources": ["common.scss","palette.scss"],
 "names": [],
 "file": "common.css"

@@ -33,11 +33,27 @@ button {
   box-sizing: content-box;
   background-color: transparent;
   border: none;
+  outline: none;
   font-size: 1rem;
   @include emphasis();
-  outline: none;
+  @include unselectable();
 }
 
 * , button, p, div, a {
   font-family: 'KapraNeue-Regular', Roboto, Helvetica, sans-serif;
+}
+
+.brace-box {
+  border: 10px solid transparent;
+  border-image: url('/static/images/border-box.png') 60 round
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.info {
+  @include body();
+  @include bodyInfo();
 }

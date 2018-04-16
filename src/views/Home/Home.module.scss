@@ -10,13 +10,26 @@
 }
 
 .Head {
-  color: $darkHeadColor;
-  @include emphasis();
-  font-size: 3rem;
+  @include head();
+  @include headDark();
 }
 
 .text {
-  color: $darkTextColor;
-  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
-  font-size: 1.25rem;
+  @include body();
+  @include bodyDark();
+}
+
+.Resolutions-Head {
+  @include head();
+  @include headDark();
+  @include headSub();
+}
+
+.info {
+  @include bodyInfo();
+  @include bodyDark();
+}
+
+.MainButton {
+  @include linkButton();
 }

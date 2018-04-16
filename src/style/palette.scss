@@ -5,11 +5,30 @@ $transNavColor: transparentize($bgColor, 0.05);
 $navPadding: 1rem;
 $linkColor: rgb(238, 255, 114);
 
-$darkHeadColor: rgb(200,200,200);
 $darkTextColor: rgb(225,225,225);
+$textColor: rgb(163, 200, 255);
 
-$headerFontSize: 1.8rem;
-$footerFontSize: 1.5rem;
+$headColor: darken($textColor, 10%);
+$darkHeadColor: rgb(200,200,200);
+
+$navigationTopFontSize: 1.8rem;
+$navigationBottomFontSize: 1.5rem;
+
+$headFontSize: 2rem;
+$headSubFontSize: 0.75 * $headFontSize;
+$bodyFontSize: 1.25rem;
+
+@mixin lightText() {
+  font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 200;
+}
+
+@mixin unselectable {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
 
 @mixin navGradient () {
   background-image: -ms-linear-gradient(top, $bgColor 0%, $transNavColor 66%, $navDarkColor 100%);
@@ -24,4 +43,64 @@ $footerFontSize: 1.5rem;
 @mixin emphasis() {
   text-transform: uppercase;
   line-height: 90%;
+}
+
+@mixin body () {
+  color: $textColor;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: $bodyFontSize;
+}
+
+@mixin bodySmall () {
+  font-size: $bodyFontSize * 0.75;
+}
+
+@mixin bodyDark () {
+  color: $darkTextColor;
+}
+
+@mixin bodyInfo () {
+  @include body();
+  @include bodySmall();
+  font-style: italic;
+}
+
+@mixin head () {
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
+  @include emphasis();
+  font-size: $headFontSize;
+  color: $headColor;
+}
+@mixin headDark() {
+  color: $darkHeadColor;
+}
+
+@mixin headSub () {
+  font-family: 'KapraNeue-Bold', Roboto, Helvetica, sans-serif;
+  font-size: $headSubFontSize;
+}
+
+@mixin borderBox {
+  border: 10px solid transparent;
+  border-image: url('/static/images/border-box.png') 60 round
+}
+
+@mixin linkBox {
+  border: 10px solid transparent;
+  border-image: url('/static/images/link-box.png') 55 round
+}
+
+@mixin linkButton {
+  @include linkBox();
+  @include emphasis();
+  font-size: $headSubFontSize;
+  color: $linkColor;
+  vertical-align: middle;
+}
+
+@mixin navButton () {
+  color: $linkColor;
+  font-size: $navigationBottomFontSize;
+  @include lightText();
+  @include unselectable();
 }
