@@ -7,7 +7,7 @@ import _ from 'lodash';
 const canvas = document.createElement('canvas');
 canvas.renderOnAddRemove = false;
 
-const SIZE = 512 * 4;
+const SIZE = 512 * 2;
 const ALPHA = 0.15;
 canvas.width = SIZE;
 canvas.height = SIZE;
