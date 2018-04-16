@@ -1,11 +1,8 @@
-import Bottle from 'bottlejs';
 import StateConfig from './StateConfig';
 import {update, provideState, injectState} from 'freactal';
 import worldDefState from './worldDefState';
-import {withRouter} from 'react-router-dom';
 
-export default () => {
-  let bottle = new Bottle();
+export default (bottle) => {
   StateConfig(bottle);
   bottle.factory('stateDef', (container) => new container.StateConfig());
 
