@@ -1,10 +1,10 @@
-import scene from './../../lib/scene';
 import { Component } from 'react';
 import style from './World.module.css';
+import bottle from '../../lib/bottle';
 
 export default class Content extends Component {
   componentDidMount() {
-    scene(this.threeRootElement);
+    bottle.container.worldSceneInjector(this.threeRootElement);
   }
 
   render () {

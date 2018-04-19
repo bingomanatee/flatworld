@@ -1,5 +1,5 @@
-import three from "three"
+import wsi from "./worldSceneInjector"
 
 export default (bottle) => {
-  bottle.factory('threeInjector', (container) => three)
+  bottle.factory('worldSceneInjector', (container) => wsi)
 }

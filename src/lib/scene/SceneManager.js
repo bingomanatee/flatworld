@@ -1,11 +1,11 @@
 import * as THREE from 'three';
-import SceneSubject from './SceneSubject';
 import GeneralLights from './GeneralLights';
+import bottle from '../bottle';
 
 export default canvas => {
 
   const clock = new THREE.Clock();
-  const origin = new THREE.Vector3(0,0,0);
+  const origin = new THREE.Vector3(0, 0, 0);
 
   let mesh;
 
@@ -15,9 +15,9 @@ export default canvas => {
   const screenDimensions = {
     width: cWidth,
     height: cHeight
-  }
+  };
 
-  const mousePosition = new THREE.Vector2(0,0);
+  const mousePosition = new THREE.Vector2(0, 0);
   const relativeMouse = new THREE.Vector2(0, 0);
 
   const scene = buildScene();
@@ -26,13 +26,11 @@ export default canvas => {
   const sceneSubjects = createSceneSubjects(scene);
 
   function buildScene() {
-    const scene = new THREE.Scene();
-
-    return scene;
+    return new THREE.Scene();
   }
 
-  function buildRender({ width, height }) {
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  function buildRender({width, height}) {
+    const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
     const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
     renderer.setPixelRatio(DPR);
     renderer.setSize(width, height);
@@ -43,7 +41,7 @@ export default canvas => {
     return renderer;
   }
 
-  function buildCamera({ width, height }) {
+  function buildCamera({width, height}) {
     const aspectRatio = width / height;
     const fieldOfView = 60;
     const nearPlane = 4;
@@ -56,33 +54,30 @@ export default canvas => {
   }
 
   function createSceneSubjects(scene) {
-    let subjects = SceneSubject(scene);
-    const {update, intersect, subjectMesh} = subjects;
-    mesh = subjectMesh;
 
-    const sceneSubjects = [
-       GeneralLights(scene),
-      {update, intersect}
-    ];
-
+    let sceneSubject = new bottle.container.SceneSubject(scene);
+    sceneSubject.addLights(GeneralLights(scene));
     return sceneSubjects;
   }
+
   const raycaster = new THREE.Raycaster();
 
   function update() {
     const elapsedTime = clock.getElapsedTime();
 
-    for(let i=0; i<sceneSubjects.length; i++)
+    for (let i = 0; i < sceneSubjects.length; i++)
       sceneSubjects[i].update(elapsedTime);
 
     updateCameraPositionRelativeToMouse();
-   //
-    raycaster.setFromCamera( mousePosition, camera );
-    let inter = raycaster.intersectObjects( [mesh] );
-    if (inter.length)
-    for(let i=0; i<sceneSubjects.length; i++)
-      if(sceneSubjects[i].intersect)
+    //
+    raycaster.setFromCamera(mousePosition, camera);
+    let inter = raycaster.intersectObjects([mesh]);
+    if (inter.length) {
+      for (let i = 0; i < sceneSubjects.length; i++)
+        if (sceneSubjects[i].intersect) {
           sceneSubjects[i].intersect(inter);
+        }
+    }
 
     // calculate objects intersecting the picking ray var intersects =
     renderer.render(scene, camera);
@@ -95,7 +90,7 @@ export default canvas => {
   }
 
   function onWindowResize() {
-    const { width, height } = canvas;
+    const {width, height} = canvas;
     cWidth = width;
     cHeight = height;
 

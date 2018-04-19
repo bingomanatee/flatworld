@@ -1,5 +1,5 @@
 import SceneManager from './SceneManager';
-import {setMouseDown} from './sphereTexture';
+import bottle from '../bottle';
 
 export default domElement => {
   const canvas = createCanvas(document, domElement);

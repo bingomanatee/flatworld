@@ -1,6 +1,6 @@
 import style from './Home.module.css';
 import Resolutions from './../Resolutions/Resolutions.view';
-import bottle from './../../lib/state/state';
+import bottle from './../../lib/bottle';
 
 export default bottle.container.withRouter(({history}) => (<div className={style.Home}>
   <h1 className={style.Head}>Welcome to Flatworld</h1>

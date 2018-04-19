@@ -6,7 +6,7 @@ import res4 from './images/resolution-4@0.5x.png';
 import res5 from './images/resolution-5@0.5x.png';
 
 let images = [null, null, res2, res3, res4, res5];
-import bottle from './../../lib/state/state';
+import bottle from './../../lib/bottle';
 
 export default bottle.container.injectState(({state, effects, res}) => (<div style={({backgroundImage: `url(${images[res]})`})}
                                                                                         onClick={() => effects.setResolution(res)}

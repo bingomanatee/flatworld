@@ -59,4 +59,13 @@ export default (bottle) => bottle.factory('World', (container) => class World {
       return b.distanceToSquared(a);
     }, ['x', 'y', 'z']);
   }
+
+   paintHex(point, alpha, hexGridShape, size) {
+    let nearest = this.nearestPoint(point, 4);
+    if (nearest && nearest.paintHex(alpha, hexGridShape, size)) {
+      for (let neighbor of nearest.neighborRing) {
+        neighbor.paintHex(alpha / 2, hexGridShape, size);
+      }
+    }
+  }
 });
