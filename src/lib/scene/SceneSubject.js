@@ -15,9 +15,9 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
 
   initScene(scene) {
     this.scene = scene;
-    this.group = new THREE.Group();
-    group.rotation.z = AXIS_TILT;
-    this.scene.add(this.group);
+    this.worldGroup = new THREE.Group();
+    this.worldGroup.rotation.z = AXIS_TILT;
+    this.scene.add(this.worldGroup);
   }
 
   initWorld() {
@@ -26,13 +26,16 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
     const subjectMaterial = new THREE.MeshBasicMaterial({map: this.worldTexture});
     this.worldMesh = new THREE.Mesh(this.worldGeometry, subjectMaterial);
-    this.group.add(this.worldMesh);
+    this.worldGroup.add(this.worldMesh);
   }
 
   addLights(lightGroup) {
     this.lightGroup = lightGroup;
   }
 
+  /**
+   * note - this is an unfollowed through beginning of creting hex geometry.
+   */
   makeHexGeometry() {
     this.hexGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, DEPTH);
     this.hexGeometry.computeFaceNormals();
@@ -44,16 +47,16 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
         color: 'black'
       })
     );
-    this.group.add(this.hexWireframe);
+    this.worldGroup.add(this.hexWireframe);
   }
 
   update(time) {
     const angle = time * ROT_SPEED;
     this.worldTexture.needsUpdate = true; // TODO: sync with texture update
-    group.rotation.y = angle;
-    group.updateMatrix();
+    this.worldGroup.rotation.y = angle;
+    this.worldGroup.updateMatrix();
     //scene.remove(cursorMesh);
-    //group.remove(nearMesh);
+    //worldGroup.remove(nearMesh);
   }
 
   initCursor() {
@@ -77,17 +80,21 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
       let p = list[0].point;
       this.cursorMesh.position.set(p.x, p.y, p.z);
 
-      let localPoint = group.worldToLocal(p);
+      let localPoint = this.worldGroup.worldToLocal(p);
       if (localPoint) {
         if (!this.hasCursor) {
           this.scene.add(this.cursorMesh);
           this.hasCursor = true;
         }
-        this.paintAt(localPoint);
+        this.textureManager.paintAt(localPoint);
       } else {
         this.scene.remove(this.cursorMesh);
         this.hasCursor = false;
       }
     }
+  }
+
+  setMouseDown(m1, m2) {
+    this.textureManager.setMouseDown(m1, m2);
   }
 })

@@ -7,8 +7,6 @@ export default canvas => {
   const clock = new THREE.Clock();
   const origin = new THREE.Vector3(0, 0, 0);
 
-  let mesh;
-
   let cWidth = canvas.width;
   let cHeight = canvas.height;
 
@@ -23,7 +21,7 @@ export default canvas => {
   const scene = buildScene();
   const renderer = buildRender(screenDimensions);
   const camera = buildCamera(screenDimensions);
-  const sceneSubjects = createSceneSubjects(scene);
+  const sceneSubject = createSceneSubject(scene);
 
   function buildScene() {
     return new THREE.Scene();
@@ -47,39 +45,28 @@ export default canvas => {
     const nearPlane = 4;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-
     camera.position.z = 40;
 
     return camera;
   }
 
-  function createSceneSubjects(scene) {
-
+  function createSceneSubject(scene) {
     let sceneSubject = new bottle.container.SceneSubject(scene);
     sceneSubject.addLights(GeneralLights(scene));
-    return sceneSubjects;
+    return sceneSubject;
   }
 
   const raycaster = new THREE.Raycaster();
 
   function update() {
     const elapsedTime = clock.getElapsedTime();
-
-    for (let i = 0; i < sceneSubjects.length; i++)
-      sceneSubjects[i].update(elapsedTime);
+    sceneSubject.update(elapsedTime);
 
     updateCameraPositionRelativeToMouse();
     //
     raycaster.setFromCamera(mousePosition, camera);
-    let inter = raycaster.intersectObjects([mesh]);
-    if (inter.length) {
-      for (let i = 0; i < sceneSubjects.length; i++)
-        if (sceneSubjects[i].intersect) {
-          sceneSubjects[i].intersect(inter);
-        }
-    }
-
-    // calculate objects intersecting the picking ray var intersects =
+    let inter = raycaster.intersectObjects([sceneSubject.worldMesh]);
+    sceneSubject.intersect(inter);
     renderer.render(scene, camera);
   }
 
@@ -111,9 +98,14 @@ export default canvas => {
     relativeMouse.y = y / -scrollHeight;
   }
 
+  function setMouseDown(m1, m2){
+    sceneSubject.setMouseDown(m1, m2);
+  }
+
   return {
     update,
     onWindowResize,
-    onMouseMove
+    onMouseMove,
+    setMouseDown
   }
 }

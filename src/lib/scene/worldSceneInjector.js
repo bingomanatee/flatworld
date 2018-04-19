@@ -45,7 +45,7 @@ export default domElement => {
 
   function mouseMove(event) {
     const {clientX, clientY, buttons} = event;
-    setMouseDown(buttons & 1, buttons &2);
+    manager.setMouseDown(buttons & 1, buttons &2);
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
 

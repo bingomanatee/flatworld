@@ -30,11 +30,8 @@ export default (bottle) => {
   bottle.factory('TextureManager', (container) => class TextureManager {
 
     constructor(geometry) {
-      this.initWorld(geometry);
       this.initStage();
-      this.throttledUpdateStage = _.throttle(() => {
-        this.stage.requestRenderAll();
-      }, 50, {leading: true});
+      this.initWorld(geometry);
 
       this.throttledPaintAt = _.throttle((vertex) => this.paintAt(vertex), THROTTLE_PAINT);
       this.throttledUpdateStage();
@@ -60,6 +57,9 @@ export default (bottle) => {
 
       this.hexGridShape = new worldBottle.container.fabric.Group();
       this.stage.add(this.hexGridShape);
+      this.throttledUpdateStage = _.throttle(() => {
+        this.stage.requestRenderAll();
+      }, 50, {leading: true});
     }
 
     drawHexLines() {

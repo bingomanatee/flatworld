@@ -3,6 +3,7 @@
   flex-grow: 1;
   flex-direction: column;
   height: 100%;
-  overflow: scroll; }
+  overflow-y: auto;
+  overflow-x: hidden; }
 
 /*# sourceMappingURL=Content.module.css.map */
