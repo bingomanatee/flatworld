@@ -1,0 +1,43 @@
+@import '../../style/palette';
+
+.threeNoticeFrame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.threeNotice {
+  padding: 2rem;
+  flex-grow: 0;
+  background-color: $bgColor;
+  border: 1px solid $bgBorderColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 3rem;
+  z-index: 2000;
+}
+
+.threeNoticeTitle {
+  @include head();
+  text-align: center;
+}
+
+.body {
+  @include body();
+  color: $textColor;
+  text-align: center;
+}
+
+.buttonList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

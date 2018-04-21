@@ -1,0 +1,4 @@
+@import '../../style/palette';
+.MainButton {
+  @include linkButton();
+}

@@ -9,7 +9,4 @@ export default bottle.container.injectState(({history}) => (<div className={styl
   <div className={style['resolution-list']}>
     {resolutions.map((res) => <ResolutionChoice key={`rc-${res}`} res={res}></ResolutionChoice>)}
   </div>
-  <p className="info">
-
-  </p>
 </div>));

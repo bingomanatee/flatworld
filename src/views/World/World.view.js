@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import style from './World.module.css';
 import bottle from '../../lib/bottle';
+import Dialog from '../Dialog/Dialog.view';
 
 export default bottle.container.injectState(class Content extends Component {
   state = {
@@ -18,11 +19,7 @@ export default bottle.container.injectState(class Content extends Component {
 
   render () {
     return (<div>
-      {this.state.loaded ? '' :   <div className={style.threeNoticeFrame}>
-        <div className={style.threeNotice}>
-          <h2 className={style.threeNoticeTitle}>Creating world... please wait</h2>
-        </div>
-      </div>}
+      {this.state.loaded ? '' :   <Dialog title="Creating world ... please wait" />}
       <div ref={element => this.threeRootElement = element} className={style.threeCanvas}>
       </div>
     </div>);
