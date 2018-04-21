@@ -7,10 +7,6 @@ export default bottle.container.withRouter(({history}) => {
     <h1 className={style.Head}>Flatworld</h1>
     </div>
     <div className={style.TopNavigationActionCells}>
-      <button onClick={() => {
-        console.log('starting over');
-        history.push('/')
-      }}>Start Over</button>
       <button>About</button>
     </div>
   </div>;

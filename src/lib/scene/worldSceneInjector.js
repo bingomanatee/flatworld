@@ -1,13 +1,12 @@
 import SceneManager from './SceneManager';
 import bottle from '../bottle';
-
-export default domElement => {
+import domHelpers from 'dom-helpers';
+export default (domElement, resolution) => {
   const canvas = createCanvas(document, domElement);
-  const manager = SceneManager(canvas);
-
-  bindEventListeners();
-  render();
-
+  const manager = SceneManager(canvas, resolution);
+  function eventNotice(msg) {
+    if (false) console.log(msg);
+  }
   function createCanvas(document, container) {
     const canvas = document.createElement('canvas');
     setCanvasSize(canvas);
@@ -15,14 +14,17 @@ export default domElement => {
     return canvas;
   }
 
-  function bindEventListeners() {
-    window.onresize = resizeCanvas;
-    window.onmousemove = mouseMove;
-    window.oncontextmenu = function(event) {
+  function cancelContext(event) {
       event.preventDefault();
       event.stopPropagation();
       return false;
-    };
+  }
+
+  const windowListeners = [];
+  function bindEventListeners() {
+    windowListeners.push(domHelpers.listen(window, 'resize', resizeCanvas));
+    windowListeners.push(domHelpers.listen(window, 'mousemove', mouseMove));
+    windowListeners.push(domHelpers.listen(window, 'contextmenu', cancelContext));
     resizeCanvas();
   }
 
@@ -37,26 +39,42 @@ export default domElement => {
   }
 
   function resizeCanvas() {
-
     setCanvasSize(canvas);
-
-    manager.onWindowResize()
+    eventNotice('event: resizing canvas');
+    manager.onWindowResize();
   }
 
   function mouseMove(event) {
+    eventNotice('event: mouseMove');
     const {clientX, clientY, buttons} = event;
-    manager.setMouseDown(buttons & 1, buttons &2);
-    // calculate mouse position in normalized device coordinates
-    // (-1 to +1) for both components
-
+    manager.setMouseDown(buttons &1, buttons &2);
     let x =  ( clientX / window.innerWidth ) * 2 - 1;
     let y = - ( clientY / window.innerHeight ) * 2 + 1;
-
     manager.onMouseMove(x, y);
   }
 
+  let terminate = false;
   function render(time) {
+    if (terminate) {
+      eventNotice('render: terminated');
+      while (windowListeners.length) {
+        windowListeners.pop()();
+      }
+      return;
+    };
+    eventNotice('event: render');
     requestAnimationFrame(render);
-    manager.update();
+    manager.update(time);
   }
+  function terminateWorld() {
+    terminate = true;
+  }
+
+  bindEventListeners();
+  render();
+
+  return {
+    manager,
+    terminateWorld
+  };
 }

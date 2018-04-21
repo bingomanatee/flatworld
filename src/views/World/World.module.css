@@ -10,4 +10,35 @@
   bottom: 0;
   right: 0; }
 
+.threeNoticeFrame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; }
+
+.threeNotice {
+  padding: 2rem;
+  flex-grow: 0;
+  background-color: #13233c;
+  border: 1px solid #2c5089;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 3rem;
+  z-index: 2000; }
+
+.threeNoticeTitle {
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 2rem;
+  color: #70aaff;
+  text-align: center; }
+
 /*# sourceMappingURL=World.module.css.map */

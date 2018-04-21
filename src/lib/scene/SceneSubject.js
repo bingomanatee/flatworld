@@ -7,9 +7,9 @@ const AXIS_TILT = Math.PI / 8;
 
 export default (bottle) => bottle.factory('SceneSubject', (container) => class SceneSubject {
 
-  constructor(scene) {
+  constructor(scene, resolution) {
     this.initScene(scene);
-    this.initWorld();
+    this.initWorld(resolution);
     this.initCursor();
   }
 
@@ -20,8 +20,9 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.scene.add(this.worldGroup);
   }
 
-  initWorld() {
-    this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, DEPTH);
+  initWorld(resolution) {
+    this.resolution = resolution;
+    this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, resolution);
     this.textureManager = new container.TextureManager(this.worldGeometry);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
     const subjectMaterial = new THREE.MeshPhongMaterial({map: this.worldTexture,

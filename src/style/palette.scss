@@ -1,4 +1,5 @@
 $bgColor: rgb(19, 35, 60);
+$bgBorderColor: lighten($bgColor, 20%);
 $navHeadColor: lighten($bgColor, 40%);
 $navDarkColor: transparentize(darken($bgColor, 5%), 0.025);
 $transNavColor: transparentize($bgColor, 0.05);

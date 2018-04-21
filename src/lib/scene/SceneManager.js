@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import GeneralLights from './GeneralLights';
 import bottle from '../bottle';
 
-export default canvas => {
+export default (canvas, resolution) => {
 
   const clock = new THREE.Clock();
   const origin = new THREE.Vector3(0, 0, 0);
@@ -51,7 +51,7 @@ export default canvas => {
   }
 
   function createSceneSubject(scene) {
-    let sceneSubject = new bottle.container.SceneSubject(scene);
+    let sceneSubject = new bottle.container.SceneSubject(scene, resolution);
     sceneSubject.addLights(GeneralLights(scene));
     return sceneSubject;
   }
