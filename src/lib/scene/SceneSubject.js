@@ -24,7 +24,9 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, DEPTH);
     this.textureManager = new container.TextureManager(this.worldGeometry);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
-    const subjectMaterial = new THREE.MeshBasicMaterial({map: this.worldTexture});
+    const subjectMaterial = new THREE.MeshPhongMaterial({map: this.worldTexture,
+      shininess: 10,
+      specular: new THREE.Color(0,0,0).toString()});
     this.worldMesh = new THREE.Mesh(this.worldGeometry, subjectMaterial);
     this.worldGroup.add(this.worldMesh);
   }
