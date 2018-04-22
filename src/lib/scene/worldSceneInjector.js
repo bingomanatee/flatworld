@@ -1,9 +1,9 @@
-import SceneManager from './SceneManager';
 import bottle from '../bottle';
 import domHelpers from 'dom-helpers';
+
 export default (domElement, resolution) => {
   const canvas = createCanvas(document, domElement);
-  const manager = SceneManager(canvas, resolution);
+  const manager = new bottle.container.SceneManager(canvas, resolution);
   function eventNotice(msg) {
     if (false) console.log(msg);
   }

@@ -1,111 +1,96 @@
 import * as THREE from 'three';
 import GeneralLights from './GeneralLights';
-import bottle from '../bottle';
+import _ from 'lodash';
 
-export default (canvas, resolution) => {
+const origin = new bottle.container.Vector3(0, 0, 0);
+export default (bottle) => {
+  bottle.constant('DPR', window.devicePixelRatio ? window.devicePixelRatio : 1);
+  bottle.factory('SceneManager', () => class SceneManager {
+    constructor (canvas, resolution) {
+      this.resolution = resolution;
+      this.canvas = canvas;
+      this.clock = new THREE.Clock();
+      this.scene = new THREE.Scene();
+      this.buildRender();
+      this.buildCamera();
+      this.createSceneSubject();
 
-  const clock = new THREE.Clock();
-  const origin = new THREE.Vector3(0, 0, 0);
+      this.mousePosition = new bottle.container.Vector2(0, 0);
+      this.relativeMouse = new bottle.container.Vector2(0, 0);
+      this.raycaster = new THREE.Raycaster();
+    }
 
-  let cWidth = canvas.width;
-  let cHeight = canvas.height;
+    get screenDimensions () {
+      return _.pick(canvas, ['width', 'height']);
+    }
 
-  const screenDimensions = {
-    width: cWidth,
-    height: cHeight
-  };
+    createSceneSubject () {
+      this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution);
+      this.sceneSubject.addLights(GeneralLights(scene));
+      return this.sceneSubject;
+    }
 
-  const mousePosition = new THREE.Vector2(0, 0);
-  const relativeMouse = new THREE.Vector2(0, 0);
+    buildCamera () {
+      const {width, height} = this.screenDimensions;
+      const aspectRatio = width / height;
+      const fieldOfView = 60;
+      const nearPlane = 4;
+      const farPlane = 100;
+      this.camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
+      this.camera.position.z = 40;
 
-  const scene = buildScene();
-  const renderer = buildRender(screenDimensions);
-  const camera = buildCamera(screenDimensions);
-  const sceneSubject = createSceneSubject(scene);
+      return this.camera;
+    }
 
-  function buildScene() {
-    return new THREE.Scene();
-  }
+    buildRender () {
+      const {width, height} = this.screenDimensions;
+      this.renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true, alpha: true});
+      this.renderer.setPixelRatio(bottle.container.DPR);
+      this.renderer.setSize(width, height);
 
-  function buildRender({width, height}) {
-    const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
-    const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
-    renderer.setPixelRatio(DPR);
-    renderer.setSize(width, height);
+      this.renderer.gammaInput = true;
+      this.renderer.gammaOutput = true;
 
-    renderer.gammaInput = true;
-    renderer.gammaOutput = true;
+      return this.renderer;
+    }
 
-    return renderer;
-  }
+    update () {
+      const elapsedTime = this.clock.getElapsedTime();
+      this.sceneSubject.update(elapsedTime);
 
-  function buildCamera({width, height}) {
-    const aspectRatio = width / height;
-    const fieldOfView = 60;
-    const nearPlane = 4;
-    const farPlane = 100;
-    const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-    camera.position.z = 40;
+      this.updateCameraPositionRelativeToMouse();
+      //
+      this.raycaster.setFromCamera(this.mousePosition, this.camera);
+      let inter = this.raycaster.intersectObjects([this.sceneSubject.worldMesh]);
+      this.sceneSubject.intersect(inter);
+      this.renderer.render(this.scene, this.camera);
+    }
 
-    return camera;
-  }
+    updateCameraPositionRelativeToMouse () {
+      // this.camera.position.x += ((mousePosition.x * 0.01) - camera.position.x) * 0.01;
+      // camera.position.y += (-(mousePosition.y * 0.01) - camera.position.y) * 0.01;
+      this.camera.lookAt(origin);
+    }
 
-  function createSceneSubject(scene) {
-    let sceneSubject = new bottle.container.SceneSubject(scene, resolution);
-    sceneSubject.addLights(GeneralLights(scene));
-    return sceneSubject;
-  }
+    onWindowResize () {
+      const {width, height} = this.screenDimensions;
 
-  const raycaster = new THREE.Raycaster();
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
 
-  function update() {
-    const elapsedTime = clock.getElapsedTime();
-    sceneSubject.update(elapsedTime);
+      this.renderer.setSize(width, height);
+    }
 
-    updateCameraPositionRelativeToMouse();
-    //
-    raycaster.setFromCamera(mousePosition, camera);
-    let inter = raycaster.intersectObjects([sceneSubject.worldMesh]);
-    sceneSubject.intersect(inter);
-    renderer.render(scene, camera);
-  }
+    onMouseMove (x, y) {
+      const {scrollWidth, scrollHeight} = this.canvas;
+      this.mousePosition.x = x;
+      this.mousePosition.y = y;
+      this.relativeMouse.x = x / scrollWidth;
+      this.relativeMouse.y = y / -scrollHeight;
+    }
 
-  function updateCameraPositionRelativeToMouse() {
-    camera.position.x += (  (mousePosition.x * 0.01) - camera.position.x ) * 0.01;
-    camera.position.y += ( -(mousePosition.y * 0.01) - camera.position.y ) * 0.01;
-    camera.lookAt(origin);
-  }
-
-  function onWindowResize() {
-    const {width, height} = canvas;
-    cWidth = width;
-    cHeight = height;
-
-    screenDimensions.width = width;
-    screenDimensions.height = height;
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(width, height);
-  }
-
-  function onMouseMove(x, y) {
-    const {scrollWidth, scrollHeight} = canvas;
-    mousePosition.x = x;
-    mousePosition.y = y;
-    relativeMouse.x = x / scrollWidth;
-    relativeMouse.y = y / -scrollHeight;
-  }
-
-  function setMouseDown(m1, m2){
-    sceneSubject.setMouseDown(m1, m2);
-  }
-
-  return {
-    update,
-    onWindowResize,
-    onMouseMove,
-    setMouseDown
-  }
+    setMouseDown (m1, m2) {
+      this.sceneSubject.setMouseDown(m1, m2);
+    }
+  });
 }
