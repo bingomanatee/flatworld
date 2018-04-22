@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import GeneralLights from './GeneralLights';
 import _ from 'lodash';
 
-const origin = new bottle.container.Vector3(0, 0, 0);
+
 export default (bottle) => {
+  bottle.constant('origin', new bottle.container.Vector3(0, 0, 0));
   bottle.constant('DPR', window.devicePixelRatio ? window.devicePixelRatio : 1);
   bottle.factory('SceneManager', () => class SceneManager {
     constructor (canvas, resolution) {
@@ -21,12 +22,12 @@ export default (bottle) => {
     }
 
     get screenDimensions () {
-      return _.pick(canvas, ['width', 'height']);
+      return _.pick(this.canvas, ['width', 'height']);
     }
 
     createSceneSubject () {
       this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution);
-      this.sceneSubject.addLights(GeneralLights(scene));
+      this.sceneSubject.addLights(GeneralLights(this.scene));
       return this.sceneSubject;
     }
 
@@ -69,7 +70,7 @@ export default (bottle) => {
     updateCameraPositionRelativeToMouse () {
       // this.camera.position.x += ((mousePosition.x * 0.01) - camera.position.x) * 0.01;
       // camera.position.y += (-(mousePosition.y * 0.01) - camera.position.y) * 0.01;
-      this.camera.lookAt(origin);
+      this.camera.lookAt(bottle.container.origin);
     }
 
     onWindowResize () {

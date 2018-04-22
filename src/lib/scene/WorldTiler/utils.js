@@ -2,6 +2,7 @@ import {Vector2, Vector3} from 'three';
 
 import tinyGradient from 'tinygradient';
 import tinyColor from 'tinycolor2';
+
 /**
  * converts a XYZ vector3 to longitude latitude (Direct Polar)
  * @param lng longitude
@@ -130,14 +131,14 @@ function locateCamera (target, camera, camera_angle, camera_distance) {
 }
 
 export default (bottle) => {
-  bottle.factory('Vector2', () => Vector2);
-  bottle.factory('Vector3', () => Vector3);
-  bottle.factory('floatToString', () => (n) => Number.parseFloat(n)
-                                                     .toFixed(3));
-  bottle.factory('numSort', () => (array) => array.sort((a, b) => a - b));
-  bottle.factory('percent', () => (n) => `${Number.parseFloat(n * 100)
-                                                  .toFixed(1)}%`)
-  bottle.factory('setsEqual', () => function setsEqual (s1, s2) {
+  bottle.constant('Vector2', Vector2);
+  bottle.constant('Vector3', Vector3);
+  bottle.constant('floatToString', (n) => Number.parseFloat(n)
+                                                .toFixed(3));
+  bottle.constant('numSort', (array) => array.sort((a, b) => a - b));
+  bottle.constant('percent', (n) => `${Number.parseFloat(n * 100)
+                                             .toFixed(1)}%`)
+  bottle.constant('setsEqual', function setsEqual (s1, s2) {
     if (s1.size !== s2.size) {
       return false;
     }
@@ -166,10 +167,13 @@ export default (bottle) => {
 
       {color: tinyColor({r: 204, g: 125, b: 0, a: 0}), pos: 0},
       {color: tinyColor({r: 204, g: 187, b: 0, a: 1}), pos: 0.1},
-        {color: tinyColor({r: 75, g: 150, b: 0}), pos: 0.25},
-        {color: tinyColor({r: 52, g: 166, b: 0}), pos: 0.66},
-        {color: tinyColor({r: 245, g: 173, b: 108}), pos: 0.9},
-        {color: tinyColor({r: 255, g: 235, b: 204}).toString(), pos: 1}
+      {color: tinyColor({r: 75, g: 150, b: 0}), pos: 0.25},
+      {color: tinyColor({r: 52, g: 166, b: 0}), pos: 0.66},
+      {color: tinyColor({r: 245, g: 173, b: 108}), pos: 0.9},
+      {
+        color: tinyColor({r: 255, g: 235, b: 204})
+          .toString(), pos: 1
+      }
 
     ]);
 
