@@ -25,6 +25,10 @@ export default (bottle) => {
       return _.pick(this.canvas, ['width', 'height']);
     }
 
+    setSpeed(n) {
+      this.sceneSubject.speed = n;
+    }
+
     createSceneSubject () {
       this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution);
       this.sceneSubject.addLights(GeneralLights(this.scene));

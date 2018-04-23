@@ -2,6 +2,8 @@ import {Component} from 'react';
 import style from './World.module.css';
 import bottle from '../../lib/bottle';
 import Dialog from '../Dialog/Dialog.view';
+import Overlay from '../Overlay/Overlay.view';
+import SpeedButtons from '../SpeedButtons/SpeedButtons.view';
 
 export default bottle.container.injectState(class Content extends Component {
   state = {
@@ -19,10 +21,19 @@ export default bottle.container.injectState(class Content extends Component {
 
   render () {
     return (<div>
-      {this.state.loaded ? '' :   <Dialog title="Creating world ... please wait" />}
-      <div ref={element => this.threeRootElement = element} className={style.threeCanvas}>
-      </div>
+      {this.state.loaded ? '' : <Dialog title="Creating world ... please wait"/>}
+      <div ref={element => this.threeRootElement = element} className={style.threeCanvas}/>
+      {!this.state.loaded ? '' : <Overlay z-index={-500}>
+        <div className={style.SpeedButtonFrame}>
+          <SpeedButtons/>
+        </div>
+      </Overlay>}
     </div>);
+  }
+
+  componentDidUpdate() {
+    console.log('updating world with speed: ', this.props.state.speed);
+    this.manager.setSpeed(this.props.state.speed);
   }
 
   componentWillUnmount () {
@@ -30,4 +41,6 @@ export default bottle.container.injectState(class Content extends Component {
       this.terminateWorld();
     }
   }
+
+
 });

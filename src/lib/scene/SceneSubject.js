@@ -2,7 +2,7 @@ import * as THREE from 'three'; // @TODO: bottle THREE
 
 const ISO_SIZE = 15;
 const DEPTH = 4;
-const ROT_SPEED = 0.025;
+const ROT_SPEEDS = [0, 0.05, 0.1, 0.2];
 const AXIS_TILT = Math.PI / 8;
 
 export default (bottle) => bottle.factory('SceneSubject', (container) => class SceneSubject {
@@ -22,6 +22,7 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
 
   initWorld(resolution) {
     this.resolution = resolution;
+    this.speed = 1;
     this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, resolution);
     this.textureManager = new container.TextureManager(this.worldGeometry);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
@@ -53,8 +54,20 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.worldGroup.add(this.hexWireframe);
   }
 
+  echoSpeed() {
+    if (!this._es) {
+      this._es = _.throttle(() => {console.log('drawing at speed', this.speed)}, 500);
+    }
+    this._es();
+  }
   update(time) {
-    const angle = time * ROT_SPEED;
+    let lastAngle =  this.worldGroup.rotation.y;
+    let lastTime = this._lastTime || 0;
+    let deltaTime = time - lastTime;
+    this._lastTime = time;
+    let deltaAngle = deltaTime * ROT_SPEEDS[this.speed];
+    const angle = lastAngle + deltaAngle;
+
     this.worldTexture.needsUpdate = true; // TODO: sync with texture update
     this.worldGroup.rotation.y = angle;
     this.worldGroup.updateMatrix();

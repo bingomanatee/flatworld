@@ -1,6 +1,6 @@
 @import '../../style/palette';
 
-.threeNoticeFrame {
+.DialogFrame {
   width: 100%;
   height: 100%;
   display: flex;
@@ -13,7 +13,7 @@
   right: 0;
 }
 
-.threeNotice {
+.Dialog {
   padding: 2rem;
   flex-grow: 0;
   background-color: $bgColor;
@@ -25,10 +25,12 @@
   z-index: 2000;
 }
 
-.threeNoticeTitle {
+.DialogHead {
   @include head();
   text-align: center;
 }
+
+/* -- usable as a resource by implementations of Dialog -- */
 
 .body {
   @include body();

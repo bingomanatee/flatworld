@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210px" height="318px" viewBox="0 0 210 318" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>cc_controls</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-" transform="translate(-1194.000000, -457.000000)">
+            <g id="cc_buttons" transform="translate(1298.500000, 616.000000) scale(-1, 1) translate(-1298.500000, -616.000000) translate(1193.000000, 457.000000)">
+                <g id="slow_button_cc" transform="translate(21.000000, 45.641186)">
+                    <path d="M43.8726963,0.309208928 C61.7016879,34.7520608 71.7906977,73.9748116 71.7906977,115.591264 C71.7906977,155.539202 62.4944607,193.281532 45.9796547,226.707708 L2.63617387,203.810216 C15.6408423,177.236396 22.9534884,147.281323 22.9534884,115.591264 C22.9534884,82.1261204 14.7986787,50.5957733 0.397554811,22.9389169 L43.8726963,0.309208928 Z" id="slow_button_cc_group" fill="#B6FFEF"></path>
+                    <polygon id="slow_button_cc_arrow" fill="#000000" points="31.255814 37.2074883 60.0697674 105.669267 31.255814 175.123245 51.7674419 106.165367"></polygon>
+                </g>
+                <g id="medium_button_cc" transform="translate(74.232558, 22.820593)">
+                    <path d="M43.8818628,0.00444084629 C65.1392095,41.2328783 77.1627907,88.1479703 77.1627907,137.915757 C77.1627907,186.121619 65.8820684,231.651037 45.8559282,271.928588 L2.5145384,249.032201 C19.0293444,215.606025 28.3255814,177.863695 28.3255814,137.915757 C28.3255814,96.2993046 18.2365716,57.0765538 0.407579999,22.6337019 L43.8818628,0.00444084629 Z" id="medium_button_cc_group" fill="#B6FFEF"></path>
+                    <polygon id="medum_button_cc_arrow" fill="#000000" points="36.627907 59.5319813 65.4418605 127.99376 36.627907 197.447738 57.1395349 128.48986"></polygon>
+                </g>
+                <g id="fast_button_cc" transform="translate(127.465116, 0.000000)">
+                    <path d="M43.8905386,0.196028019 C68.5765192,48.2098173 82.5348837,102.817215 82.5348837,160.736349 C82.5348837,217.200162 69.2691644,270.516573 45.7310072,317.644936 L2.39081195,294.749181 C22.4169521,254.47163 33.6976744,208.942212 33.6976744,160.736349 C33.6976744,110.968563 21.6740932,64.0534711 0.416746512,22.8250337 L43.8905386,0.196028019 Z" id="fast_button_cc_group" fill="#B6FFEF"></path>
+                    <polygon id="fast_button_cc_arrow" fill="#000000" points="42 82.3525741 70.8139535 150.814353 42 220.268331 62.5116279 151.310452"></polygon>
+                </g>
+                <g id="pause_button_cc" transform="translate(0.000000, 107.653666)" fill="#B6FFEF">
+                    <rect id="pause_button_cc_2" x="12.6976744" y="0" width="9.76744186" height="89.2979719"></rect>
+                    <rect id="pause_button_cc_1" x="0" y="0" width="9.76744186" height="89.2979719"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

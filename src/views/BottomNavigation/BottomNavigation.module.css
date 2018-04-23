@@ -8,7 +8,8 @@
   background-image: -o-linear-gradient(top, #13233c 0%, rgba(19, 35, 60, 0.95) 66%, rgba(13, 24, 41, 0.975) 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #13233c), color-stop(66, rgba(19, 35, 60, 0.95)), color-stop(100, rgba(13, 24, 41, 0.975)));
   background-image: -webkit-linear-gradient(top, #13233c 0%, rgba(19, 35, 60, 0.95) 66%, rgba(13, 24, 41, 0.975) 100%);
-  background-image: linear-gradient(to bottom, #13233c 0%, rgba(19, 35, 60, 0.95) 66%, rgba(13, 24, 41, 0.975) 100%); }
+  background-image: linear-gradient(to bottom, #13233c 0%, rgba(19, 35, 60, 0.95) 66%, rgba(13, 24, 41, 0.975) 100%);
+  z-index: 2000; }
 
 .Head {
   color: #5381c8;
