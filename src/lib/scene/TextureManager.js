@@ -34,7 +34,7 @@ export default (bottle) => {
       this.initWorld(geometry);
 
       this.throttledPaintAt = _.throttle((vertex) => this.paintAt(vertex), THROTTLE_PAINT);
-      this.throttledUpdateStage();
+      this.throttledDraw();
     }
 
     paintAt(vertex) {
@@ -57,7 +57,7 @@ export default (bottle) => {
 
       this.hexGridShape = new worldBottle.container.fabric.Group();
       this.stage.add(this.hexGridShape);
-      this.throttledUpdateStage = _.throttle(() => {
+      this.throttledDraw = _.throttle(() => {
         this.stage.requestRenderAll();
       }, 50, {leading: true});
     }
@@ -81,17 +81,17 @@ export default (bottle) => {
       this.initHexShapes();
       this.hexGridShape.addWithUpdate(new worldBottle.container.fabric.Rect());
       this.hexGroup.addWithUpdate(new worldBottle.container.fabric.Rect());
-      this.throttledUpdateStage();
+      this.throttledDraw();
     }
 
     addSpot(vertex, alpha) {
       this.world.paintHex(vertex, alpha, this.hexGridShape, container.WORLD_TEXTURE_SIZE);
-      this.throttledUpdateStage();
+      this.throttledDraw();
     }
 
     removeSpot(vertex) {
       this.world.paintHex(vertex, -ALPHA / 3, this.hexGridShape, container.WORLD_TEXTURE_SIZE);
-      this.throttledUpdateStage();
+      this.throttledDraw();
     }
 
     setMouseDown (isDown, is2Down) {

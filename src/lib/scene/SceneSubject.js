@@ -24,7 +24,7 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.resolution = resolution;
     this.speed = 1;
     this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, resolution);
-    this.textureManager = new container.TextureManager(this.worldGeometry);
+    this.textureManager = new container.CanvasTextureManager(resolution);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
     const subjectMaterial = new THREE.MeshPhongMaterial({map: this.worldTexture,
       shininess: 10,
@@ -68,7 +68,8 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     let deltaAngle = deltaTime * ROT_SPEEDS[this.speed];
     const angle = lastAngle + deltaAngle;
 
-    this.worldTexture.needsUpdate = true; // TODO: sync with texture update
+    this.worldTexture.needsUpdate = this.textureManager.needsUpdate; // TODO: sync with texture update
+    this.textureManager.needsUpdate = false;
     this.worldGroup.rotation.y = angle;
     this.worldGroup.updateMatrix();
     //scene.remove(cursorMesh);

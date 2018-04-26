@@ -133,6 +133,16 @@ function locateCamera (target, camera, camera_angle, camera_distance) {
 export default (bottle) => {
   bottle.constant('Vector2', Vector2);
   bottle.constant('Vector3', Vector3);
+  bottle.factory('arrayToVector3', (container) => (data) => {
+    const [x, y, z] = data;
+    return new container.Vector3(x, y, z);
+  });
+
+  bottle.factory('arrayToVector2', (container) => (data) => {
+    const [x, y, z] = data;
+    return new container.Vector3(x, y, z);
+  });
+
   bottle.constant('floatToString', (n) => Number.parseFloat(n)
                                                 .toFixed(3));
   bottle.constant('numSort', (array) => array.sort((a, b) => a - b));
@@ -165,8 +175,8 @@ export default (bottle) => {
 
     return tinyGradient([
 
-      {color: tinyColor({r: 204, g: 125, b: 0, a: 0}), pos: 0},
-      {color: tinyColor({r: 204, g: 187, b: 0, a: 1}), pos: 0.1},
+      {color: tinyColor({r: 0, g: 25, b: 51}), pos: 0},
+      {color: tinyColor({r: 204, g: 187, b: 0}), pos: 0.1},
       {color: tinyColor({r: 75, g: 150, b: 0}), pos: 0.25},
       {color: tinyColor({r: 52, g: 166, b: 0}), pos: 0.66},
       {color: tinyColor({r: 245, g: 173, b: 108}), pos: 0.9},
