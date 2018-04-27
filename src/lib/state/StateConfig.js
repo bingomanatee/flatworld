@@ -33,7 +33,7 @@ export default (bottle) => {
     }
 
     addSetEffect (name) {
-      let effectName = 'set' + _.capitalize(name);
+      let effectName = 'set' + _.upperFirst(name);
 
       this.addEffect(effectName, container.update((state, value) => {
         let hash = {};
@@ -42,9 +42,28 @@ export default (bottle) => {
       }));
     }
 
+    addBoolEffect(name) {
+      this.addSetEffect(name);
+      this.addEffect(`${name}On`, container.update((state) => {
+        let hash = {};
+        hash[name] = true;
+        return hash;
+      }))
+      this.addEffect(`${name}Off`, container.update((state) => {
+        let hash = {};
+        hash[name] = false;
+        return hash;
+      }))
+    }
+
     addStateAndSetEffect (name, value) {
       this.addInitialState(name, value);
       this.addSetEffect(name);
+    }
+
+    addStateAndBoolEffect(name, value) {
+      this.addInitialState(name, !!value);
+      this.addBoolEffect(name);
     }
 
     toHash () {

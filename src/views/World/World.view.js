@@ -4,6 +4,7 @@ import bottle from '../../lib/bottle';
 import Dialog from '../Dialog/Dialog.view';
 import Overlay from '../Overlay/Overlay.view';
 import SpeedButtons from '../SpeedButtons/SpeedButtons.view';
+import BrushButtons from '../BrushButtons/BrushButtons.view';
 
 export default bottle.container.injectState(class Content extends Component {
   state = {
@@ -27,13 +28,19 @@ export default bottle.container.injectState(class Content extends Component {
         <div className={style.SpeedButtonFrame}>
           <SpeedButtons/>
         </div>
-      </Overlay>}
+        <div className={style.SpeedButtonFrame}>
+        <BrushButtons/>
+      </div>
+    </Overlay>}
     </div>);
   }
 
   componentDidUpdate() {
-    console.log('updating world with speed: ', this.props.state.speed);
+    console.log('state: ', this.props.state);
     this.manager.setSpeed(this.props.state.speed);
+    this.manager.setBrushSize(this.props.state.brushSize);
+    this.manager.setBrushFlow(this.props.state.brushFlow);
+    this.manager.setBrushRaised(this.props.state.brushRaised);
   }
 
   componentWillUnmount () {

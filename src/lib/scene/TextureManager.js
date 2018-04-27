@@ -29,7 +29,7 @@ export default (bottle) => {
 
   bottle.factory('TextureManager', (container) => class TextureManager {
 
-    constructor(geometry) {
+    constructor (geometry) {
       this.initStage();
       this.initWorld(geometry);
 
@@ -37,7 +37,7 @@ export default (bottle) => {
       this.throttledDraw();
     }
 
-    paintAt(vertex) {
+    paintAt (vertex) {
       if (this.mouseDown) {
         this.addSpot(vertex, this.mouse2Down ? ALPHA / 2 : ALPHA);
       } else if (this.mouse2Down) {
@@ -45,13 +45,13 @@ export default (bottle) => {
       }
     }
 
-    initStage() {
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = container.WORLD_TEXTURE_SIZE;
-        this.canvas.height = container.WORLD_TEXTURE_SIZE;
-        this.   stage = new worldBottle.container.fabric.Canvas(this.canvas, {
-          backgroundColor: 'rgb(0,25,51)'
-        });
+    initStage () {
+      this.canvas = document.createElement('canvas');
+      this.canvas.width = container.WORLD_TEXTURE_SIZE;
+      this.canvas.height = container.WORLD_TEXTURE_SIZE;
+      this.stage = new worldBottle.container.fabric.Canvas(this.canvas, {
+        backgroundColor: 'rgb(0,25,51)'
+      });
       this.hexGroup = new worldBottle.container.fabric.Group();
       this.stage.add(this.hexGroup);
 
@@ -62,19 +62,19 @@ export default (bottle) => {
       }, 50, {leading: true});
     }
 
-    drawHexLines() {
+    drawHexLines () {
       for (let point of this.world.points.values()) {
         point.drawHexFrame(this.hexGridShape, container.WORLD_TEXTURE_SIZE);
       }
     }
 
-    initHexShapes() {
+    initHexShapes () {
       for (let point of this.world.points.values()) {
         point.paintHex(0, this.hexGroup, container.WORLD_TEXTURE_SIZE);
       }
     }
 
-    initWorld(geometry) {
+    initWorld (geometry) {
       this.world = new worldBottle.container.World(geometry);
       this.world.init();
       this.drawHexLines();
@@ -84,12 +84,12 @@ export default (bottle) => {
       this.throttledDraw();
     }
 
-    addSpot(vertex, alpha) {
+    addSpot (vertex, alpha) {
       this.world.paintHex(vertex, alpha, this.hexGridShape, container.WORLD_TEXTURE_SIZE);
       this.throttledDraw();
     }
 
-    removeSpot(vertex) {
+    removeSpot (vertex) {
       this.world.paintHex(vertex, -ALPHA / 3, this.hexGridShape, container.WORLD_TEXTURE_SIZE);
       this.throttledDraw();
     }

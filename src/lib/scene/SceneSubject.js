@@ -8,6 +8,10 @@ const AXIS_TILT = Math.PI / 8;
 export default (bottle) => bottle.factory('SceneSubject', (container) => class SceneSubject {
 
   constructor(scene, resolution) {
+    this.speed = 1;
+    this.brushSize = 2;
+    this.brushFlow = 2;
+    this.brushRaised = true;
     this.initScene(scene);
     this.initWorld(resolution);
     this.initCursor();
@@ -22,9 +26,8 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
 
   initWorld(resolution) {
     this.resolution = resolution;
-    this.speed = 1;
     this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, resolution);
-    this.textureManager = new container.CanvasTextureManager(resolution);
+    this.textureManager = new container.CanvasTextureManager(resolution, this);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
     const subjectMaterial = new THREE.MeshPhongMaterial({map: this.worldTexture,
       shininess: 10,
@@ -37,9 +40,8 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.lightGroup = lightGroup;
   }
 
-  /**
-   * note - this is an unfollowed through beginning of creting hex geometry.
-   */
+
+  // this is a removed object that shows the wireframe of the geometry.
   makeHexGeometry() {
     this.hexGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, DEPTH);
     this.hexGeometry.computeFaceNormals();
@@ -54,12 +56,6 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.worldGroup.add(this.hexWireframe);
   }
 
-  echoSpeed() {
-    if (!this._es) {
-      this._es = _.throttle(() => {console.log('drawing at speed', this.speed)}, 500);
-    }
-    this._es();
-  }
   update(time) {
     let lastAngle =  this.worldGroup.rotation.y;
     let lastTime = this._lastTime || 0;

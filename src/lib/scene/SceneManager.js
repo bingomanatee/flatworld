@@ -25,8 +25,20 @@ export default (bottle) => {
       return _.pick(this.canvas, ['width', 'height']);
     }
 
-    setSpeed(n) {
+    setSpeed (n) {
       this.sceneSubject.speed = n;
+    }
+
+    setBrushSize (n) {
+      this.sceneSubject.brushSize = n;
+    }
+
+    setBrushFlow (n) {
+      this.sceneSubject.brushFlow = n;
+    }
+
+    setBrushRaised (n) {
+      this.sceneSubject.brushRaised = n;
     }
 
     createSceneSubject () {

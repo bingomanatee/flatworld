@@ -3,7 +3,7 @@ import kdt from 'kd-tree-javascript';
 
 let worldBottle = WorldTiler();
 
-const ALPHA = 0.05;
+const ALPHA = 0.025;
 const THROTTLE_PAINT = 200;
 import _ from 'lodash';
 
@@ -76,7 +76,6 @@ export default (bottle) => {
       let color = this.alpha ? worldBottle.container.globeGradient.rgbAt(this.alpha)
                              .toRgbString() : container.TEXTURE_BG_COLOR;
 
-      console.log('drawing hex ', this.hex.id, 'color ', color);
       const ctx = this.manager.ctx;
 
       ctx.save();
@@ -106,8 +105,9 @@ export default (bottle) => {
 
   bottle.factory('CanvasTextureManager', (container) => class TextureManager {
 
-    constructor (resolution) {
+    constructor (resolution, manager) {
       this.resolution = resolution;
+      this.manager = manager;
       this.initStage();
       this.loadData();
       this.data = false;
@@ -117,7 +117,6 @@ export default (bottle) => {
     throttledPaintAt (vertex) {
       this.throttledPaintAt = _.throttle((vertex) => this.paintAt(vertex), THROTTLE_PAINT, {leading: true});
       this.paintAt(vertex);
-
     }
 
     indexNearPoints () {
@@ -269,10 +268,42 @@ export default (bottle) => {
     }
 
     addSpot (vertex, alpha) {
+      let flow = alpha * this.manager.brushFlow * this.manager.brushFlow / 10;
+      if (!this.manager.brushRaised) flow *= -1;
+      console.log('adding spot with flow', flow);
+
       let hex = this.getNearestHex(vertex);
-      hex.paint(alpha);
-      for (let neighbor of hex.neighbors) {
-        neighbor.paint(alpha / 2);
+      switch (this.manager.brushSize) {
+        case 1:
+          hex.paint(flow);
+          break;
+
+        case 2:
+          hex.paint(flow);
+          for (let neighbor of hex.neighbors) {
+            neighbor.paint(flow / 2);
+          }
+          break;
+
+        case 3:
+          let paintedIds = [hex.id];
+          hex.paint(flow);
+          for (let neighbor of hex.neighbors) {
+            neighbor.paint(flow *3/5);
+            paintedIds.push(neighbor.id);
+          }
+
+          for (let neighbor of hex.neighbors) {
+            for (let subNeighbor of neighbor.neighbors) {
+              if (!_.includes(paintedIds,  subNeighbor.id)) {
+                subNeighbor.paint(flow * 2/5);
+              }
+            }
+          }
+          break;
+
+        default:
+          hex.paint(alpha);
       }
     }
 
