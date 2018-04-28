@@ -1,0 +1,45 @@
+.DialogFrame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; }
+
+.Dialog {
+  padding: 2rem;
+  flex-grow: 0;
+  background-color: #13233c;
+  border: 1px solid #2c5089;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 3rem;
+  z-index: 2000; }
+
+.DialogHead {
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 2rem;
+  color: #70aaff;
+  text-align: center; }
+
+/* -- usable as a resource by implementations of Dialog -- */
+.body {
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  color: #a3c8ff;
+  text-align: center; }
+
+.buttonList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; }
+
+/*# sourceMappingURL=Dialog.module.css.map */

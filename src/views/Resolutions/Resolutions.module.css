@@ -1,0 +1,51 @@
+.resolution-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
+
+.Resolutions {
+  margin: 1rem; }
+
+.ChooserHead {
+  color: white;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 2rem;
+  text-shadow: 4px 4px 16px black; }
+  @media screen and (max-height: 800px) {
+    .ChooserHead {
+      text-shadow: 2px 2px 8px black; } }
+
+.ResolutionChoice {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-position: center;
+  background-size: cover;
+  border-radius: 2rem;
+  position: relative;
+  margin-right: 2rem; }
+  @media screen and (max-height: 800px) {
+    .ResolutionChoice {
+      width: 120px;
+      height: 120px;
+      border-radius: 1rem; } }
+
+.ResolutionChoice-darkener {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.ResolutionChoice-unselected {
+  -webkit-box-shadow: inset 10px 10px 85px 19px black;
+  -moz-box-shadow: inset 10px 10px 85px 19px black;
+  box-shadow: inset 10px 10px 85px 19px black; }
+  .ResolutionChoice-unselected .Head {
+    color: #c8c8c8; }
+
+/*# sourceMappingURL=Resolutions.module.css.map */

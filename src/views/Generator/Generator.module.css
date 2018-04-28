@@ -1,0 +1,24 @@
+.Generator {
+  background-position: center top;
+  background-size: cover;
+  background-image: url("/static/images/sunrise-trans.png");
+  height: 100%;
+  padding: 4rem;
+  padding-top: 75px;
+  text-align: center; }
+
+.Head {
+  font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
+  text-transform: uppercase;
+  line-height: 90%;
+  font-size: 2rem;
+  color: #70aaff;
+  color: #c8c8c8; }
+
+.text {
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  color: #e1e1e1; }
+
+/*# sourceMappingURL=Generator.module.css.map */

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,WAAY;ECuFV,MAAM,EAAE,sBAAsB;EAC9B,YAAY,EAAE,2CAChB;EA/CE,cAAc,EAAE,SAAS;EACzB,WAAW,EAAE,GAAG;EAmDhB,SAAS,EA9EO,MAAoB;EA+EpC,KAAK,EA3FK,OAAkB;EA4F5B,cAAc,EAAE,MAAM",
+"sources": ["MainButton.module.scss","../../style/palette.scss"],
+"names": [],
+"file": "MainButton.module.css"
+}

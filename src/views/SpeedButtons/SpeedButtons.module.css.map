@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,iBAAkB;EAChB,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,CAAC",
+"sources": ["SpeedButtons.module.scss"],
+"names": [],
+"file": "SpeedButtons.module.css"
+}
