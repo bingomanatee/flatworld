@@ -1,11 +1,26 @@
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+------------------------------------------------------------- */
 .Generator {
   background-position: center top;
   background-size: cover;
   background-image: url("/static/images/sunrise-trans.png");
-  height: 100%;
-  padding: 4rem;
+  flex-grow: 1;
   padding-top: 75px;
-  text-align: center; }
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch; }
 
 .Head {
   font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
@@ -16,14 +31,30 @@
   color: #c8c8c8; }
 
 .text {
-  color: #a3c8ff;
-  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
-  font-size: 1.25rem;
+  font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 0.9375rem;
   color: #e1e1e1; }
 
+.Generator-canvas-wrapper {
+  position: relative;
+  flex-grow: 1;
+  display: flex; }
+
+.info {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem; }
+
+.info-text {
+  font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 0.9375rem;
+  color: #e1e1e1;
+  text-shadow: 2 1 1 rgba(0, 0, 0, 0.25); }
+
 .Generator-canvas {
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
   overflow-y: hidden;
   overflow-x: scroll; }
 

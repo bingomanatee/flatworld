@@ -1,3 +1,4 @@
+@import './css3-mixins.scss';
 $bgColor: rgb(19, 35, 60);
 $bgBorderColor: lighten($bgColor, 20%);
 $navHeadColor: lighten($bgColor, 40%);
@@ -53,6 +54,7 @@ $bodyFontSize: 1.25rem;
 }
 
 @mixin bodySmall () {
+  @include lightText();
   font-size: $bodyFontSize * 0.75;
 }
 
@@ -99,9 +101,26 @@ $bodyFontSize: 1.25rem;
   vertical-align: middle;
 }
 
+@mixin genericButton {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  @include emphasis();
+  @include unselectable();
+}
+
 @mixin navButton () {
+  @include genericButton();
   color: $linkColor;
   font-size: $navigationBottomFontSize;
   @include lightText();
   @include unselectable();
+}
+
+@mixin bodySmallShadow() {
+  @include text-shadow(2, 1,1, rgba(0,0,0,0.25));
 }

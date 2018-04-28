@@ -34,3 +34,7 @@
     font-size: $navigationTopFontSize;
   }
 }
+
+.TopNavButton {
+  @include navButton();
+}

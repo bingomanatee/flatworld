@@ -7,7 +7,7 @@ export default bottle.container.withRouter(({history}) => {
     <h1 className={style.Head}>Flatworld</h1>
     </div>
     <div className={style.TopNavigationActionCells}>
-      <button>About</button>
+      <button className={style.NavButton}>About</button>
     </div>
   </div>;
 })

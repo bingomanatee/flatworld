@@ -12,7 +12,8 @@ module.exports = {
           links: [
             'https://fonts.googleapis.com/icon?family=Material+Icons'
             , "https://fonts.googleapis.com/css?family=Roboto"
-            , '/webfonts/MyFontsWebfontsKit.css'
+            , '/static/webfonts/MyFontsWebfontsKit.css'
+            , '/static/css/react-md.teal-amber.min.css'
           ]
         },
         devServer: {

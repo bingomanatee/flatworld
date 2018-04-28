@@ -1,3 +1,16 @@
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+------------------------------------------------------------- */
 body, html, AppContainer, #root {
   margin: 0;
   padding: 0;
@@ -22,28 +35,6 @@ body {
   display: none !important;
   z-index: 2000; }
 
-button {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  text-transform: uppercase;
-  line-height: 90%;
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE10+/Edge */
-  user-select: none;
-  /* Standard */ }
-
-*, button, p, div, a {
-  font-family: 'KapraNeue-Regular', Roboto, Helvetica, sans-serif; }
-
 .brace-box {
   border: 10px solid transparent;
   border-image: url("/static/images/border-box.png") 60 round; }
@@ -59,6 +50,8 @@ h1, h2, h3, h4 {
   color: #a3c8ff;
   font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
   font-size: 1.25rem;
+  font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 200;
   font-size: 0.9375rem;
   font-style: italic; }
 

@@ -1,12 +1,16 @@
 @import '../../style/palette';
+
 .Generator {
   background-position: center top;
   background-size: cover;
   background-image: url('/static/images/sunrise-trans.png');
-  height: 100%;
-  padding: 4rem;
+  flex-grow: 1;
+
   padding-top: 75px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
 }
 
 .Head {
@@ -15,13 +19,30 @@
 }
 
 .text {
-  @include body();
+  @include bodySmall();
   @include bodyDark();
 }
 
+.Generator-canvas-wrapper {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+
+}
+.info {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+}
+
+.info-text {
+  @include bodySmall();
+  @include bodyDark();
+  @include bodySmallShadow();
+}
 .Generator-canvas {
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
+
   overflow-y: hidden;
   overflow-x: scroll;
 }

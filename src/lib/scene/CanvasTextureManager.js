@@ -176,8 +176,7 @@ export default (bottle) => {
           this.ctx.clip();
         }*/
         this.ctx.globalCompositeOperation = 'lighter';
-        this.ctx.scale(this.edgeImage.naturalHeight / this.canvas.height, this.edgeImage.naturalWidth / this.canvas.width);
-        this.ctx.drawImage(this.edgeImage, 0, 0);
+        this.ctx.drawImage(this.edgeImage, 0, 0, this.canvas.width, this.canvas.height);
         this.ctx.restore();
       }
     }

@@ -4,21 +4,40 @@ export default (bottle) => {
   const CANVAS_WIDTH_RATIO = 2;
 
   bottle.factory('Generator', (container) => class Generator extends container.CanvasTextureManager {
-    constructor (element, resolution, randomWord) {
+    constructor (element, resolution, zoom = 1, randomWord = 'edelhart') {
       super(resolution, {
         brushFlow: 3,
         brushRaised: true,
         brushSize: 1
       });
       this.randomWord = randomWord;
+      this._zoom = zoom;
       this.initElement(element);
       this.initCanvas(); // again
       this.getNoise();
     }
 
+    get zoom () {
+      return this._zoom;
+    }
+
+    set zoom(zoom) {
+      if (this._zoom !== zoom) {
+        this._zoom = zoom;
+        this.reloadNoise();
+      }
+    }
+
+    reloadNoise() {
+      console.log('reloading noise with zoom:', this.zoom);
+      this.noiseUsed = false;
+      this.getNoise();
+    }
+
     getNoise() {
-      console.log('getting noise: ', this.randomWord, this.resolution)
-      container.axios.get(container.SERVER_API + [ , 'noise', this.resolution, this.randomWord].join('/'))
+      console.log('getting noise: ', this.randomWord, this.resolution, this.zoom);
+
+      container.axios.get(container.SERVER_API + [ , 'noise', this.resolution, this.randomWord, this.zoom].join('/'))
         .then(({data}) => {
           this.noiseData = data;
           this.useNoise();

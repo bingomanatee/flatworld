@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAEA,KAAM;EC+CJ,KAAK,EAxCK,OAAkB;EAyC5B,WAAW,EAAE,0CAA0C;EACvD,SAAS,EAhCI,OAAO;EAoCpB,SAAS,EAAE,SAAoB;EAU/B,UAAU,EAAE,MAAM",
-"sources": ["SetResolution.module.scss","../../style/palette.scss"],
+"mappings": "AAAA;;;;;;;;;;;;gEAYgE;ACVhE,KAAM;ECgDJ,KAAK,EAxCK,OAAkB;EAyC5B,WAAW,EAAE,0CAA0C;EACvD,SAAS,EAhCI,OAAO;EAGpB,WAAW,EAAE,2EAA2E;EACxF,WAAW,EAAE,GAAG;EAiChB,SAAS,EAAE,SAAoB;EAU/B,UAAU,EAAE,MAAM",
+"sources": ["../../style/css3-mixins.scss","SetResolution.module.scss","../../style/palette.scss"],
 "names": [],
 "file": "SetResolution.module.css"
 }

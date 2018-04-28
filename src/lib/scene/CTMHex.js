@@ -89,7 +89,6 @@ export default (bottle) => {
         for (let pt of localWedge) {
           ctx.lineTo(pt.x, pt.y);
         }
-        console.log('drawn wedge:', localWedge);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();

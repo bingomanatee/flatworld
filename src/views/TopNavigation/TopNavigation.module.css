@@ -1,3 +1,16 @@
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+------------------------------------------------------------- */
 .TopNavigation {
   width: 100%;
   display: flex;
@@ -31,6 +44,23 @@
   flex-direction: row-reverse;
   justify-content: flex-start; }
   .TopNavigationActionCells button {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    line-height: 90%;
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
     color: #eeff72;
     font-size: 1.5rem;
     font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
@@ -44,5 +74,36 @@
     user-select: none;
     /* Standard */
     font-size: 1.8rem; }
+
+.TopNavButton {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  text-transform: uppercase;
+  line-height: 90%;
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
+  color: #eeff72;
+  font-size: 1.5rem;
+  font-family: 'KapraNeue-LightCondensed', Roboto, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 200;
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */ }
 
 /*# sourceMappingURL=TopNavigation.module.css.map */
