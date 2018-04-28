@@ -1,6 +1,8 @@
 import bottle from '../bottle';
 import domHelpers from 'dom-helpers';
 
+// @TODO: bottle!
+
 export default (domElement, resolution) => {
   const canvas = createCanvas(document, domElement);
   const manager = new bottle.container.SceneManager(canvas, resolution);

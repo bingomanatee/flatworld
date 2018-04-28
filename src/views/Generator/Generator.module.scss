@@ -18,3 +18,10 @@
   @include body();
   @include bodyDark();
 }
+
+.Generator-canvas {
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}

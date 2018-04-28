@@ -1,7 +1,4 @@
-import WorldTiler from './WorldTiler';
 import kdt from 'kd-tree-javascript';
-
-let worldBottle = WorldTiler();
 
 const ALPHA = 0.025;
 const THROTTLE_PAINT = 200;
@@ -9,109 +6,19 @@ import _ from 'lodash';
 
 export default (bottle) => {
   bottle.constant('WORLD_TEXTURE_SIZE', 512 * 4);
-
   bottle.constant('TEXTURE_BG_COLOR', 'rgb(0,25,51)');
-
-  bottle.factory('CTMHex', (container) => class CTMHex {
-    constructor (manager, hex) {
-      this.manager = manager;
-      this.hex = hex;
-      this.id = hex.id;
-      this.center = worldBottle.container.arrayToVector3(hex.center);
-      this.wedges = hex.uvs.map((shape) => shape.map(worldBottle.container.arrayToVector2)
-                                                .map((point) => point.multiplyScalar(container.WORLD_TEXTURE_SIZE / 100))
-      );
-      this.alpha = 0;
-      this.needsUpdate = false;
-      this.calcBox();
-    }
-
-    calcBox () {
-      let points = _.flattenDeep(this.wedges);
-      this.minX = this.maxX = points[0].x;
-      this.minY = this.maxY = points[0].y;
-
-      for (let point of points) {
-        if (point.x < this.minX) {
-          this.minX = point.x;
-        } else if (point.x > this.maxX) {
-          this.maxX = point.x;
-        }
-
-        if (point.y < this.minY) {
-          this.minY = point.y;
-        } else if (point.y > this.maxY) {
-          this.maxY = point.y;
-        }
-      }
-    }
-
-    get x () {
-      return this.center.x;
-    }
-
-    get y () {
-      return this.center.y;
-    }
-
-    get z () {
-      return this.center.z;
-    }
-
-    distanceToSquared (p) {
-      return this.center.distanceToSquared(p);
-    }
-
-    paint (alpha) {
-      let newAlpha = _.clamp(alpha + this.alpha, 0, 1);
-      if (this.alpha === newAlpha) {
-        return;
-      }
-      this.alpha = newAlpha;
-      this.needsUpdate = true;
-      this.manager.throttledDraw();
-    }
-
-    draw () {
-      let color = this.alpha ? worldBottle.container.globeGradient.rgbAt(this.alpha)
-                             .toRgbString() : container.TEXTURE_BG_COLOR;
-
-      const ctx = this.manager.ctx;
-
-      ctx.save();
-      ctx.fillStyle = color;
-      ctx.strokeStyle = color;
-
-      for (let wedge of this.wedges) {
-        let last = _.last(wedge);
-        ctx.beginPath();
-        ctx.moveTo(last.x, last.y);
-        for (let pt of wedge) {
-          ctx.lineTo(pt.x, pt.y);
-        }
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-      }
-
-      ctx.restore();
-    }
-
-    get neighbors () {
-      return this.hex.neighbors.map((i) => this.manager.hexIndex.get(i));
-    }
-  });
-
 
   bottle.factory('CanvasTextureManager', (container) => class TextureManager {
 
     constructor (resolution, manager) {
       this.resolution = resolution;
       this.manager = manager;
-      this.initStage();
+      this.width = container.WORLD_TEXTURE_SIZE;
+      this.height = container.WORLD_TEXTURE_SIZE;
+      this.initCanvas();
       this.loadData();
+      this.loadEdgeImage();
       this.data = false;
-      this.draw(true);
     }
 
     throttledPaintAt (vertex) {
@@ -147,27 +54,36 @@ export default (bottle) => {
       this.draw();
     }
 
+    loadEdgeImage() {
+      return new Promise((resolve, fail) => {
+
+        let edgeImage = new Image();
+        edgeImage.crossOrigin = "anonymous";
+        edgeImage.src = `http://localhost:7070/world_coord_images/edge_${this.resolution}.png`;
+        edgeImage.onload = () => {
+          this.edgeImage = edgeImage;
+          resolve(edgeImage);
+          this.draw(true);
+        }
+        edgeImage.onError = fail;
+      })
+    }
+
     loadData () {
-      bottle.container.axios.get(`http://localhost:7070/world_coords/recurse${this.resolution}.json`)
+      return bottle.container.axios.get(`http://localhost:7070/world_coords/recurse${this.resolution}.json`)
             .then(({data}) => {
               this.data = data;
-              this.hexes = _.values(data.hexes)
-                            .map((hex) => new container.CTMHex(this, hex));
-              this.hexIndex = new Map();
-              for (let hex of this.hexes) this.hexIndex.set(hex.id, hex);
-              this.indexNearPoints();
+              this.initData();
               console.log('world data loaded: ', data);
             });
+    }
 
-      let edgeImage = new Image();
-      edgeImage.crossOrigin = "anonymous";
-
-      edgeImage.src = `http://localhost:7070/world_coord_images/edge_${this.resolution}.png`;
-      edgeImage.onload = () => {
-        this.edgeImage = edgeImage;
-        console.log('edgeimage loaded');
-        this.draw(true);
-      }
+    initData () {
+      this.hexes = _.values(this.data.hexes)
+                    .map((hex) => new container.CTMHex(this, hex));
+      this.hexIndex = new Map();
+      for (let hex of this.hexes) this.hexIndex.set(hex.id, hex);
+      this.indexNearPoints();
     }
 
     paintAt (vertex) {
@@ -181,10 +97,10 @@ export default (bottle) => {
       }
     }
 
-    initStage () {
+    initCanvas () {
       this.canvas = document.createElement('canvas');
-      this.canvas.width = container.WORLD_TEXTURE_SIZE;
-      this.canvas.height = container.WORLD_TEXTURE_SIZE;
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
       this.ctx = this.canvas.getContext('2d');
       this.draw();
     }
@@ -193,7 +109,7 @@ export default (bottle) => {
       this.ctx.fillStyle = container.TEXTURE_BG_COLOR;
       this.ctx.beginPath();
       if (force) {
-        this.ctx.rect(0, 0, container.WORLD_TEXTURE_SIZE, container.WORLD_TEXTURE_SIZE);
+        this.ctx.rect(0, 0, this.canvas.width, this.canvas.height);
       } else {
         this.ctx.rect(this.updateBox.minX, this.updateBox.minY, this.updateBox.width, this.updateBox.height);
       }
@@ -255,21 +171,22 @@ export default (bottle) => {
     drawEdges (force) {
       if (this.edgeImage) {
         this.ctx.save();
-        if (!force) {
+        /*if (!force) {
           this.ctx.rect(this.updateBox.minX, this.updateBox.minY, this.updateBox.width, this.updateBox.height);
           this.ctx.clip();
-        }
+        }*/
         this.ctx.globalCompositeOperation = 'lighter';
-        this.ctx.drawImage(this.edgeImage,
-          0, 0, this.edgeImage.width, this.edgeImage.height,
-          0, 0, container.WORLD_TEXTURE_SIZE, container.WORLD_TEXTURE_SIZE);
+        this.ctx.scale(this.edgeImage.naturalHeight / this.canvas.height, this.edgeImage.naturalWidth / this.canvas.width);
+        this.ctx.drawImage(this.edgeImage, 0, 0);
         this.ctx.restore();
       }
     }
 
     addSpot (vertex, alpha) {
       let flow = alpha * this.manager.brushFlow * this.manager.brushFlow / 10;
-      if (!this.manager.brushRaised) flow *= -1;
+      if (!this.manager.brushRaised) {
+        flow *= -1;
+      }
       console.log('adding spot with flow', flow);
 
       let hex = this.getNearestHex(vertex);
@@ -289,14 +206,14 @@ export default (bottle) => {
           let paintedIds = [hex.id];
           hex.paint(flow);
           for (let neighbor of hex.neighbors) {
-            neighbor.paint(flow *3/5);
+            neighbor.paint(flow * 3 / 5);
             paintedIds.push(neighbor.id);
           }
 
           for (let neighbor of hex.neighbors) {
             for (let subNeighbor of neighbor.neighbors) {
-              if (!_.includes(paintedIds,  subNeighbor.id)) {
-                subNeighbor.paint(flow * 2/5);
+              if (!_.includes(paintedIds, subNeighbor.id)) {
+                subNeighbor.paint(flow * 2 / 5);
               }
             }
           }
@@ -305,6 +222,14 @@ export default (bottle) => {
         default:
           hex.paint(alpha);
       }
+    }
+
+    setAlpha (index, alpha) {
+      const hex = this.hexIndex.get(index);
+      if (!hex) {
+        return;
+      }
+      hex.alpha = alpha;
     }
 
     removeSpot (vertex) {

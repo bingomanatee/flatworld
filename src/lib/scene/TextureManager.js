@@ -1,7 +1,9 @@
 import WorldTiler from './WorldTiler';
 
 let worldBottle = WorldTiler();
-
+/**
+ * Deprecated; the world class is now computed/cached on the server
+ */
 
 const ALPHA = 0.15;
 const THROTTLE_PAINT = 100;

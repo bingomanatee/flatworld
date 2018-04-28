@@ -1,6 +1,6 @@
 /**
  * instantiates a bottle from the index manifest
  */
-import state from './index';
-let bottle = state();
+import resources from './index';
+let bottle = resources();
 export default bottle;

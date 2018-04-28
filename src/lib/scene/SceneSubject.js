@@ -28,6 +28,7 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.resolution = resolution;
     this.worldGeometry = new THREE.IcosahedronGeometry(ISO_SIZE, resolution);
     this.textureManager = new container.CanvasTextureManager(resolution, this);
+    this.textureManager.draw(true);
     this.worldTexture = new THREE.Texture(this.textureManager.canvas);
     const subjectMaterial = new THREE.MeshPhongMaterial({map: this.worldTexture,
       shininess: 10,
