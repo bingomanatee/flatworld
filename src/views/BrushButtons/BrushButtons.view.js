@@ -5,7 +5,7 @@ import {injectState} from 'freactal';
 import ReactSVG from 'react-svg';
 
 const WIDTH = 45;
-const HEIGHT = 444;
+const HEIGHT = 563;
 
 function SPFHeightOffset () {
   if (!window) {
