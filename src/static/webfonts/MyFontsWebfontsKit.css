@@ -69,50 +69,50 @@
 @import url("//hello.myfonts.net/count/364dd3");
 
   
-@font-face {font-family: 'KapraNeue-Black';src: url('/webfonts/364DD3_0_0.eot');src: url('/webfonts/364DD3_0_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_0_0.woff2') format('woff2'),url('/webfonts/364DD3_0_0.woff') format('woff'),url('/webfonts/364DD3_0_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-Black';src: url('/static/webfonts/364DD3_0_0.eot');src: url('/static/webfonts/364DD3_0_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_0_0.woff2') format('woff2'),url('/static/webfonts/364DD3_0_0.woff') format('woff'),url('/static/webfonts/364DD3_0_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BlackCondensed';src: url('/webfonts/364DD3_1_0.eot');src: url('/webfonts/364DD3_1_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_1_0.woff2') format('woff2'),url('/webfonts/364DD3_1_0.woff') format('woff'),url('/webfonts/364DD3_1_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BlackCondensed';src: url('/static/webfonts/364DD3_1_0.eot');src: url('/static/webfonts/364DD3_1_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_1_0.woff2') format('woff2'),url('/static/webfonts/364DD3_1_0.woff') format('woff'),url('/static/webfonts/364DD3_1_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BlackCondensedItalic';src: url('/webfonts/364DD3_2_0.eot');src: url('/webfonts/364DD3_2_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_2_0.woff2') format('woff2'),url('/webfonts/364DD3_2_0.woff') format('woff'),url('/webfonts/364DD3_2_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BlackCondensedItalic';src: url('/static/webfonts/364DD3_2_0.eot');src: url('/static/webfonts/364DD3_2_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_2_0.woff2') format('woff2'),url('/static/webfonts/364DD3_2_0.woff') format('woff'),url('/static/webfonts/364DD3_2_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BlackItalic';src: url('/webfonts/364DD3_3_0.eot');src: url('/webfonts/364DD3_3_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_3_0.woff2') format('woff2'),url('/webfonts/364DD3_3_0.woff') format('woff'),url('/webfonts/364DD3_3_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BlackItalic';src: url('/static/webfonts/364DD3_3_0.eot');src: url('/static/webfonts/364DD3_3_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_3_0.woff2') format('woff2'),url('/static/webfonts/364DD3_3_0.woff') format('woff'),url('/static/webfonts/364DD3_3_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-Bold';src: url('/webfonts/364DD3_4_0.eot');src: url('/webfonts/364DD3_4_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_4_0.woff2') format('woff2'),url('/webfonts/364DD3_4_0.woff') format('woff'),url('/webfonts/364DD3_4_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-Bold';src: url('/static/webfonts/364DD3_4_0.eot');src: url('/static/webfonts/364DD3_4_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_4_0.woff2') format('woff2'),url('/static/webfonts/364DD3_4_0.woff') format('woff'),url('/static/webfonts/364DD3_4_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BoldCondensed';src: url('/webfonts/364DD3_5_0.eot');src: url('/webfonts/364DD3_5_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_5_0.woff2') format('woff2'),url('/webfonts/364DD3_5_0.woff') format('woff'),url('/webfonts/364DD3_5_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BoldCondensed';src: url('/static/webfonts/364DD3_5_0.eot');src: url('/static/webfonts/364DD3_5_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_5_0.woff2') format('woff2'),url('/static/webfonts/364DD3_5_0.woff') format('woff'),url('/static/webfonts/364DD3_5_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BoldCondensedItalic';src: url('/webfonts/364DD3_6_0.eot');src: url('/webfonts/364DD3_6_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_6_0.woff2') format('woff2'),url('/webfonts/364DD3_6_0.woff') format('woff'),url('/webfonts/364DD3_6_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BoldCondensedItalic';src: url('/static/webfonts/364DD3_6_0.eot');src: url('/static/webfonts/364DD3_6_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_6_0.woff2') format('woff2'),url('/static/webfonts/364DD3_6_0.woff') format('woff'),url('/static/webfonts/364DD3_6_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-BoldItalic';src: url('/webfonts/364DD3_7_0.eot');src: url('/webfonts/364DD3_7_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_7_0.woff2') format('woff2'),url('/webfonts/364DD3_7_0.woff') format('woff'),url('/webfonts/364DD3_7_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-BoldItalic';src: url('/static/webfonts/364DD3_7_0.eot');src: url('/static/webfonts/364DD3_7_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_7_0.woff2') format('woff2'),url('/static/webfonts/364DD3_7_0.woff') format('woff'),url('/static/webfonts/364DD3_7_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-Light';src: url('/webfonts/364DD3_8_0.eot');src: url('/webfonts/364DD3_8_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_8_0.woff2') format('woff2'),url('/webfonts/364DD3_8_0.woff') format('woff'),url('/webfonts/364DD3_8_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-Light';src: url('/static/webfonts/364DD3_8_0.eot');src: url('/static/webfonts/364DD3_8_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_8_0.woff2') format('woff2'),url('/static/webfonts/364DD3_8_0.woff') format('woff'),url('/static/webfonts/364DD3_8_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-LightCondensed';src: url('/webfonts/364DD3_9_0.eot');src: url('/webfonts/364DD3_9_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_9_0.woff2') format('woff2'),url('/webfonts/364DD3_9_0.woff') format('woff'),url('/webfonts/364DD3_9_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-LightCondensed';src: url('/static/webfonts/364DD3_9_0.eot');src: url('/static/webfonts/364DD3_9_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_9_0.woff2') format('woff2'),url('/static/webfonts/364DD3_9_0.woff') format('woff'),url('/static/webfonts/364DD3_9_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-LightCondensedItalic';src: url('/webfonts/364DD3_A_0.eot');src: url('/webfonts/364DD3_A_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_A_0.woff2') format('woff2'),url('/webfonts/364DD3_A_0.woff') format('woff'),url('/webfonts/364DD3_A_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-LightCondensedItalic';src: url('/static/webfonts/364DD3_A_0.eot');src: url('/static/webfonts/364DD3_A_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_A_0.woff2') format('woff2'),url('/static/webfonts/364DD3_A_0.woff') format('woff'),url('/static/webfonts/364DD3_A_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-LightItalic';src: url('/webfonts/364DD3_B_0.eot');src: url('/webfonts/364DD3_B_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_B_0.woff2') format('woff2'),url('/webfonts/364DD3_B_0.woff') format('woff'),url('/webfonts/364DD3_B_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-LightItalic';src: url('/static/webfonts/364DD3_B_0.eot');src: url('/static/webfonts/364DD3_B_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_B_0.woff2') format('woff2'),url('/static/webfonts/364DD3_B_0.woff') format('woff'),url('/static/webfonts/364DD3_B_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-Regular';src: url('/webfonts/364DD3_C_0.eot');src: url('/webfonts/364DD3_C_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_C_0.woff2') format('woff2'),url('/webfonts/364DD3_C_0.woff') format('woff'),url('/webfonts/364DD3_C_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-Regular';src: url('/static/webfonts/364DD3_C_0.eot');src: url('/static/webfonts/364DD3_C_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_C_0.woff2') format('woff2'),url('/static/webfonts/364DD3_C_0.woff') format('woff'),url('/static/webfonts/364DD3_C_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-RegularCondensed';src: url('/webfonts/364DD3_D_0.eot');src: url('/webfonts/364DD3_D_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_D_0.woff2') format('woff2'),url('/webfonts/364DD3_D_0.woff') format('woff'),url('/webfonts/364DD3_D_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-RegularCondensed';src: url('/static/webfonts/364DD3_D_0.eot');src: url('/static/webfonts/364DD3_D_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_D_0.woff2') format('woff2'),url('/static/webfonts/364DD3_D_0.woff') format('woff'),url('/static/webfonts/364DD3_D_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-RegularCondensedItalic';src: url('/webfonts/364DD3_E_0.eot');src: url('/webfonts/364DD3_E_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_E_0.woff2') format('woff2'),url('/webfonts/364DD3_E_0.woff') format('woff'),url('/webfonts/364DD3_E_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-RegularCondensedItalic';src: url('/static/webfonts/364DD3_E_0.eot');src: url('/static/webfonts/364DD3_E_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_E_0.woff2') format('woff2'),url('/static/webfonts/364DD3_E_0.woff') format('woff'),url('/static/webfonts/364DD3_E_0.ttf') format('truetype');}
  
   
-@font-face {font-family: 'KapraNeue-RegularItalic';src: url('/webfonts/364DD3_F_0.eot');src: url('/webfonts/364DD3_F_0.eot?#iefix') format('embedded-opentype'),url('/webfonts/364DD3_F_0.woff2') format('woff2'),url('/webfonts/364DD3_F_0.woff') format('woff'),url('/webfonts/364DD3_F_0.ttf') format('truetype');}
+@font-face {font-family: 'KapraNeue-RegularItalic';src: url('/static/webfonts/364DD3_F_0.eot');src: url('/static/webfonts/364DD3_F_0.eot?#iefix') format('embedded-opentype'),url('/static/webfonts/364DD3_F_0.woff2') format('woff2'),url('/static/webfonts/364DD3_F_0.woff') format('woff'),url('/static/webfonts/364DD3_F_0.ttf') format('truetype');}
  

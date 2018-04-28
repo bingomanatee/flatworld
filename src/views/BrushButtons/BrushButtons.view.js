@@ -4,8 +4,8 @@ import {BrushButtonManager} from './BrushButtonManager';
 import {injectState} from 'freactal';
 import ReactSVG from 'react-svg';
 
-const WIDTH = 45;
-const HEIGHT = 563;
+const WIDTH = 58;
+const HEIGHT = 444;
 
 function SPFHeightOffset () {
   if (!window) {

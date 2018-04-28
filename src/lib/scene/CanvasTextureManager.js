@@ -102,7 +102,18 @@ export default (bottle) => {
       this.canvas.width = this.width;
       this.canvas.height = this.height;
       this.ctx = this.canvas.getContext('2d');
-      this.draw();
+      this.draw(true);
+
+      let oldMap = document.getElementById('map');
+      if (oldMap) oldMap.parent.removeChild(oldMap);
+
+      this.canvas.id="map";
+      this.canvas.style.position = 'absolute';
+      this.canvas.style.right = 0;
+      this.canvas.style.bottom = 0;
+      this.canvas.style.width = this.canvas.style.height = '400px';
+
+      document.body.appendChild(this.canvas);
     }
 
     drawBackground (force) {
@@ -110,6 +121,7 @@ export default (bottle) => {
       this.ctx.beginPath();
       if (force) {
         this.ctx.rect(0, 0, this.canvas.width, this.canvas.height);
+        console.log('drawn background: ', this.canvas);
       } else {
         this.ctx.rect(this.updateBox.minX, this.updateBox.minY, this.updateBox.width, this.updateBox.height);
       }

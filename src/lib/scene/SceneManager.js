@@ -76,7 +76,6 @@ export default (bottle) => {
       this.sceneSubject.update(elapsedTime);
 
       this.updateCameraPositionRelativeToMouse();
-      //
       this.raycaster.setFromCamera(this.mousePosition, this.camera);
       let inter = this.raycaster.intersectObjects([this.sceneSubject.worldMesh]);
       this.sceneSubject.intersect(inter);
