@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 
 export default (bottle) => {
   StateConfig(bottle);
-  bottle.factory('stateDef', (container) => new container.StateConfig());
+  bottle.factory('stateDef', (container) => new container.StateConfig({}, StateConfig.SERIALIZATION_LOCAL_STORAGE));
   bottle.constant('update', update);
   bottle.constant('provideState', provideState);
   bottle.constant('injectState',  injectState);

@@ -36,7 +36,6 @@ export default bottle.container.injectState(class Content extends Component {
   }
 
   componentDidUpdate() {
-    console.log('state: ', this.props.state);
     this.manager.setSpeed(this.props.state.speed);
     this.manager.setBrushSize(this.props.state.brushSize);
     this.manager.setBrushFlow(this.props.state.brushFlow);
