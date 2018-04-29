@@ -16,6 +16,7 @@
   "dependencies": {
     "@createjs/easeljs": "github:createjs/easeljs#2.0",
     "@createjs/tweenjs": "github:createjs/tweenjs#2.0",
+    "auth0-js": "^9.5.0",
     "axios": "^0.18.0",
     "bottlejs": "^1.7.0",
     "browser-tap": "0.0.1",

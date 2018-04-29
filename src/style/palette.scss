@@ -94,7 +94,7 @@ $bodyFontSize: 1.25rem;
 @mixin linkBox {
   border: 10px solid transparent;
   border-image: url('/static/images/link-box.png') 12 round;
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 @mixin linkButton {

@@ -3,15 +3,15 @@ import style from './SetResolution.module.css';
 import Dialog from './../Dialog/Dialog.view';
 import dialogStyle from '../Dialog/Dialog.module.css';
 import MainButton from '../MainButton/MainButton.view';
+import bottle from './../../lib/bottle';
 
-export default ({history}) => (
+export default  bottle.container.injectState(({history, state, effects}) => (
   <Dialog title="Set World Resolution"
           buttons={[<MainButton onClick={() => {
-            let elevation = this.props.state.elevation.slice(0, this.props.state.resolution);
-            this.props.effects.setElevation(elevation);
+            effects.resetElevationSize();
             history.push('/world');
           }}>Set Resolution</MainButton>]}>
     <Resolutions/>
     <p className={dialogStyle.body}>Lowering resolution discards some elevation.</p>
   </Dialog>
-);
+));

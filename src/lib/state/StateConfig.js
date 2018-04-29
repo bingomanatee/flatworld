@@ -58,7 +58,7 @@ export default (bottle) => {
         this._stateMap.set(key, initialState[key]);
       }
       this._effectsMap = new Map();
-
+      this._initializers = [];
       if (this.serializationSource === StateConfig.SERIALIZATION_LOCAL_STORAGE) {
         this.addLocalStorageMiddleware()
       }
@@ -163,6 +163,13 @@ export default (bottle) => {
     get effects () {
       let hash = {};
       this._effectsMap.forEach((value, key) => hash[key] = value);
+      if (!hash.initialize) hash.initialize = (args) => {
+        console.log('initialize args:', args);
+        return (state) => {
+          console.log('initialize state:', state);
+          return state;
+        }
+      }
       return hash;
     }
 

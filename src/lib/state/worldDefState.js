@@ -6,6 +6,10 @@ export default (bottle) => {
     stateDef.addStateAndSetEffect('brushFlow', 2, bottle.container.StateConfig.TYPE_INT);
     stateDef.addStateAndBoolEffect('brushRaised', true);
     stateDef.addArrayAndSetEffect('elevation', [], bottle.container.StateConfig.TYPE_FLOAT);
+    stateDef.addEffect('resetElevationSize', () => (state) => {
+      if (state.elevation.length<= state.resolution) return state;
+      return Object.assign({}, state, {elevation: []});
+    });
     stateDef.addStateValue('randomWord', '', bottle.container.StateConfig.TYPE_STRING);
     stateDef.addEffect('getRandomWord', () => bottle.container.axios.get(bottle.container.SERVER_API + '/rando')
                                                     .then(({data}) => bottle.container.mergeIntoState({randomWord: data.word})));
