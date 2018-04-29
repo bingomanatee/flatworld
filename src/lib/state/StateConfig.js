@@ -113,6 +113,23 @@ export default (bottle) => {
       }
     }
 
+    addArrayAndSetEffect(name, value = []) {
+      //@TODO: add type enforcement for values
+      this.addStateValue(name,value ? value.slice(0) : [], StateConfig.TYPE_OBJECT);
+      this.addEffect(`set${_.upperFirst(name)}`, (element, array) => (state) => {
+        let hash = {};
+        hash[name] = array.slice(0);
+        return Object.assign({}, state, hash);
+      });
+      this.addEffect(`set${_.upperFirst(name)}Element`, (event, key, value) => (state) => {
+        let newArray = state[name] || [];
+        newArray[key] = value;
+        let hash = {};
+        hash[name] = newArray;
+        return Object.assign({}, state, hash);
+      });
+    }
+
     addLocalStorageMiddleware () {
       if (container.localStorage) {
         this.addMiddleware((freactalCtx) => {

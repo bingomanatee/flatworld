@@ -5,15 +5,26 @@ let worldBottle = WorldTiler();
 export default (bottle) => {
 
   bottle.factory('CTMHex', (container) => class CTMHex {
-    constructor (manager, hex) {
+    constructor (manager, hex, alpha = 0) {
       this.manager = manager;
       this.hex = hex;
       this.id = hex.id;
       this.center = worldBottle.container.arrayToVector3(hex.center);
       this.wedges = hex.uvs.map((shape) => shape.map(worldBottle.container.arrayToVector2));
-      this._alpha = 0;
-      this.needsUpdate = false;
+      this._alpha = alpha;
+      this._needsUpdate = true;
       this.calcBox();
+    }
+
+    get needsUpdate() {
+      return this._needsUpdate;
+    }
+
+    set needsUpdate(val) {
+      if (val) {
+        this.manager.needsUpdate === true;
+      }
+      this._needsUpdate = true;
     }
 
     calcBox () {

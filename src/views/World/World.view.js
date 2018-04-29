@@ -13,7 +13,7 @@ export default bottle.container.injectState(class Content extends Component {
 
   componentDidMount () {
     setTimeout(() => requestAnimationFrame(() => {
-      const worldState = bottle.container.worldSceneInjector(this.threeRootElement, this.props.state.resolution);
+      const worldState = bottle.container.worldSceneInjector(this.threeRootElement, this.props.state.resolution, this.props.state.elevation);
       this.terminateWorld = worldState.terminateWorld;
       this.manager = worldState.manager;
       this.setState({loaded: true})

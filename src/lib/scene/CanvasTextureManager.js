@@ -10,15 +10,25 @@ export default (bottle) => {
 
   bottle.factory('CanvasTextureManager', (container) => class TextureManager {
 
-    constructor (resolution, manager) {
+    constructor (resolution, manager, initialValues = []) {
       this.resolution = resolution;
       this.manager = manager;
       this.width = container.WORLD_TEXTURE_SIZE;
       this.height = container.WORLD_TEXTURE_SIZE;
+      this.initialValues = initialValues;
       this.initCanvas();
       this.loadData();
       this.loadEdgeImage();
       this.data = false;
+      this.needsUpdate = false;
+    }
+
+    get hexElevations () {
+      let out = [];
+      for (let hex of this.hexes) {
+        out.push(hex.alpha);
+      }
+      return out;
     }
 
     throttledPaintAt (vertex) {
@@ -74,13 +84,19 @@ export default (bottle) => {
             .then(({data}) => {
               this.data = data;
               this.initData();
-              console.log('world data loaded: ', data);
+              this.draw(true);
             });
     }
 
     initData () {
       this.hexes = _.values(this.data.hexes)
-                    .map((hex) => new container.CTMHex(this, hex));
+                    .map((hex) => {
+                      let alpha = 0;
+                      if (this.initialValues && this.initialValues.length > hex.id){
+                        alpha = this.initialValues[hex.id] || 0;
+                      }
+                      return new container.CTMHex(this, hex, alpha);
+                    });
       this.hexIndex = new Map();
       for (let hex of this.hexes) this.hexIndex.set(hex.id, hex);
       this.indexNearPoints();
@@ -106,14 +122,6 @@ export default (bottle) => {
 
       let oldMap = document.getElementById('map');
       if (oldMap) oldMap.parent.removeChild(oldMap);
-
-      this.canvas.id="map";
-      this.canvas.style.position = 'absolute';
-      this.canvas.style.right = 0;
-      this.canvas.style.bottom = 0;
-      this.canvas.style.width = this.canvas.style.height = '400px';
-
-      document.body.appendChild(this.canvas);
     }
 
     drawBackground (force) {

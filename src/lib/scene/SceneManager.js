@@ -7,11 +7,12 @@ export default (bottle) => {
   bottle.constant('origin', new bottle.container.Vector3(0, 0, 0));
   bottle.constant('DPR', window.devicePixelRatio ? window.devicePixelRatio : 1);
   bottle.factory('SceneManager', () => class SceneManager {
-    constructor (canvas, resolution) {
+    constructor (canvas, resolution, elevation = []) {
       this.resolution = resolution;
       this.canvas = canvas;
       this.clock = new THREE.Clock();
       this.scene = new THREE.Scene();
+      this.elevation = elevation;
       this.buildRender();
       this.buildCamera();
       this.createSceneSubject();
@@ -42,7 +43,7 @@ export default (bottle) => {
     }
 
     createSceneSubject () {
-      this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution);
+      this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution, this.elevation);
       this.sceneSubject.addLights(GeneralLights(this.scene));
       return this.sceneSubject;
     }
