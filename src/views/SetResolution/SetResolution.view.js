@@ -5,8 +5,13 @@ import dialogStyle from '../Dialog/Dialog.module.css';
 import MainButton from '../MainButton/MainButton.view';
 
 export default ({history}) => (
-  <Dialog title="Set World Resolution" buttons={[<MainButton onClick={() => history.push('/world')}>Set Resolution</MainButton>]}>
+  <Dialog title="Set World Resolution"
+          buttons={[<MainButton onClick={() => {
+            let elevation = this.props.state.elevation.slice(0, this.props.state.resolution);
+            this.props.effects.setElevation(elevation);
+            history.push('/world');
+          }}>Set Resolution</MainButton>]}>
     <Resolutions/>
-    <p className={dialogStyle.body}>This will reset the world data.</p>
+    <p className={dialogStyle.body}>Lowering resolution discards some elevation.</p>
   </Dialog>
 );

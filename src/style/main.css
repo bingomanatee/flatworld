@@ -37,7 +37,12 @@ body {
 
 .brace-box {
   border: 10px solid transparent;
-  border-image: url("/static/images/border-box.png") 60 round; }
+  border-style: solid;
+  border-width: 29px 29px 28px 28px;
+  -moz-border-image: url("/static/images/border-box.png") 29 29 28 28 stretch round;
+  -webkit-border-image: url("/static/images/border-box.png") 29 29 28 28 stretch round;
+  -o-border-image: url("/static/images/border-box.png") 29 29 28 28 stretch round;
+  border-image: url("/static/images/border-box.png") 29 29 28 28 stretch round; }
 
 h1, h2, h3, h4 {
   margin: 0;

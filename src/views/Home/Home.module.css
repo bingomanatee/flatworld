@@ -20,12 +20,22 @@
   padding-top: 75px;
   text-align: center; }
 
+.choice-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; }
+  .choice-buttons Button {
+    margin-right: 1rem; }
+
 .Head {
   font-family: 'KapraNeue-Black', Roboto, Helvetica, sans-serif;
   text-transform: uppercase;
   line-height: 90%;
   font-size: 2rem;
   color: #70aaff;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   color: #c8c8c8; }
 
 .text {
@@ -40,6 +50,8 @@
   line-height: 90%;
   font-size: 2rem;
   color: #70aaff;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   color: #c8c8c8;
   font-family: 'KapraNeue-Bold', Roboto, Helvetica, sans-serif;
   font-size: 1.5rem; }
@@ -56,7 +68,8 @@
 
 .MainButton {
   border: 10px solid transparent;
-  border-image: url("/static/images/link-box.png") 55 round;
+  border-image: url("/static/images/link-box.png") 12 round;
+  padding-top: 12px;
   text-transform: uppercase;
   line-height: 90%;
   font-size: 1.5rem;

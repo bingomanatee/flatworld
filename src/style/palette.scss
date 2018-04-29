@@ -73,7 +73,10 @@ $bodyFontSize: 1.25rem;
   @include emphasis();
   font-size: $headFontSize;
   color: $headColor;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
+
 @mixin headDark() {
   color: $darkHeadColor;
 }
@@ -85,12 +88,13 @@ $bodyFontSize: 1.25rem;
 
 @mixin borderBox {
   border: 10px solid transparent;
-  border-image: url('/static/images/border-box.png') 60 round
+  border-image: url('/static/images/border-box.png') 15 round
 }
 
 @mixin linkBox {
   border: 10px solid transparent;
-  border-image: url('/static/images/link-box.png') 55 round
+  border-image: url('/static/images/link-box.png') 12 round;
+  padding-top: 12px;
 }
 
 @mixin linkButton {

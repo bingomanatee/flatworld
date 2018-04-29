@@ -9,6 +9,16 @@
   text-align: center;
 }
 
+.choice-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  Button {
+    margin-right: 1rem;
+  }
+}
+
 .Head {
   @include head();
   @include headDark();

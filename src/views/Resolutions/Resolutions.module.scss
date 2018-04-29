@@ -11,6 +11,9 @@
 }
 
 .ChooserHead {
+  @include headSub();
+  @include headDark();
+  text-align: center;
   color: white;
   @include emphasis();
   font-size: 2rem;
