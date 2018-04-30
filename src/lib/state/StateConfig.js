@@ -139,9 +139,7 @@ export default (bottle) => {
           this.addMiddleware((freactalCtx) => {
             this._stateMap.forEach((data, key) => {
               // note: no way of checking inclusion of key in state ??
-              console.log('freactalCtx.state: ', freactalCtx.state);
               let value = freactalCtx.state[key];
-              //@TODO: type keyed saving
               container.localStorage.setItem(key, StateConfig.serialize(value, data.type));
             });
             return freactalCtx;

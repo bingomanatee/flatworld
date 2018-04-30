@@ -12,10 +12,16 @@ export default bottle.container.injectState(class Content extends Component {
   }
 
   componentDidMount () {
+    const {effects} = this.props;
     setTimeout(() => requestAnimationFrame(() => {
       const worldState = bottle.container.worldSceneInjector(this.threeRootElement, this.props.state.resolution, this.props.state.elevation);
       this.terminateWorld = worldState.terminateWorld;
       this.manager = worldState.manager;
+      this.manager.textureManager.onDraw = _.throttle(() => {
+        if (this.manager.textureManager.hexElevations.length) {
+          effects.setElevation(this.manager.textureManager.hexElevations)
+        }
+      }, 500);
       this.setState({loaded: true})
     }), 500);
   }
@@ -29,13 +35,13 @@ export default bottle.container.injectState(class Content extends Component {
           <SpeedButtons/>
         </div>
         <div className={style.SpeedButtonFrame}>
-        <BrushButtons/>
-      </div>
-    </Overlay>}
+          <BrushButtons/>
+        </div>
+      </Overlay>}
     </div>);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.manager.setSpeed(this.props.state.speed);
     this.manager.setBrushSize(this.props.state.brushSize);
     this.manager.setBrushFlow(this.props.state.brushFlow);

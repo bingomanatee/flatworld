@@ -24,7 +24,7 @@ export default (bottle) => {
       if (val) {
         this.manager.needsUpdate === true;
       }
-      this._needsUpdate = true;
+      this._needsUpdate = val;
     }
 
     calcBox () {

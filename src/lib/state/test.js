@@ -165,7 +165,6 @@ class WaterApp extends React.Component {
 
           for (let coord of coordSet) {
             let {x, y} = coord;
-            console.log('testing at ', x, y);
             if (!currentOceanMap.get(`${x},${y}`)) {
               if (coords[y] && coords[y][x] && coords[y][x] === 'W') {
                 coords[y][x] = 'O';

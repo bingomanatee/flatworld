@@ -48,6 +48,10 @@ export default (bottle) => {
       return this.sceneSubject;
     }
 
+    get textureManager() {
+      return this.sceneSubject.textureManager;
+    }
+
     buildCamera () {
       const {width, height} = this.screenDimensions;
       const aspectRatio = width / height;

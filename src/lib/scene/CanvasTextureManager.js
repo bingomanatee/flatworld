@@ -1,14 +1,13 @@
 import kdt from 'kd-tree-javascript';
-
-const ALPHA = 0.025;
-const THROTTLE_PAINT = 200;
 import _ from 'lodash';
+const ALPHA = 0.025;
+const THROTTLE_PAINT = 100;
 
 export default (bottle) => {
   bottle.constant('WORLD_TEXTURE_SIZE', 512 * 4);
   bottle.constant('TEXTURE_BG_COLOR', 'rgb(0,25,51)');
 
-  bottle.factory('CanvasTextureManager', (container) => class TextureManager {
+  bottle.factory('CanvasTextureManager', (container) => class CanvasTextureManager {
 
     constructor (resolution, manager, initialValues = []) {
       this.resolution = resolution;
@@ -24,11 +23,11 @@ export default (bottle) => {
     }
 
     get hexElevations () {
-      let out = [];
-      for (let hex of this.hexes) {
-        out.push(hex.alpha);
-      }
-      return out;
+      if (!this.hexes) return [];
+      return this.hexes.reduce((list, hex) => {
+        list[parseInt(hex.id)] = hex.alpha;
+        return list;
+      }, []);
     }
 
     throttledPaintAt (vertex) {
@@ -64,7 +63,7 @@ export default (bottle) => {
       this.draw();
     }
 
-    loadEdgeImage() {
+    loadEdgeImage () {
       return new Promise((resolve, fail) => {
 
         let edgeImage = new Image();
@@ -81,18 +80,18 @@ export default (bottle) => {
 
     loadData () {
       return bottle.container.axios.get(`http://localhost:7070/world_coords/recurse${this.resolution}.json`)
-            .then(({data}) => {
-              this.data = data;
-              this.initData();
-              this.draw(true);
-            });
+                   .then(({data}) => {
+                     this.data = data;
+                     this.initData();
+                     this.draw(true);
+                   });
     }
 
     initData () {
       this.hexes = _.values(this.data.hexes)
                     .map((hex) => {
                       let alpha = 0;
-                      if (this.initialValues && this.initialValues.length > hex.id){
+                      if (this.initialValues && this.initialValues.length > hex.id) {
                         alpha = this.initialValues[hex.id] || 0;
                       }
                       return new container.CTMHex(this, hex, alpha);
@@ -121,7 +120,9 @@ export default (bottle) => {
       this.draw(true);
 
       let oldMap = document.getElementById('map');
-      if (oldMap) oldMap.parent.removeChild(oldMap);
+      if (oldMap) {
+        oldMap.parent.removeChild(oldMap);
+      }
     }
 
     drawBackground (force) {
@@ -143,21 +144,29 @@ export default (bottle) => {
 
     calcUpdateBox () {
       this.updateBox = {
-        minX: _(this.updatedHexes)
+        minX: (_(this.updatedHexes)
           .map('minX')
-          .min() - 2,
-        maxX: _(this.updatedHexes)
+          .min() - 2) * this.xScale,
+        maxX: (_(this.updatedHexes)
           .map('maxX')
-          .max() + 2,
-        minY: _(this.updatedHexes)
+          .max() + 2) * this.xScale,
+        minY: (_(this.updatedHexes)
           .map('minY')
-          .min() - 2,
-        maxY: _(this.updatedHexes)
+          .min() - 2) * this.yScale,
+        maxY: (_(this.updatedHexes)
           .map('maxY')
-          .max() + 2
+          .max() + 2) * this.yScale
       }
       this.updateBox.height = this.updateBox.maxY - this.updateBox.minY;
       this.updateBox.width = this.updateBox.maxX - this.updateBox.minX;
+    }
+
+    get xScale () {
+      return this.canvas.width / 100;
+    }
+
+    get yScale () {
+      return this.canvas.height / 100;
     }
 
     draw (force) {
@@ -178,6 +187,9 @@ export default (bottle) => {
         }
       }
       this.needsUpdate = true;
+      if (this.onDraw) {
+        this.onDraw();
+      }
     }
 
     drawHexes (force) {
@@ -191,10 +203,10 @@ export default (bottle) => {
     drawEdges (force) {
       if (this.edgeImage) {
         this.ctx.save();
-        /*if (!force) {
+        if (!force) {
           this.ctx.rect(this.updateBox.minX, this.updateBox.minY, this.updateBox.width, this.updateBox.height);
           this.ctx.clip();
-        }*/
+        }
         this.ctx.globalCompositeOperation = 'lighter';
         this.ctx.drawImage(this.edgeImage, 0, 0, this.canvas.width, this.canvas.height);
         this.ctx.restore();
