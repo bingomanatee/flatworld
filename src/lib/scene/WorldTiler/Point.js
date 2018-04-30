@@ -70,7 +70,7 @@ export default (bottle) => bottle.factory('Point', (container) => class Point ex
       .value();
 
     if (nodeMap.size !== edgePoints.length) {
-      eval('debugger');
+      console.log('collusion!');
     }
     for (let edge of neighborEdges) {
       for (let node of nodes) {

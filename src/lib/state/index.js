@@ -1,6 +1,7 @@
 import StateConfig from './StateConfig';
 import {update, provideState, injectState} from 'freactal';
 import worldDefState from './worldDefState';
+import authState from './authState';
 import {withRouter} from 'react-router-dom';
 
 export default (bottle) => {
@@ -10,8 +11,11 @@ export default (bottle) => {
   bottle.constant('provideState', provideState);
   bottle.constant('injectState',  injectState);
   bottle.constant('withRouter',  withRouter);
-  bottle.factory('wrapComponentWithState', (container) => container.provideState(container.stateDef));
+  bottle.factory('wrapComponentWithState', (container) => {
+    let hash = container.stateDef.toHash();
+    return container.provideState(hash);
+  });
   worldDefState(bottle);
-
+  authState(bottle);
   return bottle;
 }

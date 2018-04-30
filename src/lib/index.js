@@ -21,6 +21,7 @@ export default () => {
   bottle.constant('injectState', injectState);
   bottle.constant('update', update);
   bottle.constant('mergeIntoState', mergeIntoState);
+  bottle.factory('injectStateAndRouter', (container) => (component) => container.withRouter(container.injectState(component)));
 
   return bottle;
 }

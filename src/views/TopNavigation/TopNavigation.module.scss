@@ -38,3 +38,9 @@
 .TopNavButton {
   @include navButton();
 }
+
+.navInfo {
+  @include body();
+  @include bodyDark();
+  font-weight: 200;
+}

@@ -2,12 +2,13 @@ import style from './Generator.module.css';
 import {Component} from 'react';
 import bottle from '../../lib/bottle';
 import {Button, FontIcon} from 'react-md';
+import MainButton from './../MainButton/MainButton.view';
 
 console.log('bottle: ', bottle);
 
 const ZOOMS = [0.25, 0.33, 0.5, 0.66, 0.75, 1, 1.25, 1.33, 1.5, 1.66, 1.75, 1.5, 2, 2.25, 2.5, 2.75, 3];
 
-export default bottle.container.injectState(class Generator extends Component {
+export default bottle.container.injectStateAndRouter(class Generator extends Component {
   state = {loaded: false, generator: false, zoom: 4};
 
   componentDidMount () {
@@ -47,6 +48,9 @@ export default bottle.container.injectState(class Generator extends Component {
             <Button raised primary onClick={() => this.zoomOut()} iconChildren="navigate_before">in</Button>
             <Button raised primary onClick={() => this.zoomIn()} iconBefore={false}
                     iconChildren="navigate_next">out</Button>
+          </div>
+          <div style={({marginTop: 30})}>
+            <MainButton onClick={() => this.props.history.push('/world')}>Edit This World</MainButton>
           </div>
         </div>
         <div ref={element => this.canvasElement = element} className={style['Generator-canvas']}/>
