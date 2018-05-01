@@ -29,4 +29,21 @@
   width: 100%;
   align-content: center; }
 
+.TableFrame {
+  position: absolute;
+  width: 600px;
+  bottom: 100px;
+  left: 300px; }
+
+.windTable {
+  color: white;
+  font-size: 0.6rem; }
+  .windTable td, .windTable th {
+    padding: 2px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.6rem; }
+  .windTable th {
+    color: #00ff99; }
+
 /*# sourceMappingURL=World.module.css.map */

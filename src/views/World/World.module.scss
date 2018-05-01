@@ -20,3 +20,24 @@
   align-content: center;
   // justiffy-content: center;
 }
+
+.TableFrame {
+  position: absolute;
+  width: 600px;
+  bottom: 100px;
+  left: 300px;
+}
+
+.windTable {
+  color: white;
+  font-size: 0.6rem;
+  td, th {
+    padding: 2px;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 0.6rem;
+  }
+  th {
+    color: rgb(0, 255, 153);
+  }
+}

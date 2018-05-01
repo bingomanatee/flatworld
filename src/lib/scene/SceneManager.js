@@ -89,6 +89,9 @@ export default (bottle) => {
       let inter = this.raycaster.intersectObjects([this.sceneSubject.worldMesh]);
       this.sceneSubject.intersect(inter);
       this.renderer.render(this.scene, this.camera);
+      if (this.onMove) {
+        this.onMove();
+      }
     }
 
     updateCameraPositionRelativeToMouse () {

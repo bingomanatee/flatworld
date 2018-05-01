@@ -30,8 +30,8 @@ export default bottle.container.injectStateAndRouter(class SpeedButtons extends 
       this.props.effects.setSpeed(speed);
     }
     this.addButton('slow_button_cw', 1);
-    this.addButton('medium_button_cw', 2);
-    this.addButton('fast_button_cw', 3);
+    this.addButton('medium_button_cw', 3);
+    this.addButton('fast_button_cw', 6);
     this.addPauseButton('pause_button_cw');
   }
 

@@ -5,10 +5,49 @@ import Dialog from '../Dialog/Dialog.view';
 import Overlay from '../Overlay/Overlay.view';
 import SpeedButtons from '../SpeedButtons/SpeedButtons.view';
 import BrushButtons from '../BrushButtons/BrushButtons.view';
+import _ from 'lodash';
+
+const f = (n) => new Number(n).toFixed(3);
+class WindTable extends Component {
+  render () {
+    let {windParticles} = this.props;
+    if (!windParticles) {
+      windParticles = [];
+    }
+    return <table className={style.windTable}>
+      <thead>
+      <tr>
+        <th>x</th>
+        <th>y</th>
+        <th>z</th>
+      </tr>
+      </thead>
+      {<tbody>
+      {windParticles.slice(0, 4)
+                    .map((wp, i) => <tr key={`wind-particle-${i}`}>
+                      <td>{f(wp.mesh.position.x)}</td>
+                      <td>{f(wp.mesh.position.y)}</td>
+                      <td>{f(wp.mesh.position.z)}</td>
+                    </tr>)}
+      </tbody>}
+    </table>
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.poll);
+  }
+
+  componentDidMount () {
+  /*  this.poll = setInterval(() => {
+      this.forceUpdate();
+    }, 100);*/
+  }
+}
 
 export default bottle.container.injectState(class Content extends Component {
   state = {
-    loaded: false
+    loaded: false,
+    windParticles: []
   }
 
   componentDidMount () {
@@ -25,6 +64,9 @@ export default bottle.container.injectState(class Content extends Component {
                    effects.setElevation(this.manager.textureManager.hexElevations)
                  }
                }, 500);
+              /* this.manager.onMove = (() => this.setState({
+                 windParticles: _.get(this, 'manager.sceneSubject.windParticles')
+               }));*/
                this.setState({loaded: true})
              }), 500);
            });
@@ -41,17 +83,21 @@ export default bottle.container.injectState(class Content extends Component {
         <div className={style.SpeedButtonFrame}>
           <BrushButtons/>
         </div>
+      /*  <div className={style.TableFrame}>
+          <WindTable windParticles={this.state.windParticles}/>
+        </div> */
       </Overlay>}
     </div>);
   }
 
   componentDidUpdate () {
-    this.manager.setSpeed(this.props.state.speed);
-    this.manager.setBrushSize(this.props.state.brushSize);
-    this.manager.setBrushFlow(this.props.state.brushFlow);
-    this.manager.setBrushRaised(this.props.state.brushRaised);
-    console.log('setting wind to ', this.props.state.wind);
-    this.manager.setWind(this.props.state.wind);
+    if (this.manager) {
+      this.manager.setSpeed(this.props.state.speed);
+      this.manager.setBrushSize(this.props.state.brushSize);
+      this.manager.setBrushFlow(this.props.state.brushFlow);
+      this.manager.setBrushRaised(this.props.state.brushRaised);
+      this.manager.setWind(this.props.state.wind);
+    }
   }
 
   componentWillUnmount () {
