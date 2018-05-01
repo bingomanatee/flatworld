@@ -1,7 +1,9 @@
 import {Component} from 'react';
 import style from './SpeedButtons.module.css';
 import {ButtonManager} from './ButtonManager';
-import {injectState} from 'freactal';
+import bottle from './../../lib/bottle';
+import {Button} from 'react-md';
+
 import ReactSVG from 'react-svg';
 
 const WIDTH = 210;
@@ -14,7 +16,7 @@ function SPFHeightOffset () {
   return (window.innerHeight - HEIGHT) / 2;
 }
 
-export default injectState(class SpeedButtons extends Component {
+export default bottle.container.injectStateAndRouter(class SpeedButtons extends Component {
   state = {
     loaded: false,
     buttons: null
@@ -44,13 +46,17 @@ export default injectState(class SpeedButtons extends Component {
   }
 
   render () {
-    return <div className={style.SpeedButtonFrame} style={({width: WIDTH, height: HEIGHT, top: SPFHeightOffset()})}>
+    const {effects, state} = this.props;
+    return <div className={style.SpeedButtonFrame} style={({width: WIDTH, height: HEIGHT, overflow: 'show', top: SPFHeightOffset()})}>
       <ReactSVG
         path="/static/cw_controls.svg"
         callback={(svg) => this.svgToButtons(svg)}
         className="class-name"
         wrapperClassName="wrapper-class-name"
       />
+      <div>{state.wind ? <Button raised primary onClick={() => effects.windOff()}>Hide Wind</Button>
+       : <Button raised primary onClick={() => effects.windOn()}>Show Wind</Button>
+      }</div>
     </div>
   }
 });

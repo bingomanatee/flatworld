@@ -142,6 +142,7 @@ export default (bottle) => {
               let value = freactalCtx.state[key];
               container.localStorage.setItem(key, StateConfig.serialize(value, data.type));
             });
+            console.log('localStorage: saving ',freactalCtx.state);
             return freactalCtx;
           })
         } else {

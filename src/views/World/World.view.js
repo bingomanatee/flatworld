@@ -13,17 +13,21 @@ export default bottle.container.injectState(class Content extends Component {
 
   componentDidMount () {
     const {effects} = this.props;
-    setTimeout(() => requestAnimationFrame(() => {
-      const worldState = bottle.container.worldSceneInjector(this.threeRootElement, this.props.state.resolution, this.props.state.elevation);
-      this.terminateWorld = worldState.terminateWorld;
-      this.manager = worldState.manager;
-      this.manager.textureManager.onDraw = _.throttle(() => {
-        if (this.manager.textureManager.hexElevations.length) {
-          effects.setElevation(this.manager.textureManager.hexElevations)
-        }
-      }, 500);
-      this.setState({loaded: true})
-    }), 500);
+    effects.windOff()
+           .then(() => {
+             setTimeout(() => requestAnimationFrame(() => {
+               console.log('initializing world');
+               const worldState = bottle.container.worldSceneInjector(this.threeRootElement, this.props.state.resolution, this.props.state.elevation);
+               this.terminateWorld = worldState.terminateWorld;
+               this.manager = worldState.manager;
+               this.manager.textureManager.onDraw = _.throttle(() => {
+                 if (this.manager.textureManager.hexElevations.length) {
+                   effects.setElevation(this.manager.textureManager.hexElevations)
+                 }
+               }, 500);
+               this.setState({loaded: true})
+             }), 500);
+           });
   }
 
   render () {
@@ -46,6 +50,8 @@ export default bottle.container.injectState(class Content extends Component {
     this.manager.setBrushSize(this.props.state.brushSize);
     this.manager.setBrushFlow(this.props.state.brushFlow);
     this.manager.setBrushRaised(this.props.state.brushRaised);
+    console.log('setting wind to ', this.props.state.wind);
+    this.manager.setWind(this.props.state.wind);
   }
 
   componentWillUnmount () {

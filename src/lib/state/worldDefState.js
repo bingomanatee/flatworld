@@ -10,6 +10,7 @@ export default (bottle) => {
       if (state.elevation.length<= state.resolution) return state;
       return Object.assign({}, state, {elevation: []});
     });
+    stateDef.addStateAndBoolEffect('wind', false);
     stateDef.addStateValue('randomWord', '', bottle.container.StateConfig.TYPE_STRING);
     stateDef.addEffect('getRandomWord', () => bottle.container.axios.get(bottle.container.SERVER_API + '/rando')
                                                     .then(({data}) => bottle.container.mergeIntoState({randomWord: data.word})));

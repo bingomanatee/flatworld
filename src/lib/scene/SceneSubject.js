@@ -3,7 +3,7 @@ import * as THREE from 'three'; // @TODO: bottle THREE
 const ISO_SIZE = 15;
 const DEPTH = 4;
 const ROT_SPEEDS = [0, 0.05, 0.1, 0.2];
-const AXIS_TILT = Math.PI / 8;
+const AXIS_TILT =  23.5/ 360 * Math.PI * 2;
 
 export default (bottle) => bottle.factory('SceneSubject', (container) => class SceneSubject {
 
@@ -15,7 +15,16 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     this.elevation = elevation;
     this.initScene(scene);
     this.initWorld(resolution);
+    this.initWind();
     this.initCursor();
+  }
+
+  initWind() {
+    this.windGeometry = new THREE.SphereGeometry(ISO_SIZE / 300, 12, 6);
+    this.windTexture = new THREE.MeshToonMaterial({
+   //   gradientMap: 'http://flatworld.studio/static/toonShader.png',
+      color: new THREE.Color(0,.2, .5)
+    });
   }
 
   initScene(scene) {
@@ -36,6 +45,7 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
       specular: new THREE.Color(0,0,0).toString()});
     this.worldMesh = new THREE.Mesh(this.worldGeometry, subjectMaterial);
     this.worldGroup.add(this.worldMesh);
+    this._wind = false;
   }
 
   addLights(lightGroup) {
@@ -56,6 +66,7 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
       })
     );
     this.worldGroup.add(this.hexWireframe);
+    this.windParticles = [];
   }
 
   update(time) {
@@ -66,12 +77,24 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
     let deltaAngle = deltaTime * ROT_SPEEDS[this.speed];
     const angle = lastAngle + deltaAngle;
 
-    this.worldTexture.needsUpdate = this.textureManager.needsUpdate; // TODO: sync with texture update
+    if(this.wind) this.anchorWind();
+    this.worldTexture.needsUpdate = this.textureManager.needsUpdate;
     this.textureManager.needsUpdate = false;
     this.worldGroup.rotation.y = angle;
     this.worldGroup.updateMatrix();
+    if (this.wind) this.moveWind();
     //scene.remove(cursorMesh);
     //worldGroup.remove(nearMesh);
+  }
+
+  anchorWind() {
+    for (let wind of this.windParticles) wind.anchor();
+  //  console.log(this.windParticles[0].geometry.position.clone().round().toArray());
+  }
+  moveWind() {
+    console.log('moving wind');
+    for (let wind of this.windParticles) wind.move();
+    console.log(this.worldGroup.worldToLocal(this.windParticles[0].geometry.position).clone().round().toArray());
   }
 
   initCursor() {
@@ -106,6 +129,35 @@ export default (bottle) => bottle.factory('SceneSubject', (container) => class S
         this.scene.remove(this.cursorMesh);
         this.hasCursor = false;
       }
+    }
+  }
+
+  addWindParticles () {
+    this.windParticles = [];
+    for (let i = 0; i < this.worldGeometry.vertices.length; ++i) {
+      let geometry = new THREE.Mesh(this.windGeometry, this.windTexture);
+      let windParticle = new container.WindParticle(geometry, this.worldGroup.localToWorld(this.worldGeometry.vertices[i].clone().multiplyScalar(1.1)) , this);
+      this.windParticles.push(windParticle);
+    }
+  }
+
+  removeWindParticles() {
+    for (let particle of this.windParticles) {
+      particle.destroy();
+    }
+    this.windParticles = [];
+  }
+
+  get wind () {
+    return this._wind;
+  }
+
+  set wind(b) {
+    b = !!b;
+    if (b !== this._wind) {
+      console.log('wind set: ', b);
+      b ? this.addWindParticles() : this.removeWindParticles();
+      this._wind = b;
     }
   }
 

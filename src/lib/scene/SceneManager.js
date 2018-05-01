@@ -42,6 +42,10 @@ export default (bottle) => {
       this.sceneSubject.brushRaised = n;
     }
 
+    setWind(w) {
+      this.sceneSubject.wind = !!w;
+    }
+
     createSceneSubject () {
       this.sceneSubject = new bottle.container.SceneSubject(this.scene, this.resolution, this.elevation);
       this.sceneSubject.addLights(GeneralLights(this.scene));

@@ -42,6 +42,9 @@ export default (bottle) => {
       }, ['x', 'y', 'z']);
     }
 
+    getNearestPoints(pt, range) {
+      return this._nearPointIndex.nearest(pt, range);
+    }
     getNearestHex (pt, range = 1) {
       let nearest = this._nearPointIndex.nearest(pt, range);
       return nearest
