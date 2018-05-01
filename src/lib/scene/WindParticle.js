@@ -95,7 +95,7 @@ export default (bottle) => {
       return this.preserveMomentumLength(worldPointAfterPush, worldPoint, vecLength);
     }
 
-    TAIL_LENGTH = 50
+    TAIL_LENGTH = 30
 
     setTailPos () {
       let currentWorldPos = this._lastLocalPosition.clone();

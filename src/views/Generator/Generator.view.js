@@ -38,19 +38,23 @@ export default bottle.container.injectStateAndRouter(class Generator extends Com
   }
 
   render () {
+    const {effects, state, history} = this.props;
     return <div className={style.Generator}>
       <h2 className={style.Head}>Generate World</h2>
       <p className={style.text}>Create a world form pre-generated simplex noise:</p>
       <div className={style['Generator-canvas-wrapper']}>
         <div className={style['info']}>
-          <p className={style['info-text']}>Seed: "{this.props.state.randomWord}"</p>
+          <p className={style['info-text']}>Seed: "{state.randomWord}"</p>
           <div>
             <Button raised primary onClick={() => this.zoomOut()} iconChildren="navigate_before">in</Button>
             <Button raised primary onClick={() => this.zoomIn()} iconBefore={false}
                     iconChildren="navigate_next">out</Button>
           </div>
           <div style={({marginTop: 30})}>
-            <MainButton onClick={() => this.props.history.push('/world')}>Edit This World</MainButton>
+            <MainButton onClick={() => {
+              effects.setElevation(this.state.generator.hexElevations)
+                .then(() => history.push('/world'))
+            }}>Edit This World</MainButton>
           </div>
         </div>
         <div ref={element => this.canvasElement = element} className={style['Generator-canvas']}/>
