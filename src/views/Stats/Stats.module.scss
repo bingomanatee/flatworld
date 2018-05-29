@@ -1,0 +1,80 @@
+@import '../../style/palette';
+
+@mixin cardText(){
+  text-align: left;
+  @include body();
+  @include smallText();
+  line-height: 100%;
+  font-size: 0.8rem;
+  color: black;
+}
+
+.Stats {
+  background-position: center top;
+  background-size: cover;
+  background-image: url('/static/images/sunrise-trans.png');
+  flex-grow: 1;
+  padding-top: 75px;
+}
+
+.Head {
+  @include head();
+  @include headDark();
+  text-align: center;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.stats-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: stretch;
+  align-items: stretch;
+  margin: 0.5rem 1rem;
+  margin-left: 3rem;
+  flex-wrap: wrap;
+}
+
+.summary {
+  clear: both;
+  margin: 0rem 4rem;
+}
+
+.md-card {
+  max-width: 20rem;
+  margin-right: 0.1rem;
+  margin-top: 0.1rem;
+  flex-grow: 1;
+  p {
+    @include cardText();
+  }
+}
+
+.md-card-summary {
+  p {
+    @include cardText();
+  }
+}
+
+.select-fields {
+  width: 100%;
+}
+
+.card-head {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  h2 {
+    @include headSub();
+    font-size: 0.8rem;
+  }
+}
+.card-head-summary {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  h2 {
+    @include headSub();
+    font-size: 1.2rem;
+  }
+}
+

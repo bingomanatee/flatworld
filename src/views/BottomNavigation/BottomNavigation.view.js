@@ -6,6 +6,7 @@ export default bottle.container.injectState(bottle.container.withRouter(({histor
     <div className={style.BottomNavigationActionCells}>
       <button className={style.NavButton} onClick={() => history.push('/set-resolution')}>Change Resolution</button>
       <button className={style.NavButton} onClick={() => history.push('/generate-world')}>Generate</button>
+      <button className={style.NavButton} onClick={() => history.push('/configure')}>Configure</button>
       <button className={style.NavButton} onClick={() => {
         effects.setElevation([]);
 

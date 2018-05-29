@@ -1,4 +1,13 @@
+@import '../../style/palette';
+
 .SpeedButtonFrame {
   position: absolute;
   right: 0;
+}
+
+.login {
+  width: 200;
+  padding: 100;
+  @include body();
+  @include bodySmall();
 }

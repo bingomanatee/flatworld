@@ -5,6 +5,7 @@ import Home from './../Home/Home.view';
 import SetResolution from './../SetResolution/SetResolution.view';
 import Generator from './../Generator/Generator.view';
 import Callback from './../Callback/Callback.view';
+import Stats from './../Stats/Stats.view';
 
 export default () => (<div className={style.Content}>
   <Route path="/" exact component={Home}/>
@@ -12,4 +13,5 @@ export default () => (<div className={style.Content}>
   <Route path="/set-resolution" exact component={SetResolution}/>
   <Route path="/generate-world" exact component={Generator}/>
   <Route path="/callback" exact component={Callback}/>
+  <Route path="/configure" component={Stats} />
 </div>);

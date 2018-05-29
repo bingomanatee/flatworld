@@ -1,5 +1,66 @@
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+------------------------------------------------------------- */
+.two-column {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%; }
+
+.prop-item {
+  padding: 0.25rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%; }
+  .prop-item label {
+    color: #a3c8ff;
+    font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+    font-size: 1.25rem;
+    color: black; }
+  .prop-item span {
+    color: #a3c8ff;
+    font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: black;
+    text-align: right; }
+    .prop-item span i {
+      display: block;
+      font-weight: 200;
+      font-size: 0.8rem;
+      font-style: normal;
+      text-align: right;
+      line-height: 100%; }
+
+.prop-item-ex label, .prop-item-ex span {
+  color: #91006b; }
+
+.prop-list {
+  width: 50%; }
+
 .SpeedButtonFrame {
   position: absolute;
   right: 0; }
+
+.login {
+  width: 200;
+  padding: 100;
+  color: #a3c8ff;
+  font-family: 'KapraNeue-Regular', Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-size: 1.0625rem; }
 
 /*# sourceMappingURL=SpeedButtons.module.css.map */

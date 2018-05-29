@@ -54,8 +54,9 @@ export default bottle.container.injectStateAndRouter(class SpeedButtons extends 
         className="class-name"
         wrapperClassName="wrapper-class-name"
       />
-      <div>{state.wind ? <Button raised primary onClick={() => effects.windOff()}>Hide Wind</Button>
-       : <Button raised primary onClick={() => effects.windOn()}>Show Wind</Button>
+      <div>{bottle.container.isLoggedIn(state) ?
+        <Button raised primary onClick={() => effects.saveWorld()}>Save your world</Button>
+        : <div className={style['login']}>Log In to save your world</div>
       }</div>
     </div>
   }
