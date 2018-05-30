@@ -12,7 +12,7 @@ module.exports = {
           links: [
             'https://fonts.googleapis.com/icon?family=Material+Icons'
             , "https://fonts.googleapis.com/css?family=Roboto"
-            , '/static/webfonts/static/webfonts/Kapra/Kapra.css'
+            , '/static/webfonts/Kapra/Kapra.css'
             , '/static/css/react-md.teal-amber.min.css'
           ]
         },

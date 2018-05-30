@@ -1,6 +1,11 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 export default (bottle) => {
+
+  bottle.factory('worldConfig', () => (state) => _.pick(state, 'diameter,name,notes,tilt,daysInYear,day,climate'.split(',')));
+  bottle.factory('worldData', () => (state) => _.pick(state, 'resolution, elevation'.split(',')));
+
   bottle.decorator('stateDef', (stateDef) => {
     stateDef.addStringAndSetEffect('name', '');
     stateDef.addStringAndSetEffect('notes', '');
@@ -37,9 +42,9 @@ export default (bottle) => {
       day: 24
     }));
 
-    stateDef.addStateSideEffect((effects, state) => {
+    stateDef.addStateSideEffect('saveWorld', (effects, state) => {
       if (bottle.container.isLoggedIn(state)) {
-        axios.post(bottle.container.SERVER_API, {
+        axios.post(bottle.container.SERVER_API + '/api/worlds/' + state.profile.sub, {
           config: bottle.container.worldConfig(state),
           worldData: bottle.container.worldData(state)
         })
@@ -47,7 +52,8 @@ export default (bottle) => {
                console.log('data from save: ', data);
              });
       }
-    })
+    });
+
     return stateDef;
   });
 }
